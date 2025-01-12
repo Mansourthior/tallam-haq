@@ -49,7 +49,7 @@ const SourateScreen = () => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#1b5e20" />
+        <ActivityIndicator size="large" color="#71391f" />
       </View>
     );
   }

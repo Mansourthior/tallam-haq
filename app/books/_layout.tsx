@@ -1,21 +1,27 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Tabs } from "expo-router";
+import React from "react";
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { Colors } from "@/constants/Colors";
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{
-        tabBarActiveTintColor: Colors['maron'].tint,
-        headerShown: false
-      }}>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: Colors["maron"].tint,
+        headerShown: false,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: '', href:'/',
+          title: "",
+          href: "/",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? "home" : "home-outline"}
+              color={color}
+            />
           ),
         }}
       />
