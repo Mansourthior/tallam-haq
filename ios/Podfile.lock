@@ -8,18 +8,18 @@ PODS:
   - EXJSONUtils (0.13.1)
   - EXManifests (0.14.3):
     - ExpoModulesCore
-  - Expo (51.0.31):
+  - Expo (51.0.39):
     - ExpoModulesCore
-  - expo-dev-client (4.0.25):
+  - expo-dev-client (4.0.29):
     - EXManifests
     - expo-dev-launcher
     - expo-dev-menu
     - expo-dev-menu-interface
     - EXUpdatesInterface
-  - expo-dev-launcher (4.0.27):
+  - expo-dev-launcher (4.0.29):
     - DoubleConversion
     - EXManifests
-    - expo-dev-launcher/Main (= 4.0.27)
+    - expo-dev-launcher/Main (= 4.0.29)
     - expo-dev-menu
     - expo-dev-menu-interface
     - ExpoModulesCore
@@ -45,7 +45,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-launcher/Main (4.0.27):
+  - expo-dev-launcher/Main (4.0.29):
     - DoubleConversion
     - EXManifests
     - expo-dev-launcher/Unsafe
@@ -74,7 +74,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-launcher/Unsafe (4.0.27):
+  - expo-dev-launcher/Unsafe (4.0.29):
     - DoubleConversion
     - EXManifests
     - expo-dev-menu
@@ -102,10 +102,10 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-menu (5.0.21):
+  - expo-dev-menu (5.0.23):
     - DoubleConversion
-    - expo-dev-menu/Main (= 5.0.21)
-    - expo-dev-menu/ReactNativeCompatibles (= 5.0.21)
+    - expo-dev-menu/Main (= 5.0.23)
+    - expo-dev-menu/ReactNativeCompatibles (= 5.0.23)
     - glog
     - hermes-engine
     - RCT-Folly (= 2024.01.01.00)
@@ -125,8 +125,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-menu-interface (1.8.3)
-  - expo-dev-menu/Main (5.0.21):
+  - expo-dev-menu-interface (1.8.4)
+  - expo-dev-menu/Main (5.0.23):
     - DoubleConversion
     - EXManifests
     - expo-dev-menu-interface
@@ -152,7 +152,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-menu/ReactNativeCompatibles (5.0.21):
+  - expo-dev-menu/ReactNativeCompatibles (5.0.23):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -173,7 +173,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-menu/SafeAreaView (5.0.21):
+  - expo-dev-menu/SafeAreaView (5.0.23):
     - DoubleConversion
     - ExpoModulesCore
     - glog
@@ -195,7 +195,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - expo-dev-menu/Vendored (5.0.21):
+  - expo-dev-menu/Vendored (5.0.23):
     - DoubleConversion
     - expo-dev-menu/SafeAreaView
     - glog
@@ -221,13 +221,13 @@ PODS:
     - ExpoModulesCore
   - ExpoFileSystem (17.0.1):
     - ExpoModulesCore
-  - ExpoFont (12.0.9):
+  - ExpoFont (12.0.10):
     - ExpoModulesCore
-  - ExpoHead (3.5.23):
+  - ExpoHead (3.5.24):
     - ExpoModulesCore
   - ExpoKeepAwake (13.0.2):
     - ExpoModulesCore
-  - ExpoModulesCore (1.12.23):
+  - ExpoModulesCore (1.12.26):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -254,7 +254,7 @@ PODS:
     - ExpoModulesCore
   - ExpoWebBrowser (13.0.3):
     - ExpoModulesCore
-  - EXSplashScreen (0.27.5):
+  - EXSplashScreen (0.27.7):
     - DoubleConversion
     - ExpoModulesCore
     - glog
@@ -1212,7 +1212,9 @@ PODS:
   - React-Mapbuffer (0.74.5):
     - glog
     - React-debug
-  - react-native-pdf (6.7.5):
+  - react-native-geolocation-service (5.3.1):
+    - React
+  - react-native-pdf (6.7.6):
     - React-Core
   - react-native-safe-area-context (4.10.5):
     - React-Core
@@ -1564,6 +1566,7 @@ DEPENDENCIES:
   - React-jsitracing (from `../node_modules/react-native/ReactCommon/hermes/executor/`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
+  - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
@@ -1698,6 +1701,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   React-Mapbuffer:
     :path: "../node_modules/react-native/ReactCommon"
+  react-native-geolocation-service:
+    :path: "../node_modules/react-native-geolocation-service"
   react-native-pdf:
     :path: "../node_modules/react-native-pdf"
   react-native-safe-area-context:
@@ -1764,20 +1769,20 @@ SPEC CHECKSUMS:
   EXConstants: 409690fbfd5afea964e5e9d6c4eb2c2b59222c59
   EXJSONUtils: 30c17fd9cc364d722c0946a550dfbf1be92ef6a4
   EXManifests: c1fab4c3237675e7b0299ea8df0bcb14baca4f42
-  Expo: 4773e11951abd0f666f67023f0cb1d48c3e8a32b
-  expo-dev-client: 97910d9e4753f5deae96c3b657a071ee09ce85f5
-  expo-dev-launcher: c8e85bf244a2492448c88adbc3585ca13572f7b9
-  expo-dev-menu: 0db38ce92be7228dadb588f7069e037fd9d165d8
-  expo-dev-menu-interface: be32c09f1e03833050f0ee290dcc86b3ad0e73e4
+  Expo: 8c995afb875c15bf8439af0b20bcb9ed8f90d0bd
+  expo-dev-client: 0cec8ec81fd01c10d9afcd9f6de3768b10644aee
+  expo-dev-launcher: c510982f3437742353389750748520580af0ee43
+  expo-dev-menu: 12b319a9bc73d76a1ed47ce52055b5356edb971d
+  expo-dev-menu-interface: 5764ad537419c1a5e8f66f668e29c81e8aca290c
   ExpoAsset: 323700f291684f110fb55f0d4022a3362ea9f875
   ExpoFileSystem: 80bfe850b1f9922c16905822ecbf97acd711dc51
-  ExpoFont: e7f2275c10ca8573c991e007329ad6bf98086485
-  ExpoHead: fcb28a68ed4ba28f177394d2dfb8a0a8824cd103
+  ExpoFont: 00756e6c796d8f7ee8d211e29c8b619e75cbf238
+  ExpoHead: a79e263b73039b41940c220dd67b83572e7cac09
   ExpoKeepAwake: 3b8815d9dd1d419ee474df004021c69fdd316d08
-  ExpoModulesCore: d15ce10fea70ab650230feb69f45bb208d3a6596
+  ExpoModulesCore: 831ece8311a489418746925820bbffdda587d6f4
   ExpoSystemUI: d4f065a016cae6721b324eb659cdee4d4cf0cb26
   ExpoWebBrowser: 7595ccac6938eb65b076385fd23d035db9ecdc8e
-  EXSplashScreen: fbf0ec78e9cee911df188bf17b4fe51d15a84b87
+  EXSplashScreen: 3cad09949c2ca6730cbb2801b8c51cb87692425a
   EXUpdatesInterface: 996527fd7d1a5d271eb523258d603f8f92038f24
   FBLazyVector: ac12dc084d1c8ec4cc4d7b3cf1b0ebda6dab85af
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
@@ -1807,7 +1812,8 @@ SPEC CHECKSUMS:
   React-jsitracing: 3b6060bbf5317663667e1dd93560c7943ab86ccc
   React-logger: 257858bd55f3a4e1bc0cf07ddc8fb9faba6f8c7c
   React-Mapbuffer: 6c1cacdbf40b531f549eba249e531a7d0bfd8e7f
-  react-native-pdf: 103940c90d62adfd259f63cca99c7c0c306b514c
+  react-native-geolocation-service: 608e1da71a1ac31b4de64d9ef2815f697978c55b
+  react-native-pdf: 70ec85fc764070ce9324f5aea504795e889e6ba0
   react-native-safe-area-context: a240ad4b683349e48b1d51fed1611138d1bdad97
   React-nativeconfig: ba9a2e54e2f0882cf7882698825052793ed4c851
   React-NativeModulesApple: 8d11ff8955181540585c944cf48e9e7236952697

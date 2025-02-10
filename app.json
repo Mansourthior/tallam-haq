@@ -13,14 +13,22 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "sn.tallam-haq"
+      "supportsTablet": false,
+      "bundleIdentifier": "sn.tallam-haq",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Cette application nécessite votre localisation pour fournir un service optimal.",
+        "NSLocationAlwaysUsageDescription": "Cette application utilise votre position même lorsque l'application est en arrière-plan."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION"
+      ],
+      "package": "com.hemti.tallamhaq"
     },
     "web": {
       "bundler": "metro",
@@ -32,6 +40,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "6d83f44b-f0f5-4af0-b393-2608d2a647d9"
+      }
     }
   }
 }
