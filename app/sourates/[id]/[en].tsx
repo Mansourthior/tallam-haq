@@ -30,15 +30,15 @@ export default function SourateScreen() {
         <View className="bg-white p-4 mx-4 mb-3 rounded-lg shadow-sm shadow-amber-50 active:opacity-90">
             {/* En-tête verset */}
             <View className="flex-row justify-between items-center mb-3">
-                <View className="bg-amber-100 px-3 py-1 rounded-full">
-                    <Text className="text-amber-700 text-sm font-semibold">{item.numberInSurah}</Text>
+                <View className="bg-amber-400 px-3 py-1 rounded-full">
+                    <Text className="text-amber-900 text-sm font-semibold">{item.numberInSurah}</Text>
                 </View>
                 <View className="flex-row gap-3">
                     <Pressable>
-                        <Ionicons name="share-social" size={24} color="#FF6F00" />
+                        <Ionicons name="share-social" size={24} color="#FFCA28" />
                     </Pressable>
                     <Pressable>
-                        <Ionicons name="bookmark-outline" size={24} color="#FF6F00" />
+                        <Ionicons name="bookmark-outline" size={24} color="#FFCA28" />
                     </Pressable>
                 </View>
             </View>
@@ -74,13 +74,13 @@ export default function SourateScreen() {
             <View className="px-3 py-3 bg-gray-50">
                 <View className="flex-row items-center justify-between">
                     <Pressable onPress={navigation.goBack}>
-                        <Ionicons name="arrow-back" size={24} color="#FF6F00" />
+                        <Ionicons name="arrow-back" size={24} color="#FFCA28" />
                     </Pressable>
                     <View>
-                        <Text className="text-gray-900 text-xl font-semibold font-[Manrope]">Al-Fatiha</Text>
-                        <Text className="text-gray-600 font-[ScheherazadeNew] text-lg text-center">الفاتحة</Text>
+                        <Text className="text-gray-900 text-xl font-semibold font-[Manrope]">{en}</Text>
+                        <Text className="text-gray-700 font-[ScheherazadeNew] text-xl text-center">{name}</Text>
                     </View>
-                    <Ionicons name="menu-outline" size={24} color="#FF6F00" />
+                    <Ionicons name="menu-outline" size={24} color="#FFCA28" />
                 </View>
             </View>
 
@@ -92,8 +92,8 @@ export default function SourateScreen() {
                 contentContainerClassName="py-4"
                 ListHeaderComponent={
                     Number(id) == 1 ? <View></View> :
-                        <View className="mx-4 mb-4">
-                            <Text className="text-3xl font-[ScheherazadeNew] text-center text-green-900">
+                        <View className="mx-4 mb-4 bg-emerald-50 px-2 py-2 rounded-full">
+                            <Text className="text-3xl font-sans text-center text-green-900">
                                 بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
                             </Text>
                         </View>
