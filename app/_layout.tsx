@@ -55,11 +55,10 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
-            name="sourates/[id]"
+            name="sourates/[id]/[en]"
             options={{
-              headerShown: true,
+              headerShown: false,
               headerTitle: "",
-              headerTintColor: 'green',
             }}
           />
         </Stack>

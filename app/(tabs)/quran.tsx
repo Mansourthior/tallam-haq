@@ -19,10 +19,11 @@ export default function QuranScreen() {
     return surahTranslations[name] || name;
   };
 
-  const openSourate = (sourate: number) => {
+  const openSourate = (englishName: string, sourate: number) => {
     // @ts-ignore
-    navigation.navigate('sourates/[id]', {
-      id: sourate
+    navigation.navigate('sourates/[id]/[en]', {
+      id: sourate,
+      en: englishName
     });
   }
 
@@ -54,7 +55,7 @@ export default function QuranScreen() {
       {sourates.map((sourate: any) => (
         <Pressable
           key={sourate.number}
-          onPress={() => openSourate(sourate.number)}
+          onPress={() => openSourate(sourate.englishName, sourate.number)}
           className="mb-4 bg-white rounded-xl shadow-sm shadow-amber-50 active:opacity-90"
         >
           <View className="p-4 flex-row justify-between items-center">

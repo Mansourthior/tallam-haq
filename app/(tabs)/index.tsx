@@ -21,66 +21,59 @@ export default function HomeScreen() {
   // @ts-ignore
   const error = useSelector((state) => state.prayers.error);
   // @ts-ignore
-  const nextPrayer = useSelector((state) => state.nextPrayer.nextPrayer);
-  // @ts-ignore
-  const time = useSelector((state) => state.nextPrayer.time);
-  // @ts-ignore
   const date = useSelector((state) => state.date.date);
-
+  // @ts-ignore
+  const [nextPrayer, setNextPrayer] = useState(null);
+  const [prayersAlreadyFetch, setPrayersAlreadyFetch] = useState(false);
   const [location, setLocation] = useState(null);
-
+  const [nextPrayerTime, setNextPrayerTime] = useState("");
   const [timeLeft, setTimeLeft] = useState("");
 
-  useEffect(() => {
-    // todo : revoir méthode heures prières - 1 appel par jour pour get tous les prayers après isha avec un boolean pour dire que l'appel a déjà été fait
-    const interval = setInterval(() => {
-      const now = dayjs();
-      const [hours, minutes] = time.split(":").map(Number); // prochaine heure prière
-      let targetTime;
-      let diff = 0;
-      if (nextPrayer == 'Fajr') {
-        if (hours < now.get('hour')) {
-          getPrayers(getTomorrow());
-          targetTime = dayjs().add(1, 'day').hour(hours).minute(minutes).second(0);
-        } else {
-          targetTime = dayjs().hour(hours).minute(minutes).second(0);
-        }
-        diff = targetTime.diff(now, "second");
-      } else {
-        targetTime = dayjs().hour(hours).minute(minutes).second(0);
-        diff = targetTime.diff(now, "second");
-        getDate();
-      }
+  // useEffect(() => {
+  //   // todo : revoir méthode heures prières - 1 appel par jour pour get tous les prayers après isha avec un boolean pour dire que l'appel a déjà été fait
+  //   const interval = setInterval(() => {
+  //     const now = dayjs();
+  //     const [hours, minutes] = nextPrayerTime.split(":").map(Number); // prochaine heure prière - from nextPrayer
+  //     let targetTime;
+  //     let diff = 0;
+  //     if (nextPrayer == 'Fajr') {
+  //       if (hours < now.get('hour')) {
+  //         getPrayers(getTomorrow());
+  //         targetTime = dayjs().add(1, 'day').hour(hours).minute(minutes).second(0);
+  //       } else {
+  //         targetTime = dayjs().hour(hours).minute(minutes).second(0);
+  //       }
+  //       diff = targetTime.diff(now, "second");
+  //     } else {
+  //       targetTime = dayjs().hour(hours).minute(minutes).second(0);
+  //       diff = targetTime.diff(now, "second");
+  //       getDate();
+  //     }
 
-      if (diff <= 0) {
-        setTimeLeft("00:00:00");
-        getNextPrayer();
-      } else {
-        const hours = Math.floor(diff / 3600);
-        const minutes = Math.floor((diff % 3600) / 60);
-        const seconds = diff % 60;
+  //     if (diff <= 0) {
+  //       setTimeLeft("00:00:00");
+  //     } else {
+  //       const hours = Math.floor(diff / 3600);
+  //       const minutes = Math.floor((diff % 3600) / 60);
+  //       const seconds = diff % 60;
 
-        setTimeLeft(
-          `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
-        );
-      }
-    }, 1000);
+  //       setTimeLeft(
+  //         `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
+  //       );
+  //     }
+  //   }, 1000);
 
-    return () => clearInterval(interval);
-  }, [time]);
+  //   return () => clearInterval(interval);
+  // }, [nextPrayerTime]);
 
   useEffect(() => {
     getLocation();
-  }, [dispatch]);
-
-  useEffect(() => {
     getDate();
   }, [dispatch]);
 
   useEffect(() => {
     if (location) {
       getPrayers(getToday());
-      getNextPrayer();
     }
   }, [dispatch, location]);
 
@@ -89,13 +82,10 @@ export default function HomeScreen() {
       // @ts-ignore
       fetchPrayers(date, location.coords.longitude, location.coords.latitude)
     );
+    setPrayersAlreadyFetch(true);
   }
 
-  const getNextPrayer = () => {
-    dispatch( // @ts-ignore
-      fetchNextPrayer(getToday(), location.coords.longitude, location.coords.latitude)
-    );
-  }
+  const getNextPrayer = () => { };
 
   const getDate = () => {
     dispatch(// @ts-ignore
