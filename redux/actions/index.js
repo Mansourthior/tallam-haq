@@ -16,6 +16,9 @@ import {
   FETCH_DATE_REQUEST,
   FETCH_DATE_SUCCESS,
 } from "./types";
+import souratesJson from '../../assets/sourates.json';
+import ayasJson from '../../assets/quran.json';
+
 
 const API_BASE_URL = "https://api.alquran.cloud/v1";
 const API_PRAYERS_URL = "https://api.aladhan.com/v1";
@@ -28,10 +31,9 @@ export const fetchSourates = () => async (dispatch) => {
   } catch (error) {
     console.error("Error fetching sourates ...", error);
     try {
-      const fallbackResponse = await axios.get("/sourates.json");
       dispatch({
         type: FETCH_SOURATES_SUCCESS,
-        payload: fallbackResponse.data,
+        payload: souratesJson,
       });
     } catch (fallbackError) {
       console.error(
@@ -47,15 +49,10 @@ export const fetchVerses = (sourateNumber) => async (dispatch) => {
   dispatch({ type: FETCH_VERSES_REQUEST });
   try {
     const response = await axios.get(`${API_BASE_URL}/surah/${sourateNumber}`);
-    
     dispatch({ type: FETCH_VERSES_SUCCESS, payload: response.data.data.ayahs, name: response.data.data.name });
   } catch (error) {
-    console.error("Error fetching ayahs from api ...", error);
     try {
-      const fallbackResponse = await axios.get("../../data/quran.json");
-      const ayahs = fallbackResponse.find(
-        (s) => Number(s.number) === sourateNumber
-      )?.ayahs;
+      const ayahs = ayasJson[sourateNumber - 1]?.ayahs;
       if (ayahs) {
         dispatch({ type: FETCH_VERSES_SUCCESS, payload: ayahs });
       } else {
@@ -68,6 +65,7 @@ export const fetchVerses = (sourateNumber) => async (dispatch) => {
       );
       dispatch({ type: FETCH_VERSES_FAILURE, error: fallbackError.message });
     }
+    console.error("Error fetching ayahs from api ...", error);
   }
 };
 

@@ -3,7 +3,7 @@ import { fetchVerses } from "@/redux/actions";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect } from "react";
-import { View, Text, Pressable, ScrollView, ActivityIndicator, SafeAreaView, FlatList } from "react-native";
+import { View, Text, Pressable, ScrollView, ActivityIndicator, SafeAreaView, FlatList, Share } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function SourateScreen() {
@@ -20,6 +20,27 @@ export default function SourateScreen() {
     // @ts-ignore
     const error = useSelector((state) => state.verses.error);
 
+    const onShare = async (s: string, v: string, message: string) => {
+        try {
+            const result = await Share.share({
+                message: 's.' + s + ' : v.' + v + ' - ' + message +
+                    "\n Découvrez cette superbe application ! 📱✨\nTéléchargez-la ici : https://example.com",
+            });
+
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    console.log("Partagé via", result.activityType);
+                } else {
+                    console.log("Partage réussi !");
+                }
+            } else if (result.action === Share.dismissedAction) {
+                console.log("Partage annulé");
+            }
+        } catch (error) {
+            console.error("Erreur lors du partage :", error);
+        }
+    };
+
     useEffect(() => {
         // @ts-ignore
         dispatch(fetchVerses(id));
@@ -34,7 +55,7 @@ export default function SourateScreen() {
                     <Text className="text-amber-900 text-sm font-semibold">{item.numberInSurah}</Text>
                 </View>
                 <View className="flex-row gap-3">
-                    <Pressable>
+                    <Pressable onPress={() => onShare(id.toString(), item.numberInSurah, item.text)}>
                         <Ionicons name="share-social" size={24} color="#FFCA28" />
                     </Pressable>
                     <Pressable>
@@ -47,7 +68,7 @@ export default function SourateScreen() {
             <View className="mb-4">
                 <Text className="text-3xl font-[ScheherazadeNew] text-right leading-loose text-green-900">
                     {Number(id) != 1 && index === 0
-                        ? item.text.substring(40)
+                        ? item.text.substring(39)
                         : item.text}
                 </Text>
             </View>
@@ -80,7 +101,7 @@ export default function SourateScreen() {
                         <Text className="text-gray-900 text-xl font-semibold font-[Manrope]">{en}</Text>
                         <Text className="text-gray-700 font-[ScheherazadeNew] text-xl text-center">{name}</Text>
                     </View>
-                    <Ionicons name="menu-outline" size={24} color="#FFCA28" />
+                    <Ionicons />
                 </View>
             </View>
 
