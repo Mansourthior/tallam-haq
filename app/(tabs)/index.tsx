@@ -7,7 +7,7 @@ import {
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPrayers, fetchNextPrayer, fetchHijriDate } from "@/redux/actions";
+import { fetchPrayers, fetchHijriDate } from "@/redux/actions";
 import dayjs from "dayjs";
 import { getToday, getTomorrow } from "../../utils/date-utils";
 import { openLink } from '../../utils/link-utils';
@@ -15,7 +15,7 @@ import { openLink } from '../../utils/link-utils';
 export default function HomeScreen() {
   const dispatch = useDispatch();
   // @ts-ignore
-  const prayers = useSelector((state) => state.prayers.prayers);
+  const fetchedPrayers = useSelector((state) => state.prayers.prayers);
   // @ts-ignore
   const loading = useSelector((state) => state.prayers.loading);
   // @ts-ignore
@@ -24,7 +24,8 @@ export default function HomeScreen() {
   const date = useSelector((state) => state.date.date);
   // @ts-ignore
   const [nextPrayer, setNextPrayer] = useState(null);
-  const [prayersAlreadyFetch, setPrayersAlreadyFetch] = useState(false);
+  // @ts-ignore
+  const [prayers, setPrayers] = useState(null);
   const [location, setLocation] = useState(null);
   const [nextPrayerTime, setNextPrayerTime] = useState("");
   const [timeLeft, setTimeLeft] = useState("");
@@ -66,33 +67,6 @@ export default function HomeScreen() {
   //   return () => clearInterval(interval);
   // }, [nextPrayerTime]);
 
-  useEffect(() => {
-    getLocation();
-    getDate();
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (location) {
-      getPrayers(getToday());
-    }
-  }, [dispatch, location]);
-
-  const getPrayers = (date: string) => {
-    dispatch(
-      // @ts-ignore
-      fetchPrayers(date, location.coords.longitude, location.coords.latitude)
-    );
-    setPrayersAlreadyFetch(true);
-  }
-
-  const getNextPrayer = () => { };
-
-  const getDate = () => {
-    dispatch(// @ts-ignore
-      fetchHijriDate(getToday())
-    );
-  }
-
   if (loading) {
     // TODO : faire un view pour le loading
   }
@@ -101,24 +75,123 @@ export default function HomeScreen() {
     // TODO : faire un view pour le error
   }
 
+
+  // 1. Gestion de la localisation
   const getLocation = async () => {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        console.log("Location permission denied");
-        return;
+        throw new Error("Permission de localisation refusée");
       }
-
-      // Using expo-location instead of Geolocation
       const position = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.High,
       });
       // @ts-ignore
       setLocation(position);
+      return position;
     } catch (err) {
-      console.error("Error getting location:", err);
+      // @ts-ignore
+      setError(err.message);
+      return null;
     }
   };
+
+  // 2. Chargement initial des données
+  useEffect(() => {
+    const initializeData = async () => {
+      try {
+        // Charger la date Hijri en parallèle avec la localisation
+        // @ts-ignore
+        dispatch(fetchHijriDate(getToday()));
+
+        const position = await getLocation();
+        if (!position) return;
+
+        const { longitude, latitude } = position.coords;
+        // @ts-ignore
+        dispatch(fetchPrayers(getToday(), longitude, latitude));
+      } catch (err) {
+        // @ts-ignore
+        setError(err.message);
+      }
+    };
+
+    initializeData();
+  }, []); // Ne dépend plus de dispatch
+
+  // 3. Mise à jour des prières quand fetchedPrayers change
+  useEffect(() => {
+    if (!fetchedPrayers) return;
+
+    const formattedPrayers = {
+      today: getToday(),
+      hours: [
+        { name: "Fajr", time: fetchedPrayers.Fajr },
+        { name: "Dhuhr", time: fetchedPrayers.Dhuhr },
+        { name: "Asr", time: fetchedPrayers.Asr },
+        { name: "Maghrib", time: fetchedPrayers.Maghrib },
+        { name: "Isha", time: fetchedPrayers.Isha },
+      ],
+    };
+    // @ts-ignore
+    setPrayers(formattedPrayers);
+    updateNextPrayer(formattedPrayers);
+  }, [fetchedPrayers]);
+
+  // 4. Fonction pour mettre à jour la prochaine prière
+  // @ts-ignore
+  const updateNextPrayer = (currentPrayers) => {
+    const now = dayjs();
+    let prayerFound = false;
+
+    if (!currentPrayers?.hours) return;
+
+    for (const prayer of currentPrayers.hours) {
+      if (!prayer?.time) continue;
+
+      const [hours, minutes] = prayer.time.split(":").map(Number);
+      const targetTime = dayjs().hour(hours).minute(minutes).second(0);
+      const diff = targetTime.diff(now, "second");
+
+      if (diff > 0) {
+        setNextPrayer(prayer.name);
+        setNextPrayerTime(prayer.time);
+        prayerFound = true;
+        break;
+      }
+    }
+
+    // @ts-ignore
+    if (!prayerFound && location?.coords) {
+      // sinon ca veut dire que toutes les heures sont passées => donc chercher horaires lendemain
+      //  if (!prayerFound) {
+      //   getPrayers(getTomorrow());
+      //   // formatPrayers();
+      //   // setNextPrayer(prayers[0].hours.name);
+      //   // setNextPrayerTime(prayers[0].hours.time);
+      // }
+      // Charger les prières du lendemain
+      // @ts-ignore
+      const { longitude, latitude } = location.coords;
+      // @ts-ignore
+      dispatch(fetchPrayers(getTomorrow(), longitude, latitude));
+    }
+  };
+
+  // 5. Mettre à jour la prochaine prière toutes les minutes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (prayers) {
+        updateNextPrayer(prayers);
+      }
+    }, 60000); // Toutes les minutes
+
+    return () => clearInterval(interval);
+  }, [prayers, location]);
+
+
+  // 6. Mettre à jour le temps restant pour la prochaine prière toutes les secondes
+  // @ts-ignore
 
   return (
     // TODO : horaires prières (stocker chaque semaine pour mode hors ligne) et hadith du jour
@@ -154,15 +227,8 @@ export default function HomeScreen() {
               alignItems: "center",
               justifyContent: "space-between",
             }}
-            className="flex-row"
-          >
-            {[
-              { name: "Fajr", time: prayers.Fajr || '--:--', icon: 'sunrise' },
-              { name: "Dhuhr", time: prayers.Dhuhr || '--:--', icon: 'sun' },
-              { name: "Asr", time: prayers.Asr || '--:--', icon: 'sun' },
-              { name: "Maghrib", time: prayers.Maghrib || '--:--', icon: 'sunset' },
-              { name: "Isha", time: prayers.Isha || '--:--', icon: 'moon' },
-            ].map((prayer, index) => (
+            className="flex-row">
+            {prayers?.hours?.map((prayer: any, index: number) => (
               <View key={index} className="items-center mx-3">
                 <Text
                   className={`text-amber-900/25 ${prayer.name == nextPrayer
