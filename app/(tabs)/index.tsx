@@ -30,43 +30,6 @@ export default function HomeScreen() {
   const [nextPrayerTime, setNextPrayerTime] = useState("");
   const [timeLeft, setTimeLeft] = useState("");
 
-  // useEffect(() => {
-  //   // todo : revoir méthode heures prières - 1 appel par jour pour get tous les prayers après isha avec un boolean pour dire que l'appel a déjà été fait
-  //   const interval = setInterval(() => {
-  //     const now = dayjs();
-  //     const [hours, minutes] = nextPrayerTime.split(":").map(Number); // prochaine heure prière - from nextPrayer
-  //     let targetTime;
-  //     let diff = 0;
-  //     if (nextPrayer == 'Fajr') {
-  //       if (hours < now.get('hour')) {
-  //         getPrayers(getTomorrow());
-  //         targetTime = dayjs().add(1, 'day').hour(hours).minute(minutes).second(0);
-  //       } else {
-  //         targetTime = dayjs().hour(hours).minute(minutes).second(0);
-  //       }
-  //       diff = targetTime.diff(now, "second");
-  //     } else {
-  //       targetTime = dayjs().hour(hours).minute(minutes).second(0);
-  //       diff = targetTime.diff(now, "second");
-  //       getDate();
-  //     }
-
-  //     if (diff <= 0) {
-  //       setTimeLeft("00:00:00");
-  //     } else {
-  //       const hours = Math.floor(diff / 3600);
-  //       const minutes = Math.floor((diff % 3600) / 60);
-  //       const seconds = diff % 60;
-
-  //       setTimeLeft(
-  //         `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
-  //       );
-  //     }
-  //   }, 1000);
-
-  //   return () => clearInterval(interval);
-  // }, [nextPrayerTime]);
-
   if (loading) {
     // TODO : faire un view pour le loading
   }
@@ -163,13 +126,6 @@ export default function HomeScreen() {
 
     // @ts-ignore
     if (!prayerFound && location?.coords) {
-      // sinon ca veut dire que toutes les heures sont passées => donc chercher horaires lendemain
-      //  if (!prayerFound) {
-      //   getPrayers(getTomorrow());
-      //   // formatPrayers();
-      //   // setNextPrayer(prayers[0].hours.name);
-      //   // setNextPrayerTime(prayers[0].hours.time);
-      // }
       // Charger les prières du lendemain
       // @ts-ignore
       const { longitude, latitude } = location.coords;
@@ -191,11 +147,42 @@ export default function HomeScreen() {
 
 
   // 6. Mettre à jour le temps restant pour la prochaine prière toutes les secondes
-  // @ts-ignore
+  // TODO : refresh hijri date à 23h 59m 59s
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = dayjs();
+      const [hours, minutes] = nextPrayerTime.split(":").map(Number); // prochaine heure prière
+      let targetTime;
+      let diff = 0;
+      if (nextPrayer == 'Fajr') {
+        if (hours < now.get('hour')) {
+          targetTime = dayjs().add(1, 'day').hour(hours).minute(minutes).second(0);
+        } else {
+          targetTime = dayjs().hour(hours).minute(minutes).second(0);
+        }
+      } else {
+        targetTime = dayjs().hour(hours).minute(minutes).second(0);
+      }
+      diff = targetTime.diff(now, "second");
+
+      if (diff <= 0) {
+        setTimeLeft("00:00:00");
+      } else {
+        const hours = Math.floor(diff / 3600);
+        const minutes = Math.floor((diff % 3600) / 60);
+        const seconds = diff % 60;
+
+        setTimeLeft(
+          `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
+        );
+      }
+
+    }, 1000); // Toutes les secondes
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    // TODO : horaires prières (stocker chaque semaine pour mode hors ligne) et hadith du jour
-    // TODO : className
     <View className="flex-1 bg-white">
       <ScrollView
         showsHorizontalScrollIndicator={false}
