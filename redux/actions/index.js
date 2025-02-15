@@ -91,32 +91,14 @@ export const fetchPrayers = (date, longitude, latitude) => async (dispatch) => {
     const response = await axios.get(
       `${API_PRAYERS_URL}/timings/${date}?latitude=${latitude}&longitude=${longitude}`
     );
+    
     dispatch({
       type: FETCH_PRAYERS_SUCCESS,
-      payload: response.data?.data?.timings
+      payload: response.data?.data?.timings,
+      cle: response.data?.data?.date.gregorian.date,
     });
   } catch (error) {
     console.error("Error fetching prayers from api ...", error);
     dispatch({ type: FETCH_PRAYERS_FAILURE, error: error.data });
   }
 };
-
-export const fetchNextPrayer = (date, longitude, latitude) => async (dispatch) => {
-    dispatch({ type: FETCH_NEXT_PRAYER_REQUEST });
-    try {
-      const response = await axios.get(
-        `${API_PRAYERS_URL}/nextPrayer/${date}?latitude=${latitude}&longitude=${longitude}`
-      );
-
-      const name = Object.keys(response.data?.data?.timings);
-      
-      dispatch({
-        type: FETCH_NEXT_PRAYER_SUCCESS,
-        payload: name,
-        time: response.data?.data?.timings[name]
-      });
-    } catch (error) {
-      console.error("Error fetching next prayer from api ...", error);
-      dispatch({ type: FETCH_NEXT_PRAYER_FAILURE, error: error.data });
-    }
-  };

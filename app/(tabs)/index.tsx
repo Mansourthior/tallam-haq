@@ -11,11 +11,14 @@ import { fetchPrayers, fetchHijriDate } from "@/redux/actions";
 import dayjs from "dayjs";
 import { getToday, getTomorrow } from "../../utils/date-utils";
 import { openLink } from '../../utils/link-utils';
+import * as Animatable from "react-native-animatable";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
   // @ts-ignore
   const fetchedPrayers = useSelector((state) => state.prayers.prayers);
+  // @ts-ignore
+  const fetchedPrayersCle = useSelector((state) => state.prayers.cle);
   // @ts-ignore
   const loading = useSelector((state) => state.prayers.loading);
   // @ts-ignore
@@ -29,6 +32,7 @@ export default function HomeScreen() {
   const [location, setLocation] = useState(null);
   const [nextPrayerTime, setNextPrayerTime] = useState("");
   const [timeLeft, setTimeLeft] = useState("");
+  const [dateIsFetched, setDateIsFetched] = useState(false);
 
   if (loading) {
     // TODO : faire un view pour le loading
@@ -87,7 +91,7 @@ export default function HomeScreen() {
     if (!fetchedPrayers) return;
 
     const formattedPrayers = {
-      today: getToday(),
+      today: fetchedPrayersCle,
       hours: [
         { name: "Fajr", time: fetchedPrayers.Fajr },
         { name: "Dhuhr", time: fetchedPrayers.Dhuhr },
@@ -129,8 +133,26 @@ export default function HomeScreen() {
       // Charger les prières du lendemain
       // @ts-ignore
       const { longitude, latitude } = location.coords;
-      // @ts-ignore
-      dispatch(fetchPrayers(getTomorrow(), longitude, latitude));
+      if (fetchedPrayersCle != getToday()) {
+        const formattedPrayers = {
+          today: fetchedPrayersCle,
+          hours: [
+            { name: "Fajr", time: fetchedPrayers.Fajr },
+            { name: "Dhuhr", time: fetchedPrayers.Dhuhr },
+            { name: "Asr", time: fetchedPrayers.Asr },
+            { name: "Maghrib", time: fetchedPrayers.Maghrib },
+            { name: "Isha", time: fetchedPrayers.Isha },
+          ],
+        };
+        // @ts-ignore
+        setPrayers(formattedPrayers);
+        // @ts-ignore
+        setNextPrayer("Fajr");
+        setNextPrayerTime(fetchedPrayers.Fajr);
+      } else {
+        // @ts-ignore
+        dispatch(fetchPrayers(getTomorrow(), longitude, latitude));
+      }
     }
   };
 
@@ -140,7 +162,7 @@ export default function HomeScreen() {
       if (prayers) {
         updateNextPrayer(prayers);
       }
-    }, 60000); // Toutes les minutes
+    }, 1000); // Toutes les 3 minutes
 
     return () => clearInterval(interval);
   }, [prayers, location]);
@@ -151,39 +173,46 @@ export default function HomeScreen() {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = dayjs();
-      const [hours, minutes] = nextPrayerTime.split(":").map(Number); // prochaine heure prière
-      let targetTime;
-      let diff = 0;
-      if (nextPrayer == 'Fajr') {
-        if (hours < now.get('hour')) {
-          targetTime = dayjs().add(1, 'day').hour(hours).minute(minutes).second(0);
-        } else {
-          targetTime = dayjs().hour(hours).minute(minutes).second(0);
+      const minuit = now.startOf('day');
+      if (now.isSame(minuit) && !dateIsFetched) {
+        // @ts-ignore
+        dispatch(fetchHijriDate(getToday()));
+        setDateIsFetched(true);
+      }
+
+      if (!now.isSame(minuit, 'second')) {
+        setDateIsFetched(false);
+      }
+
+      if (nextPrayerTime !== "" && nextPrayer != null) {
+        const [hours, minutes] = nextPrayerTime.split(":").map(Number); // prochaine heure prière
+        let targetTime = dayjs().hour(hours).minute(minutes).second(0);;
+        let diff = 0;
+        if (nextPrayer == 'Fajr' && hours < now.get('hour')) {
+          targetTime = targetTime.add(1, 'day');
         }
-      } else {
-        targetTime = dayjs().hour(hours).minute(minutes).second(0);
+
+        diff = targetTime.diff(now, "second");
+
+        if (diff <= 0) {
+          setTimeLeft("00:00:00");
+        } else {
+          const hours = Math.floor(diff / 3600);
+          const minutes = Math.floor((diff % 3600) / 60);
+          const seconds = diff % 60;
+
+          setTimeLeft(
+            `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
+          );
+        }
       }
-      diff = targetTime.diff(now, "second");
-
-      if (diff <= 0) {
-        setTimeLeft("00:00:00");
-      } else {
-        const hours = Math.floor(diff / 3600);
-        const minutes = Math.floor((diff % 3600) / 60);
-        const seconds = diff % 60;
-
-        setTimeLeft(
-          `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
-        );
-      }
-
     }, 1000); // Toutes les secondes
 
     return () => clearInterval(interval);
-  }, []);
+  }, [nextPrayerTime, nextPrayer]);
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-white dark:bg-gray-900">
       <ScrollView
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
@@ -196,7 +225,10 @@ export default function HomeScreen() {
           <View className="mb-4 flex flex-row justify-between">
             <View>
               <Text className="text-amber-950 font-bold">{nextPrayer || 'Chargement...'}</Text>
-              <Text className="text-amber-700 text-sm">{timeLeft ? `Dans ${timeLeft}` : 'Chargement...'}</Text>
+              {timeLeft == "00:00:00" ?
+                <Animatable.Text animation="pulse"
+                  iterationCount="infinite" className="text-amber-700 text-sm mt-2">C'est l'heure de la prière ...</Animatable.Text>
+                : <Text className="text-amber-700 text-sm">{timeLeft ? `Dans ${timeLeft}` : 'Chargement...'}</Text>}
             </View>
             <View>
               <Text className="text-amber-950 text-3xl font-bold font-sans text-right">

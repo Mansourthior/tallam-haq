@@ -7,6 +7,7 @@ import {
 
 const initialState = {
   prayers: {},
+  cle: "",
   loading: false,
   error: null,
 };
@@ -19,7 +20,8 @@ const prayersReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        prayers: action.payload
+        prayers: action.payload,
+        cle: action.cle
       };
     case FETCH_PRAYERS_FAILURE:
       return { ...state, loading: false, error: action.error };

@@ -34,7 +34,7 @@ export default function QuranScreen() {
 
   if (loading) {
     return (
-      <View className="flex-1 justify-center items-center bg-white">
+      <View className="flex-1 justify-center items-center bg-white dark:bg-gray-900">
         <View className="bg-white/80 px-8 py-6 rounded-2xl items-center space-y-4">
           <ActivityIndicator size="large" color="#10b981" />
           <Text className="text-gray-700 font-medium text-center mt-2">
@@ -51,17 +51,17 @@ export default function QuranScreen() {
 
 
   return (
-    <ScrollView className="flex-1 bg-gray-50 px-4 py-4">
+    <ScrollView className="flex-1 bg-gray-50 px-4 py-4 dark:bg-gray-900">
       {sourates.map((sourate: any) => (
         <Pressable
           key={sourate.number}
           onPress={() => openSourate(sourate.englishName, sourate.number)}
-          className="mb-4 bg-white rounded-xl shadow-sm shadow-amber-50 active:opacity-90"
+          className="mb-4 bg-white dark:bg-green-900 rounded-xl shadow-sm shadow-amber-50 dark:shadow-amber-900 active:opacity-90"
         >
           <View className="p-4 flex-row justify-between items-center">
             <View className="flex-row items-center flex-1">
               {/* Number Circle */}
-              <View className="w-12 h-12 rounded-full bg-amber-300 items-center justify-center mr-4">
+              <View className="w-12 h-12 rounded-full bg-amber-300 dark:bg-amber-900 items-center justify-center mr-4">
                 <Text className="text-white text-lg font-semibold">
                   {sourate.number}
                 </Text>
@@ -69,10 +69,10 @@ export default function QuranScreen() {
 
               {/* Name Section */}
               <View className="flex-1">
-                <Text className="text-lg font-bold text-gray-900">
+                <Text className="text-lg font-bold text-gray-900 dark:text-white">
                   {sourate.englishName}
                 </Text>
-                <Text className="text-sm text-gray-600">
+                <Text className="text-sm text-gray-600 dark:text-white">
                   {getFrenchName(sourate.englishName)}
                 </Text>
               </View>
@@ -80,7 +80,7 @@ export default function QuranScreen() {
 
             {/* Arabic Section */}
             <View className="items-end">
-              <Text className="text-2xl text-emerald-900 mb-2 font-sans">
+              <Text className="text-2xl text-emerald-900 mb-2 font-sans dark:text-white">
                 {sourate.name}
               </Text>
               <View className="flex-row gap-2">
