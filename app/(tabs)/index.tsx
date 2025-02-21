@@ -12,8 +12,10 @@ import dayjs from "dayjs";
 import { getToday, getTomorrow } from "../../utils/date-utils";
 import { openLink } from '../../utils/link-utils';
 import * as Animatable from "react-native-animatable";
+import { Feather } from "@expo/vector-icons";
 
 export default function HomeScreen() {
+
   const dispatch = useDispatch();
   // @ts-ignore
   const fetchedPrayers = useSelector((state) => state.prayers.prayers);
@@ -32,7 +34,6 @@ export default function HomeScreen() {
   const [location, setLocation] = useState(null);
   const [nextPrayerTime, setNextPrayerTime] = useState("");
   const [timeLeft, setTimeLeft] = useState("");
-  const [dateIsFetched, setDateIsFetched] = useState(false);
 
   if (loading) {
     // TODO : faire un view pour le loading
@@ -162,7 +163,9 @@ export default function HomeScreen() {
       if (prayers) {
         updateNextPrayer(prayers);
       }
-    }, 1000); // Toutes les 3 minutes
+      // @ts-ignore
+      dispatch(fetchHijriDate(getToday()));
+    }, 60000); // Toutes les 1 minutes
 
     return () => clearInterval(interval);
   }, [prayers, location]);
@@ -173,16 +176,6 @@ export default function HomeScreen() {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = dayjs();
-      const minuit = now.startOf('day');
-      if (now.isSame(minuit) && !dateIsFetched) {
-        // @ts-ignore
-        dispatch(fetchHijriDate(getToday()));
-        setDateIsFetched(true);
-      }
-
-      if (!now.isSame(minuit, 'second')) {
-        setDateIsFetched(false);
-      }
 
       if (nextPrayerTime !== "" && nextPrayer != null) {
         const [hours, minutes] = nextPrayerTime.split(":").map(Number); // prochaine heure prière
@@ -317,8 +310,8 @@ export default function HomeScreen() {
                 onPress={() => openLink(channel.url)}
               >
                 <View className="items-center mx-2">
-                  <View className="w-16 h-16 rounded-full bg-white mb-2"></View>
-                  <View className="bg-amber-100 px-2 py-1 rounded-full">
+                  <View className="flex flex-row gap-2 bg-amber-100 px-2 py-1 rounded-full">
+                    <Feather name="link" size={14} color="#FF6F00" />
                     <Text className="text-amber-800 font-bold text-xs uppercase">
                       {channel.name}
                     </Text>
@@ -358,8 +351,8 @@ export default function HomeScreen() {
                 onPress={() => openLink(channel.url)}
               >
                 <View className="items-center mx-2">
-                  <View className="w-16 h-16 rounded-full bg-white mb-2"></View>
-                  <View className="bg-amber-100 px-2 py-1 rounded-full">
+                  <View className="flex flex-row gap-2 bg-amber-100 px-2 py-1 rounded-full">
+                    <Feather name="link" size={14} color="#FF6F00" />
                     <Text className="text-amber-800 font-semibold text-xs uppercase">
                       {channel.name}
                     </Text>
