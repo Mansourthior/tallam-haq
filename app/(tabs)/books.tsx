@@ -1,16 +1,21 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, FlatList, Image } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, FlatList, Image, Pressable } from "react-native";
 import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function BooksScreen() {
-
+  const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
   const [pdfList, setPdfList] = useState([
-    { id: '1', title: 'Ashmawy', category: 'Fiqh', thumbnail: 'https://via.placeholder.com/150' },
-    { id: '2', title: 'Risaala', category: 'Fiqh', thumbnail: 'https://via.placeholder.com/150' },
-    { id: '3', title: 'Khilass dhahab', category: 'Fiqh', thumbnail: 'https://via.placeholder.com/150' },
-    { id: '4', title: "Ta'lim", category: 'Nahwu', thumbnail: 'https://via.placeholder.com/150' },
-    { id: '5', title: 'Adjrumiya', category: 'Nahwu', thumbnail: 'https://via.placeholder.com/150' },
+    { id: '1', title: 'Al akhdari', category: 'Fiqh', link: 'https://drive.google.com/file/d/1Sd-aHXaF7asNtgN9ysOX75Cq3wtmaBPJ/view?usp=sharing' },
+    { id: '2', title: 'Ashmawy', category: 'Fiqh', link: 'https://drive.google.com/file/d/1fp_0rIVchGmK73QY6jo2t9oJktfKdH_e/view?usp=sharing' },
+    { id: '3', title: 'Risaala', category: 'Fiqh', link: 'https://drive.google.com/file/d/1INVZFoKZC84vhTImTlzCnwlMtle-aN1q/view?usp=sharing' },
+    { id: '4', title: 'Khilass dhahab', category: 'Khassida', link: 'https://drive.google.com/file/d/1g71W8FPsJ5vb17YpdJ-VIFSnCMoWTZCG/view?usp=sharing' },
+    { id: '6', title: 'Adjrumiya', category: 'Nahwu', link: 'https://drive.google.com/file/d/1a5fAozWlaft-VM-jJfi-rZQ_-OOGyTTv/view?usp=sharing' },
+    { id: '7', title: 'Le nectar cacheté', category: 'Histoire', link: 'https://drive.google.com/file/d/1w816X85g2aSK85stjt2tuIBT36gg5Zm0/view?usp=sharing' },
+    { id: '8', title: "Les maladies de l'âme et leurs remèdes", category: 'Soufisme', link: 'https://drive.google.com/file/d/1fT8uU-i_uBvPPWbOSQNX5AoI7cppS8f6/view?usp=sharing' },
+    { id: '9', title: "Cheikh Seydi El Hadj Malick", category: 'Khassida', link: 'https://drive.google.com/file/d/10T3xVoAOoM_cHU0boMa-sS2seB4v59c9/view?usp=sharing' },
+    { id: '10', title: "Bourde", category: 'Khassida', link: 'https://drive.google.com/file/d/14lTD07cJ4p9s96tp1XqIv6S_SUk9-tqK/view?usp=sharing' },
   ]);
 
   const filteredPdfList = pdfList.filter(pdf =>
@@ -19,26 +24,31 @@ export default function BooksScreen() {
 
   // @ts-ignore
   const renderPdfItem = ({ item }) => (
-    <TouchableOpacity
-      className="w-[48%] bg-green-50 rounded-lg shadow-md mb-4 overflow-hidden"
-      onPress={() => {/* Ouvrir le PDF */ }}
+    <Pressable
+      key={item.id}
+      // @ts-ignore
+      onPress={() => navigation.navigate('pdf/[route]', { route: item.link.replace("/view", "/preview") })}
+      className="mb-4 bg-amber-900 rounded-xl shadow-md shadow-amber-50 active:opacity-90"
     >
-      <Image
-        source={{ uri: item.thumbnail }}
-        className="w-full h-32 bg-gray-300"
-        resizeMode="cover"
-      />
-      {/* <View className="">
-        <Text className="text-sm font-bold text-gray-800" numberOfLines={1}>{item.title}</Text>
-        <Text className="text-amber-800 font-bold text-sm">
-          {item.category}
-        </Text>
-      </View> */}
-      <View className="p-3">
-        <Text className="text-sm font-bold text-green-800" numberOfLines={1}>{item.title}</Text>
-        <Text className="text-xs text-amber-700 font-semibold">{item.category}</Text>
+      <View className="p-4 flex-row justify-between items-center">
+        <View className="flex-row gap-4 items-center flex-1">
+
+          <Feather name="file-text" size={24} color="#FF6F00" />
+
+          <View className="flex-1">
+            <Text className="text-md font-bold text-white">
+              {item.title}
+            </Text>
+          </View>
+        </View>
+
+        <View className="items-end bg-amber-100 px-2 py-1 rounded-full">
+          <Text className="text-xs text-amber-800 font-semibold">
+            {item.category}
+          </Text>
+        </View>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 
   return (
@@ -62,8 +72,6 @@ export default function BooksScreen() {
         data={filteredPdfList}
         renderItem={renderPdfItem}
         keyExtractor={item => item.id}
-        numColumns={2} // Vue en grille
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
         contentContainerStyle={{ paddingHorizontal: 8, paddingTop: 16 }}
         showsVerticalScrollIndicator={false}
       />

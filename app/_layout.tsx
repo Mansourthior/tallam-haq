@@ -14,6 +14,7 @@ import { Provider } from "react-redux";
 import store from "@/redux/store";
 import "../assets/css/global.css";
 import { View } from "react-native";
+import { PdfViewerScreen } from "./(tabs)/books";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -60,6 +61,14 @@ export default function RootLayout() {
               options={{
                 headerShown: false,
                 headerTitle: "",
+              }}
+            />
+            <Stack.Screen
+              name="pdf/[route]"
+              options={{
+                headerShown: true,
+                headerTitle: "",
+                headerTintColor: '#551c01'
               }}
             />
           </Stack>

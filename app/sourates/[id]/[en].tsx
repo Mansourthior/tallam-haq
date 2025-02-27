@@ -23,8 +23,8 @@ export default function SourateScreen() {
     const onShare = async (s: string, v: string, message: string) => {
         try {
             const result = await Share.share({
-                message: 's.' + s + ' : v.' + v + ' - ' + message +
-                    "\n Découvrez cette superbe application ! 📱✨\nTéléchargez-la ici : https://example.com",
+                message: 's.' + s + ' : v.' + v + ' - ' + message
+                // + "\n Découvrez cette superbe application ! 📱✨\nTéléchargez-la ici : https://example.com",
             });
 
             if (result.action === Share.sharedAction) {
@@ -58,9 +58,9 @@ export default function SourateScreen() {
                     <Pressable onPress={() => onShare(id.toString(), item.numberInSurah, item.text)}>
                         <Ionicons name="share-social" size={24} color="#FFCA28" />
                     </Pressable>
-                    <Pressable>
+                    {/* <Pressable>
                         <Ionicons name="bookmark-outline" size={24} color="#FFCA28" />
-                    </Pressable>
+                    </Pressable> */}
                 </View>
             </View>
 

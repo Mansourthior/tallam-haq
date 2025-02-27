@@ -41,10 +41,10 @@ export default function SettingsScreen() {
           }
         /> */}
 
-        <Pressable onPress={() => Linking.openURL('https://votredomaine.com/donate')}>
+        <Pressable onPress={() => Linking.openURL('https://paypal.me/MThior392')}>
           <SettingsItem
-            icon="people"
-            title="Soutenir le daara"
+            icon="heart"
+            title="Faire un don pour l'application"
             rightComponent={null}
             isFocus={true}
           />
@@ -58,13 +58,13 @@ export default function SettingsScreen() {
           />
         </Pressable>
 
-        <Pressable onPress={() => Linking.openURL('https://votredomaine.com/donate')}>
+        {/* <Pressable onPress={() => Linking.openURL('https://votredomaine.com/donate')}>
           <SettingsItem
             icon="heart"
             title="Faire un don pour l'application"
             rightComponent={null}
           />
-        </Pressable>
+        </Pressable> */}
 
         <Modal
           visible={showAboutModal}

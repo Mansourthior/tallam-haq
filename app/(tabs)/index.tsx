@@ -43,6 +43,7 @@ export default function HomeScreen() {
     // TODO : faire un view pour le error
   }
 
+  // call google
 
   // 1. Gestion de la localisation
   const getLocation = async () => {
