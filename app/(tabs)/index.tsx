@@ -13,6 +13,7 @@ import { getToday, getTomorrow } from "../../utils/date-utils";
 import { openLink } from '../../utils/link-utils';
 import * as Animatable from "react-native-animatable";
 import { Feather } from "@expo/vector-icons";
+import hadithsJson from '../../assets/hadiths.json';
 
 export default function HomeScreen() {
 
@@ -34,6 +35,7 @@ export default function HomeScreen() {
   const [location, setLocation] = useState(null);
   const [nextPrayerTime, setNextPrayerTime] = useState("");
   const [timeLeft, setTimeLeft] = useState("");
+  const [hadith, setHadith] = useState<{ arabic: string; french: string; } | null>(null);
 
   if (loading) {
     // TODO : faire un view pour le loading
@@ -205,6 +207,20 @@ export default function HomeScreen() {
     return () => clearInterval(interval);
   }, [nextPrayerTime, nextPrayer]);
 
+  // 1 hadith chaque 1 heure
+  useEffect(() => {
+    getHadith();
+    const interval = setInterval(() => {
+      getHadith();
+    }, 3600000);
+    return () => clearInterval(interval);
+  }, [hadith]);
+
+  const getHadith = () => {
+    const random = Math.floor(Math.random() * 10);
+    setHadith(hadithsJson[random]);
+  }
+
   return (
     <View className="flex-1 bg-white dark:bg-gray-900">
       <ScrollView
@@ -264,21 +280,13 @@ export default function HomeScreen() {
         <View className="bg-amber-500 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
           <View>
             <Text className="text-amber-800 text-lg font-bold mb-4">
-              Hadith du jour
+              Hadith
             </Text>
             <Text className="font-sans text-2xl text-right text-amber-700">
-              عن عبدالله بن عمر رضي الله عنهما قال النبي صلي الله عليه و سلم :
-              بني الإسلام على خمس شهادة أن لا إله إلا الله وأن محمدا رسول الله،
-              وإقام الصلاة، وإيتاء الزكاة، والحج، وصوم رمضان (رواه البخاري في
-              صحيحه رقم ٨)
+              {hadith?.arabic}
             </Text>
             <Text className="text-base mt-2 text-amber-950">
-              D'après 'Abdallah Ibn 'Omar (qu'Allah les agrée lui et son père),
-              le Prophète (ﷺ) a dit: « L'Islam est bâtie sur cinq choses:
-              l'attestation qu'il n'y a pas d'autre divinité qui mérite d'être
-              adorée si ce n'est Allah et que Muhammad est le Messager d'Allah
-              (*), l'accomplissement de la prière, le fait de s'acquitter de la
-              zakat, le hajj et le fait de jeûner le Ramadan ».
+              {hadith?.french}
             </Text>
           </View>
         </View>
