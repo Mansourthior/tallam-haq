@@ -14,6 +14,7 @@ import { openLink } from '../../utils/link-utils';
 import * as Animatable from "react-native-animatable";
 import { Feather } from "@expo/vector-icons";
 import hadithsJson from '../../assets/hadiths.json';
+import { schedulePrayerNotifications } from '../../utils/notifications';
 
 export default function HomeScreen() {
 
@@ -106,6 +107,7 @@ export default function HomeScreen() {
     };
     // @ts-ignore
     setPrayers(formattedPrayers);
+    schedulePrayerNotifications(formattedPrayers.hours);
     updateNextPrayer(formattedPrayers);
   }, [fetchedPrayers]);
 
@@ -150,6 +152,7 @@ export default function HomeScreen() {
         };
         // @ts-ignore
         setPrayers(formattedPrayers);
+        schedulePrayerNotifications(formattedPrayers.hours);
         // @ts-ignore
         setNextPrayer("Fajr");
         setNextPrayerTime(fetchedPrayers.Fajr);
@@ -212,7 +215,7 @@ export default function HomeScreen() {
     getHadith();
     const interval = setInterval(() => {
       getHadith();
-    }, 3600000);
+    }, 3600000 * 24);
     return () => clearInterval(interval);
   }, [hadith]);
 
