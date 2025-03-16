@@ -283,7 +283,7 @@ export default function HomeScreen() {
         <View className="bg-amber-500 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
           <View>
             <Text className="text-amber-800 text-lg font-bold mb-4">
-              Hadith
+              Hadith du jour
             </Text>
             <Text className="font-[Manrope] text-2xl text-right text-amber-950">
               {hadith?.arabic}
