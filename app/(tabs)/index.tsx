@@ -285,7 +285,7 @@ export default function HomeScreen() {
             <Text className="text-amber-800 text-lg font-bold mb-4">
               Hadith
             </Text>
-            <Text className="font-sans text-2xl text-right text-amber-700">
+            <Text className="font-[Manrope] text-xl text-right text-amber-950">
               {hadith?.arabic}
             </Text>
             <Text className="text-base mt-2 text-amber-950">

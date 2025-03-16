@@ -14,7 +14,6 @@ import { Provider } from "react-redux";
 import store from "@/redux/store";
 import "../assets/css/global.css";
 import { View } from "react-native";
-import { PdfViewerScreen } from "./(tabs)/books";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();

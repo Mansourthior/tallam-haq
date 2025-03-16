@@ -6,7 +6,8 @@ import * as Device from "expo-device";
 export async function schedulePrayerNotifications(prayerTimes) {
   if (!Device.isDevice) {
     console.log("Les notifications ne fonctionnent pas sur simulateur !");
-    return;
+    // Retourner ici mais ne pas essayer d'accéder aux notifications
+    return false;
   }
 
   const { status } = await Notifications.getPermissionsAsync();
