@@ -244,7 +244,7 @@ export default function HomeScreen() {
                 : <Text className="text-amber-700 text-sm">{timeLeft ? `Dans ${timeLeft}` : 'Chargement...'}</Text>}
             </View>
             <View>
-              <Text className="text-amber-950 text-3xl font-bold font-sans text-right">
+              <Text className="text-amber-950 text-2xl font-bold font-[Manrope] text-right">
                 اَلسَّلَامُ عَلَيْكُمْ
               </Text>
               <Text className="text-amber-700 text-sm text-right">
