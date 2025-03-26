@@ -67,7 +67,7 @@ export default function SourateScreen() {
             {/* Contenu verset */}
             <View className="mb-4">
                 <Text className="text-3xl font-[ScheherazadeNew] text-right leading-loose text-green-900">
-                    {Number(id) != 1 && index === 0
+                    {![1, 9].includes(Number(id)) && index === 0
                         ? item.text.substring(39)
                         : item.text}
                 </Text>
