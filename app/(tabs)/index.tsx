@@ -41,14 +41,6 @@ export default function HomeScreen() {
   const [hadith, setHadith] = useState<{ arabic: string; french: string; } | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
-  if (loading) {
-    // TODO : faire un view pour le loading
-  }
-
-  if (error) {
-    // TODO : faire un view pour le error
-  }
-
   // refresh page
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -263,7 +255,7 @@ export default function HomeScreen() {
         <View className="bg-rose-50 rounded-3xl shadow-lg p-6 w-11/12 mx-auto mt-4">
           {/* TODO: gérer erreur connectivité */}
           <View className="mb-4 flex flex-row justify-between">
-            {locationIsActived ? <View>
+            {locationIsActived || !error ? <View>
               <Text allowFontScaling={false} className="text-amber-950 font-bold">{nextPrayer || 'Chargement...'}</Text>
               {timeLeft == "00:00:00" ?
                 <Animatable.Text animation="pulse"
@@ -280,7 +272,10 @@ export default function HomeScreen() {
             </View>
           </View>
           {locationIsActived ?
-            <ScrollView
+            (error ? <Text className="text-amber-950 text-md text-center">
+              Impossible de récupérer les heures de prières. Vérifiez votre connexion et réessayez en tirant vers le bas
+              pour rafraîchir la page.
+            </Text> : <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{
@@ -308,7 +303,7 @@ export default function HomeScreen() {
                   </Text>
                 </View>
               ))}
-            </ScrollView> :
+            </ScrollView>) :
             <Text className="text-amber-950 text-md text-center">
               Veuillez activer la localisation dans les paramètres pour visualiser les heures de prière.
             </Text>
@@ -320,7 +315,7 @@ export default function HomeScreen() {
             <Text allowFontScaling={false} className="text-amber-800 text-lg font-bold mb-4">
               Hadith du jour
             </Text>
-            <Text className="font-[Manrope] text-2xl text-right text-amber-950">
+            <Text className="font-[ScheherazadeNew] text-2xl text-right text-amber-950">
               {hadith?.arabic}
             </Text>
             <Text className="text-base mt-2 text-amber-950">
