@@ -62,17 +62,17 @@ export default function QuranScreen() {
             <View className="flex-row items-center flex-1">
               {/* Number Circle */}
               <View className="w-12 h-12 rounded-full bg-amber-300 dark:bg-amber-900 items-center justify-center mr-4">
-                <Text className="text-white text-lg font-semibold">
+                <Text allowFontScaling={false} className="text-white text-lg font-semibold">
                   {sourate.number}
                 </Text>
               </View>
 
               {/* Name Section */}
               <View className="flex-1">
-                <Text className="text-lg font-bold text-gray-900 dark:text-white">
+                <Text allowFontScaling={false} className="text-lg font-bold text-gray-900 dark:text-white">
                   {sourate.englishName}
                 </Text>
-                <Text className="text-sm text-gray-600 dark:text-white">
+                <Text allowFontScaling={false} className="text-sm text-gray-600 dark:text-white">
                   {getFrenchName(sourate.englishName)}
                 </Text>
               </View>
@@ -85,12 +85,12 @@ export default function QuranScreen() {
               </Text>
               <View className="flex-row gap-2">
                 <View className="bg-emerald-50 px-2 py-1 rounded-full">
-                  <Text className="text-xs text-emerald-800">
+                  <Text allowFontScaling={false} className="text-xs text-emerald-800">
                     {sourate.numberOfAyahs} versets
                   </Text>
                 </View>
                 <View className="bg-emerald-50 px-2 py-1 rounded-full">
-                  <Text className="text-xs text-emerald-800">
+                  <Text allowFontScaling={false} className="text-xs text-emerald-800">
                     {sourate.revelationType === 'Meccan' ? 'Mecquoise' : 'Médinoise'}
                   </Text>
                 </View>

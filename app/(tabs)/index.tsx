@@ -3,8 +3,9 @@ import {
   Text,
   ScrollView,
   Pressable,
+  RefreshControl,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPrayers, fetchHijriDate } from "@/redux/actions";
@@ -34,9 +35,11 @@ export default function HomeScreen() {
   // @ts-ignore
   const [prayers, setPrayers] = useState(null);
   const [location, setLocation] = useState(null);
+  const [locationIsActived, setLocationIsActived] = useState(true);
   const [nextPrayerTime, setNextPrayerTime] = useState("");
   const [timeLeft, setTimeLeft] = useState("");
   const [hadith, setHadith] = useState<{ arabic: string; french: string; } | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   if (loading) {
     // TODO : faire un view pour le loading
@@ -46,7 +49,17 @@ export default function HomeScreen() {
     // TODO : faire un view pour le error
   }
 
-  // call google
+  // refresh page
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      // actions à faire lors du refresh
+      initializeData();
+      getHadith();
+      setUpPrayersAndNotifications();
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   // 1. Gestion de la localisation
   const getLocation = async () => {
@@ -70,29 +83,37 @@ export default function HomeScreen() {
 
   // 2. Chargement initial des données
   useEffect(() => {
-    const initializeData = async () => {
-      try {
-        // Charger la date Hijri en parallèle avec la localisation
-        // @ts-ignore
-        dispatch(fetchHijriDate(getToday()));
-
-        const position = await getLocation();
-        if (!position) return;
-
-        const { longitude, latitude } = position.coords;
-        // @ts-ignore
-        dispatch(fetchPrayers(getToday(), longitude, latitude));
-      } catch (err) {
-        // @ts-ignore
-        setError(err.message);
-      }
-    };
-
     initializeData();
   }, []); // Ne dépend plus de dispatch
 
+  const initializeData = async () => {
+    try {
+      // Charger la date Hijri en parallèle avec la localisation
+      // @ts-ignore
+      dispatch(fetchHijriDate(getToday()));
+
+      const position = await getLocation();
+      if (!position) {
+        setLocationIsActived(false);
+        return;
+      }
+      setLocationIsActived(true);
+
+      const { longitude, latitude } = position.coords;
+      // @ts-ignore
+      dispatch(fetchPrayers(getToday(), longitude, latitude));
+    } catch (err) {
+      // @ts-ignore
+      setError(err.message);
+    }
+  };
+
   // 3. Mise à jour des prières quand fetchedPrayers change
   useEffect(() => {
+    setUpPrayersAndNotifications();
+  }, [fetchedPrayers]);
+
+  const setUpPrayersAndNotifications = () => {
     if (!fetchedPrayers) return;
 
     const formattedPrayers = {
@@ -109,7 +130,7 @@ export default function HomeScreen() {
     setPrayers(formattedPrayers);
     schedulePrayerNotifications(formattedPrayers.hours);
     updateNextPrayer(formattedPrayers);
-  }, [fetchedPrayers]);
+  }
 
   // 4. Fonction pour mettre à jour la prochaine prière
   // @ts-ignore
@@ -226,6 +247,7 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 bg-white dark:bg-gray-900">
+      {/* TODO: refresh control pour recharger page */}
       <ScrollView
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
@@ -233,56 +255,68 @@ export default function HomeScreen() {
           justifyContent: "space-between",
         }}
         className="flex-col"
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       >
         <View className="bg-rose-50 rounded-3xl shadow-lg p-6 w-11/12 mx-auto mt-4">
+          {/* TODO: gérer erreur connectivité et autoriser location */}
           <View className="mb-4 flex flex-row justify-between">
-            <View>
-              <Text className="text-amber-950 font-bold">{nextPrayer || 'Chargement...'}</Text>
+            {locationIsActived ? <View>
+              <Text allowFontScaling={false} className="text-amber-950 font-bold">{nextPrayer || 'Chargement...'}</Text>
               {timeLeft == "00:00:00" ?
                 <Animatable.Text animation="pulse"
                   iterationCount="infinite" className="text-amber-700 text-sm mt-2">C'est l'heure de la prière ...</Animatable.Text>
-                : <Text className="text-amber-700 text-sm">{timeLeft ? `Dans ${timeLeft}` : 'Chargement...'}</Text>}
-            </View>
+                : <Text allowFontScaling={false} className="text-amber-700 text-sm">{timeLeft ? `Dans ${timeLeft}` : 'Chargement...'}</Text>}
+            </View> : <View></View>}
             <View>
-              <Text className="text-amber-950 text-2xl font-bold font-[Manrope] text-right">
+              <Text allowFontScaling={false} className="text-amber-950 text-2xl font-bold font-[Manrope] text-right">
                 اَلسَّلَامُ عَلَيْكُمْ
               </Text>
-              <Text className="text-amber-700 text-sm text-right">
+              <Text allowFontScaling={false} className="text-amber-700 text-sm text-right">
                 {date?.hijri?.day} {date?.hijri?.month?.en} {date?.hijri.year}
               </Text>
             </View>
           </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-            className="flex-row">
-            {prayers?.hours?.map((prayer: any, index: number) => (
-              <View key={index} className="items-center mx-3">
-                <Text
-                  className={`text-amber-900/25 ${prayer.name == nextPrayer
-                    ? "font-bold text-xl text-yellow-950/100"
-                    : ""
-                    }`}
-                >
-                  {prayer.name}
-                </Text>
-                <Text
-                  className={`text-amber-700 text-sm mt-1 ${prayer.name == nextPrayer ? "font-bold" : ""
-                    }`}
-                >
-                  {prayer.time}
-                </Text>
-              </View>
-            ))}
-          </ScrollView>
+          {locationIsActived ?
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+              className="flex-row">
+              {prayers?.hours?.map((prayer: any, index: number) => (
+                <View key={index} className="items-center mx-3">
+                  <Text
+                    allowFontScaling={false}
+                    className={`text-amber-900/25 ${prayer.name == nextPrayer
+                      ? "font-bold text-xl text-yellow-950/100"
+                      : ""
+                      }`}
+                  >
+                    {prayer.name}
+                  </Text>
+                  <Text
+                    allowFontScaling={false}
+                    className={`text-amber-700 text-sm mt-1 ${prayer.name == nextPrayer ? "font-bold" : ""
+                      }`}
+                  >
+                    {prayer.time}
+                  </Text>
+                </View>
+              ))}
+            </ScrollView> :
+            <Text className="text-amber-950 text-md text-center">
+              Veuillez activer la localisation dans les paramètres pour visualiser les heures de prière.
+            </Text>
+          }
+
         </View>
         <View className="bg-amber-500 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
           <View>
-            <Text className="text-amber-800 text-lg font-bold mb-4">
+            <Text allowFontScaling={false} className="text-amber-800 text-lg font-bold mb-4">
               Hadith du jour
             </Text>
             <Text className="font-[Manrope] text-2xl text-right text-amber-950">
@@ -295,7 +329,7 @@ export default function HomeScreen() {
         </View>
         <View className="bg-amber-700 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
           <View className="mb-4">
-            <Text className="text-white text-lg font-bold">
+            <Text allowFontScaling={false} className="text-white text-lg font-bold">
               Nos chaînes Télégram
             </Text>
           </View>
@@ -324,7 +358,7 @@ export default function HomeScreen() {
                 <View className="items-center mx-2">
                   <View className="flex flex-row gap-2 bg-amber-100 px-2 py-1 rounded-full">
                     <Feather name="link" size={14} color="#FF6F00" />
-                    <Text className="text-amber-800 font-bold text-xs uppercase">
+                    <Text allowFontScaling={false} className="text-amber-800 font-bold text-xs uppercase">
                       {channel.name}
                     </Text>
                   </View>
@@ -335,7 +369,7 @@ export default function HomeScreen() {
         </View>
         <View className="bg-amber-950 rounded-3xl mx-auto p-6 mt-4 mb-4 shadow-lg w-11/12">
           <View className="mb-4">
-            <Text className="text-white text-lg font-bold">
+            <Text allowFontScaling={false} className="text-white text-lg font-bold">
               Nos chaînes Youtube
             </Text>
           </View>
@@ -365,7 +399,7 @@ export default function HomeScreen() {
                 <View className="items-center mx-2">
                   <View className="flex flex-row gap-2 bg-amber-100 px-2 py-1 rounded-full">
                     <Feather name="link" size={14} color="#FF6F00" />
-                    <Text className="text-amber-800 font-semibold text-xs uppercase">
+                    <Text allowFontScaling={false} className="text-amber-800 font-semibold text-xs uppercase">
                       {channel.name}
                     </Text>
                   </View>

@@ -36,14 +36,14 @@ export default function BooksScreen() {
           <Feather name="file-text" size={24} color="#FF6F00" />
 
           <View className="flex-1">
-            <Text className="text-md font-bold text-white">
+            <Text allowFontScaling={false} className="text-md font-bold text-white">
               {item.title}
             </Text>
           </View>
         </View>
 
         <View className="items-end bg-amber-100 px-2 py-1 rounded-full">
-          <Text className="text-xs text-amber-800 font-semibold">
+          <Text allowFontScaling={false} className="text-xs text-amber-800 font-semibold">
             {item.category}
           </Text>
         </View>

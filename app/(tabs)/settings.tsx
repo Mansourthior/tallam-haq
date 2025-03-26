@@ -19,7 +19,7 @@ export default function SettingsScreen() {
           size={22}
           className="mr-4"
         />
-        <Text className={isFocus ? "text-base text-white font-semibold" : "text-base text-green-800 dark:text-white font-semibold"}>{title}</Text>
+        <Text allowFontScaling={false} className={isFocus ? "text-base text-white font-semibold" : "text-base text-green-800 dark:text-white font-semibold"}>{title}</Text>
       </View>
       {rightComponent}
     </View>
@@ -113,7 +113,7 @@ export default function SettingsScreen() {
         </Modal>
 
         <View className="mt-20 px-6">
-          <Text className="text-gray-500 dark:text-gray-400 text-center text-sm">
+          <Text allowFontScaling={false} className="text-gray-500 dark:text-gray-400 text-center text-sm">
             Version 1.0.0
           </Text>
         </View>

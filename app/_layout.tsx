@@ -40,39 +40,37 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-          <Stack>
-            <Stack.Screen
-              name="(tabs)"
-              options={{
-                headerShown: true,
-                headerTitle: "",
-                headerTitleStyle: {
-                  fontFamily: "ScheherazadeNew",
-                  fontSize: 24,
-                  color: "#551c01",
-                },
-              }}
-            />
-            <Stack.Screen
-              name="sourates/[id]/[en]"
-              options={{
-                headerShown: false,
-                headerTitle: "",
-              }}
-            />
-            <Stack.Screen
-              name="pdf/[route]"
-              options={{
-                headerShown: true,
-                headerTitle: "",
-                headerTintColor: '#551c01'
-              }}
-            />
-          </Stack>
-        </View>
-      </ThemeProvider>
+      <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+        <Stack>
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              headerShown: true,
+              headerTitle: "",
+              headerTitleStyle: {
+                fontFamily: "ScheherazadeNew",
+                fontSize: 24,
+                color: "#551c01",
+              },
+            }}
+          />
+          <Stack.Screen
+            name="sourates/[id]/[en]"
+            options={{
+              headerShown: false,
+              headerTitle: "",
+            }}
+          />
+          <Stack.Screen
+            name="pdf/[route]"
+            options={{
+              headerShown: true,
+              headerTitle: "",
+              headerTintColor: '#551c01'
+            }}
+          />
+        </Stack>
+      </View>
     </Provider>
   );
 }
