@@ -128,7 +128,9 @@ export default function HomeScreen() {
     };
     // @ts-ignore
     setPrayers(formattedPrayers);
-    schedulePrayerNotifications(formattedPrayers.hours);
+    if (formattedPrayers) {
+      schedulePrayerNotifications(formattedPrayers.hours);
+    }
     updateNextPrayer(formattedPrayers);
   }
 
@@ -199,7 +201,7 @@ export default function HomeScreen() {
 
 
   // 6. Mettre à jour le temps restant pour la prochaine prière toutes les secondes
-  // TODO : refresh hijri date à 23h 59m 59s
+
   useEffect(() => {
     const interval = setInterval(() => {
       const now = dayjs();
@@ -247,7 +249,6 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 bg-white dark:bg-gray-900">
-      {/* TODO: refresh control pour recharger page */}
       <ScrollView
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
@@ -260,7 +261,7 @@ export default function HomeScreen() {
         }
       >
         <View className="bg-rose-50 rounded-3xl shadow-lg p-6 w-11/12 mx-auto mt-4">
-          {/* TODO: gérer erreur connectivité et autoriser location */}
+          {/* TODO: gérer erreur connectivité */}
           <View className="mb-4 flex flex-row justify-between">
             {locationIsActived ? <View>
               <Text allowFontScaling={false} className="text-amber-950 font-bold">{nextPrayer || 'Chargement...'}</Text>
