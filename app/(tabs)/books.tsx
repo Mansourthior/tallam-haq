@@ -28,7 +28,7 @@ export default function BooksScreen() {
       key={item.id}
       // @ts-ignore
       onPress={() => navigation.navigate('pdf/[route]', { route: item.link.replace("/view", "/preview") })}
-      className="mb-4 bg-amber-900 rounded-xl shadow-md shadow-amber-50 active:opacity-90"
+      className="mb-4 bg-amber-900 rounded-xl shadow-amber-50 active:opacity-90"
     >
       <View className="p-4 flex-row justify-between items-center">
         <View className="flex-row gap-4 items-center flex-1">
@@ -52,11 +52,11 @@ export default function BooksScreen() {
   );
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <View className="flex-1 bg-gray-50 dark:bg-gray-900">
       {/* En-tête */}
-      <View className="bg-white p-6 shadow-md">
+      <View className="bg-white p-6 shadow-md dark:bg-gray-900">
         {/* Barre de recherche */}
-        <View className="flex-row items-center bg-white rounded-full px-4 py-2">
+        <View className="flex-row items-center bg-white dark:bg-amber-100 rounded-full px-4 py-2">
           <Feather name="search" size={20} color="#FF6F00" />
           <TextInput
             className="flex-1 ml-2 text-gray-900"

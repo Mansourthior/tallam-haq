@@ -35,8 +35,8 @@ export async function schedulePrayerNotifications(prayerTimes) {
 
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: `🕌 Heure de la prière`,
-        body: `C'est l'heure de ${name} !`,
+        title: `${name} ${time}`,
+        body: `Hayya 'ala-salât Hayya 'ala-falâh ! C'est l'heure de ${name}`,
         sound: "default",
       },
       // @ts-ignore
