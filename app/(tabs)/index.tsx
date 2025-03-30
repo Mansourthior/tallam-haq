@@ -4,6 +4,8 @@ import {
   ScrollView,
   Pressable,
   RefreshControl,
+  ImageBackground,
+  useColorScheme,
 } from "react-native";
 import { useCallback, useEffect, useState } from "react";
 import * as Location from "expo-location";
@@ -20,6 +22,7 @@ import { schedulePrayerNotifications } from '../../utils/notifications';
 export default function HomeScreen() {
 
   const dispatch = useDispatch();
+  const colorScheme = useColorScheme();
   // @ts-ignore
   const fetchedPrayers = useSelector((state) => state.prayers.prayers);
   // @ts-ignore
@@ -240,171 +243,177 @@ export default function HomeScreen() {
   }
 
   return (
-    <View className="flex-1 bg-white dark:bg-gray-900">
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-        className="flex-col"
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        <View className="bg-rose-50 rounded-3xl shadow-lg p-6 w-11/12 mx-auto mt-4">
-          {/* TODO: gérer erreur connectivité */}
-          <View className="mb-4 flex flex-row justify-between">
-            {locationIsActived || !error ? <View>
-              <Text allowFontScaling={false} className="text-amber-950 font-bold">{nextPrayer || 'Chargement...'}</Text>
-              {timeLeft == "00:00:00" ?
-                <Animatable.Text animation="pulse"
-                  iterationCount="infinite" className="text-amber-700 text-sm mt-2">C'est l'heure de la prière ...</Animatable.Text>
-                : <Text allowFontScaling={false} className="text-amber-700 text-sm">{timeLeft ? `Dans ${timeLeft}` : 'Chargement...'}</Text>}
-            </View> : <View></View>}
-            <View>
-              <Text allowFontScaling={false} className="text-amber-950 text-2xl font-bold font-[Manrope] text-right">
-                اَلسَّلَامُ عَلَيْكُمْ
+    <View className="flex-1">
+      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpg') : require('../../assets/images/bg.jpg')} resizeMode="cover">
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          className="flex-col"
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
+          <View className="bg-lime-50 rounded-3xl shadow-lg p-6 w-11/12 mx-auto mt-4">
+            {/* TODO: gérer erreur connectivité */}
+            <View className="mb-4 flex flex-row justify-between">
+              {locationIsActived || !error ? <View>
+                <Text allowFontScaling={false} className="font-[Poppins] text-lime-950 font-bold">{nextPrayer || 'Chargement...'}</Text>
+                {timeLeft == "00:00:00" ?
+                  <Animatable.Text animation="pulse"
+                    iterationCount="infinite" className="text-lime-700 font-[Poppins] text-sm mt-2">C'est l'heure de la prière ...</Animatable.Text>
+                  : <Text allowFontScaling={false} className="font-[Poppins] text-lime-700 text-sm">{timeLeft ? `Dans ${timeLeft}` : 'Chargement...'}</Text>}
+              </View> : <View></View>}
+              <View>
+                <Text allowFontScaling={false} className="font-[Poppins] text-lime-950 text-2xl font-bold text-right">
+                  اَلسَّلَامُ عَلَيْكُمْ
+                </Text>
+                <Text allowFontScaling={false} className="font-[Poppins] text-lime-700 text-sm text-right">
+                  {date?.hijri?.day} {date?.hijri?.month?.en} {date?.hijri.year}
+                </Text>
+              </View>
+            </View>
+            {locationIsActived ?
+              (error ? <Text className="font-[Poppins] text-lime-950 text-md text-center">
+                Impossible de récupérer les heures de prières. Vérifiez votre connexion et réessayez en tirant vers le bas
+                pour rafraîchir la page.
+              </Text> : <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                className="flex-row">
+                {prayers?.hours?.map((prayer: any, index: number) => (
+                  <View key={index} className="items-center mx-3">
+                    <Text
+                      allowFontScaling={false}
+                      className={`font-[Poppins] text-lime-900/25 ${prayer.name == nextPrayer
+                        ? "font-bold text-xl font-[Poppins] text-lime-950/100"
+                        : ""
+                        }`}
+                    >
+                      {prayer.name}
+                    </Text>
+                    <Text
+                      allowFontScaling={false}
+                      className={`text-lime-700 text-sm mt-1 font-[Poppins] ${prayer.name == nextPrayer ? "font-bold" : ""
+                        }`}
+                    >
+                      {prayer.time}
+                    </Text>
+                  </View>
+                ))}
+              </ScrollView>) :
+              <Text className="text-lime-950 text-md text-center font-[Poppins]">
+                Veuillez activer la localisation dans les paramètres pour visualiser les heures de prière.
               </Text>
-              <Text allowFontScaling={false} className="text-amber-700 text-sm text-right">
-                {date?.hijri?.day} {date?.hijri?.month?.en} {date?.hijri.year}
+            }
+
+          </View>
+          <View className="bg-slate-50 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
+            <View>
+              <Text allowFontScaling={false} className="text-stone-800 font-[Poppins] text-lg font-bold mb-4">
+                Hadith du jour
+              </Text>
+              <Text className="font-[Poppins] text-2xl text-right text-lime-700">
+                {hadith?.arabic}
+              </Text>
+              <Text className="text-lg mt-2 font-[Poppins] text-stone-950">
+                {hadith?.french}
               </Text>
             </View>
           </View>
-          {locationIsActived ?
-            (error ? <Text className="text-amber-950 text-md text-center">
-              Impossible de récupérer les heures de prières. Vérifiez votre connexion et réessayez en tirant vers le bas
-              pour rafraîchir la page.
-            </Text> : <ScrollView
+          <View className="bg-lime-700 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
+            <View className="mb-4">
+              <Text allowFontScaling={false} className="text-white text-lg font-bold font-[Poppins]">
+                Nos chaînes Télégram
+              </Text>
+              <Text allowFontScaling={false} className="text-gray-50 text-sm font-[Poppins]">
+                Cliquez pour ouvrir - Scrollez horizontalement
+              </Text>
+            </View>
+            <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{
                 alignItems: "center",
                 justifyContent: "space-between",
               }}
-              className="flex-row">
-              {prayers?.hours?.map((prayer: any, index: number) => (
-                <View key={index} className="items-center mx-3">
-                  <Text
-                    allowFontScaling={false}
-                    className={`text-amber-900/25 ${prayer.name == nextPrayer
-                      ? "font-bold text-xl text-yellow-950/100"
-                      : ""
-                      }`}
-                  >
-                    {prayer.name}
-                  </Text>
-                  <Text
-                    allowFontScaling={false}
-                    className={`text-amber-700 text-sm mt-1 ${prayer.name == nextPrayer ? "font-bold" : ""
-                      }`}
-                  >
-                    {prayer.time}
-                  </Text>
-                </View>
+              className="flex-row"
+            >
+              {[
+                { name: "Jawahirul Mahaani", url: "https://t.me/+d1eGCL7PRONlZmI0" },
+                { name: "Rimah", url: "https://t.me/+3Pb8DAVGsyg5YTg0" },
+                { name: "Waqaf Sunnah", url: "https://t.me/+uWaq1qWnWyAwNWI0" },
+                { name: "Târikh Makgni", url: "https://t.me/HISTOIRE_SUNU_MAKGNI" },
+                { name: "Wahabisme", url: "https://t.me/siira_wahhabisme" },
+              ].map((channel, index) => (
+                <Pressable
+                  key={index}
+                  onPress={() => openLink(channel.url)}
+                >
+                  <View className="items-center mx-2">
+                    <View className="flex flex-row gap-2 bg-amber-100 px-2 py-1 rounded-full">
+                      <Feather name="link" size={16} color="#FF6F00" />
+                      <Text allowFontScaling={false} className="text-lime-800 text-sm font-[PoppinsBold] uppercase">
+                        {channel.name}
+                      </Text>
+                    </View>
+                  </View>
+                </Pressable>
               ))}
-            </ScrollView>) :
-            <Text className="text-amber-950 text-md text-center">
-              Veuillez activer la localisation dans les paramètres pour visualiser les heures de prière.
-            </Text>
-          }
-
-        </View>
-        <View className="bg-amber-500 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
-          <View>
-            <Text allowFontScaling={false} className="text-amber-800 text-lg font-bold mb-4">
-              Hadith du jour
-            </Text>
-            <Text className="font-[ScheherazadeNew] text-2xl text-right text-amber-950">
-              {hadith?.arabic}
-            </Text>
-            <Text className="text-base mt-2 text-amber-950">
-              {hadith?.french}
-            </Text>
+            </ScrollView>
           </View>
-        </View>
-        <View className="bg-amber-700 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
-          <View className="mb-4">
-            <Text allowFontScaling={false} className="text-white text-lg font-bold">
-              Nos chaînes Télégram
-            </Text>
-          </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-            className="flex-row"
-          >
-            {[
-              {
-                name: "Rimah",
-                url: "https://t.me/+3Pb8DAVGsyg5YTg0",
-              },
-              { name: "Waqaf Sunnah", url: "https://t.me/+uWaq1qWnWyAwNWI0" },
-              { name: "Târikh Makgni", url: "https://t.me/HISTOIRE_SUNU_MAKGNI" },
-              { name: "Wahabisme", url: "https://t.me/siira_wahhabisme" },
-            ].map((channel, index) => (
-              <Pressable
-                key={index}
-                onPress={() => openLink(channel.url)}
-              >
-                <View className="items-center mx-2">
-                  <View className="flex flex-row gap-2 bg-amber-100 px-2 py-1 rounded-full">
-                    <Feather name="link" size={14} color="#FF6F00" />
-                    <Text allowFontScaling={false} className="text-amber-800 font-bold text-xs uppercase">
-                      {channel.name}
-                    </Text>
+          <View className="bg-lime-950 rounded-3xl mx-auto p-6 mt-4 mb-4 shadow-lg w-11/12">
+            <View className="mb-4">
+              <Text allowFontScaling={false} className="text-white text-lg font-bold font-[Poppins]">
+                Nos chaînes Youtube
+              </Text>
+              <Text allowFontScaling={false} className="text-gray-50 text-sm font-[Poppins]">
+                Cliquez pour ouvrir - Scrollez horizontalement
+              </Text>
+            </View>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+              className="flex-row"
+            >
+              {[
+                {
+                  name: "ATTIDJANIYA TV",
+                  url: "https://www.youtube.com/@ATTIDJANIYATV",
+                },
+                {
+                  name: "Atilmîzou Tilmiz",
+                  url: "https://www.youtube.com/@Ndaar-Faam",
+                },
+              ].map((channel, index) => (
+                <Pressable
+                  key={index}
+                  onPress={() => openLink(channel.url)}
+                >
+                  <View className="items-center mx-2">
+                    <View className="flex flex-row gap-2 bg-amber-100 px-2 py-1 rounded-full">
+                      <Feather name="link" size={16} color="#FF6F00" />
+                      <Text allowFontScaling={false} className="text-lime-800 font-[PoppinsBold] text-sm uppercase">
+                        {channel.name}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-              </Pressable>
-            ))}
-          </ScrollView>
-        </View>
-        <View className="bg-amber-950 rounded-3xl mx-auto p-6 mt-4 mb-4 shadow-lg w-11/12">
-          <View className="mb-4">
-            <Text allowFontScaling={false} className="text-white text-lg font-bold">
-              Nos chaînes Youtube
-            </Text>
+                </Pressable>
+              ))}
+            </ScrollView>
           </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-            className="flex-row"
-          >
-            {[
-              {
-                name: "ATTIDJANIYA TV",
-                url: "https://www.youtube.com/@ATTIDJANIYATV",
-              },
-              {
-                name: "Atilmîzou Tilmiz",
-                url: "https://www.youtube.com/@Ndaar-Faam",
-              },
-            ].map((channel, index) => (
-              <Pressable
-                key={index}
-                onPress={() => openLink(channel.url)}
-              >
-                <View className="items-center mx-2">
-                  <View className="flex flex-row gap-2 bg-amber-100 px-2 py-1 rounded-full">
-                    <Feather name="link" size={14} color="#FF6F00" />
-                    <Text allowFontScaling={false} className="text-amber-800 font-semibold text-xs uppercase">
-                      {channel.name}
-                    </Text>
-                  </View>
-                </View>
-              </Pressable>
-            ))}
-          </ScrollView>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </ImageBackground>
     </View>
   );
 }

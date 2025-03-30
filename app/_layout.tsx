@@ -13,7 +13,7 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
 import "../assets/css/global.css";
-import { View } from "react-native";
+import { ImageBackground, View } from "react-native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -26,6 +26,8 @@ export default function RootLayout() {
     Arabic: require("../assets/fonts/arabic-font.ttf"),
     ScheherazadeNew: require("../assets/fonts/ScheherazadeNew-Regular.ttf"),
     Manrope: require("../assets/fonts/Manrope-VariableFont_wght.ttf"),
+    Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
+    PoppinsBold: require("../assets/fonts/Poppins-Bold.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -41,7 +43,7 @@ export default function RootLayout() {
   return (
     <Provider store={store}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+        <View onLayout={onLayoutRootView} className="flex-1">
           <Stack>
             <Stack.Screen
               name="(tabs)"
@@ -49,7 +51,7 @@ export default function RootLayout() {
                 headerShown: true,
                 headerTitle: "",
                 headerTitleStyle: {
-                  fontFamily: "ScheherazadeNew",
+                  fontFamily: "Poppins",
                   fontSize: 24,
                   color: "#551c01",
                 },
@@ -58,8 +60,13 @@ export default function RootLayout() {
             <Stack.Screen
               name="sourates/[id]/[en]"
               options={{
-                headerShown: false,
+                headerShown: true,
                 headerTitle: "",
+                headerTintColor: '#0a5c0a',
+                headerTitleStyle: {
+                  fontFamily: "Poppins",
+                  fontWeight: "bold"
+                },
               }}
             />
             <Stack.Screen
@@ -67,7 +74,7 @@ export default function RootLayout() {
               options={{
                 headerShown: true,
                 headerTitle: "",
-                headerTintColor: '#551c01'
+                headerTintColor: '#0a5c0a'
               }}
             />
           </Stack>
