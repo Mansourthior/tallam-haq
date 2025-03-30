@@ -53,7 +53,7 @@ export default function QuranScreen() {
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpg') : require('../../assets/images/bg.jpg')} resizeMode="cover">
+      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpeg') : require('../../assets/images/bg.jpg')} resizeMode="cover">
         <ScrollView className="px-4 py-4">
           {sourates.map((sourate: any) => (
             <Pressable

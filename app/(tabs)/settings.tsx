@@ -27,7 +27,7 @@ export default function SettingsScreen() {
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpg') : require('../../assets/images/bg.jpg')} resizeMode="cover" style={{
+      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpeg') : require('../../assets/images/bg.jpg')} resizeMode="cover" style={{
         position: "absolute",
         width: "100%",
         height: "100%",
@@ -97,7 +97,7 @@ export default function SettingsScreen() {
           </Modal>
 
           <View className="mt-20 px-6">
-            <Text allowFontScaling={false} className="font-[PoppinsBold] text-white dark:text-amber-900 text-center text-base">
+            <Text allowFontScaling={false} className="font-[PoppinsBold] text-white text-center text-base">
               Version 1.0.0
             </Text>
           </View>

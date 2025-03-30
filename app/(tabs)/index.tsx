@@ -244,7 +244,7 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpg') : require('../../assets/images/bg.jpg')} resizeMode="cover">
+      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpeg') : require('../../assets/images/bg.jpg')} resizeMode="cover">
         <ScrollView
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
