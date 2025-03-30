@@ -78,7 +78,7 @@ export default function SettingsScreen() {
                   Elle propose des fonctionnalités essentielles comme l’accès au Coran, une bibliothèque de PDF,
                   ainsi que les horaires de prière. Grâce à une interface simple, intuitive et sans publicités,
                   elle permet à chacun de se reconnecter facilement avec sa foi et d’avoir à portée de main des outils
-                  pratiques pour enrichir son savoir et son spiritualité.
+                  pratiques pour enrichir son savoir et sa spiritualité.
                   {"\n\n"}
                   Version: 1.0.0
                   {"\n\n"}
