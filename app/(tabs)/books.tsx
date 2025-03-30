@@ -29,7 +29,7 @@ export default function BooksScreen() {
       key={item.id}
       // @ts-ignore
       onPress={() => navigation.navigate('pdf/[route]', { route: item.link.replace("/view", "/preview") })}
-      className="mb-4 bg-green-700 dark:bg-lime-900 rounded-xl shadow-amber-50 active:opacity-90"
+      className="mb-4 bg-green-900 dark:bg-lime-900 rounded-xl shadow-amber-50 active:opacity-90"
     >
       <View className="p-4 flex-row justify-between items-center">
         <View className="flex-row gap-4 items-center flex-1">
