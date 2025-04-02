@@ -42,7 +42,7 @@ export default function HomeScreen() {
   const [locationIsActived, setLocationIsActived] = useState(true);
   const [nextPrayerTime, setNextPrayerTime] = useState("");
   const [timeLeft, setTimeLeft] = useState("");
-  const [hadith, setHadith] = useState<{ arabic: string; french: string; } | null>(null);
+  const [hadith, setHadith] = useState<{ hadith_text_ar: string; hadith_text: string; grade: string; takhrij: string; } | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
   // refresh page
@@ -236,10 +236,11 @@ export default function HomeScreen() {
       getHadith();
     }, 3600000 * 24);
     return () => clearInterval(interval);
-  }, [hadith]);
+  }, []);
 
   const getHadith = () => {
-    const random = Math.floor(Math.random() * 10);
+    const random = Math.floor(Math.random() * 2196);
+    // @ts-ignore
     setHadith(hadithsJson[random]);
   }
 

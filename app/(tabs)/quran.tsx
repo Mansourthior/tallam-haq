@@ -1,13 +1,15 @@
 import { fetchSourates } from "@/redux/actions";
-import { useEffect } from "react";
-import { View, Text, ScrollView, Pressable, ActivityIndicator, ImageBackground, useColorScheme } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, ScrollView, Pressable, ActivityIndicator, ImageBackground, useColorScheme, TextInput } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { surahTranslations } from "../../utils/sourate-utils";
 import { useNavigation } from "expo-router";
+import { Feather } from "@expo/vector-icons";
 
 export default function QuranScreen() {
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
+  const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch();
   // @ts-ignore
   const sourates = useSelector((state) => state.sourates.sourates);
@@ -37,7 +39,7 @@ export default function QuranScreen() {
     return (
       <View className="flex-1 justify-center items-center bg-white dark:bg-gray-900">
         <View className="bg-white/80 px-8 py-6 rounded-2xl items-center space-y-4">
-          <ActivityIndicator size="large" color="#10b981" />
+          <ActivityIndicator size="large" color="#388E3C" />
           <Text className="text-gray-700 font-medium text-center mt-2">
             Chargement en cours...
           </Text>
@@ -46,16 +48,37 @@ export default function QuranScreen() {
     );
   }
 
-  if (error) {
-
-  }
+  const filteredSourates = sourates.filter((s: any) =>
+    s.englishName.toLowerCase().includes(searchQuery.toLowerCase())
+    || getFrenchName(s.englishName).toLowerCase().includes(searchQuery.toLowerCase())
+    || s.name.includes(searchQuery.toLowerCase())
+  );
 
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpeg') : require('../../assets/images/bg-white.jpg')} resizeMode="cover">
+      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpeg') : require('../../assets/images/bg-white.jpg')} resizeMode="cover" style={{
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+      }}>
+        {/* En-tête */}
+        <View className="p-4 bg-transparent dark:bg-transparent">
+          {/* Barre de recherche */}
+          <View className="flex-row items-center rounded-full px-4 py-2">
+            <Feather name="search" size={20} color="#388E3C" />
+            <TextInput
+              className="flex-1 ml-2 text-gray-900 dark:text-white"
+              placeholder="Rechercher une sourate"
+              placeholderTextColor="#388E3C"
+              placeholderClassName="font-[Poppins]"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
+          </View>
+        </View>
         <ScrollView className="px-4 py-4">
-          {sourates.map((sourate: any) => (
+          {filteredSourates.map((sourate: any) => (
             <Pressable
               key={sourate.number}
               onPress={() => openSourate(sourate.englishName, sourate.number)}

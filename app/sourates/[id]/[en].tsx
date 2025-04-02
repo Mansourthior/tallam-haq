@@ -85,7 +85,7 @@ export default function SourateScreen() {
         return (
             <View className="flex-1 justify-center items-center bg-white dark:bg-green-900">
                 <View className="bg-white/80 px-8 py-6 rounded-2xl items-center space-y-4">
-                    <ActivityIndicator size="large" color="#10b981" />
+                    <ActivityIndicator size="large" color="#388E3C" />
                     <Text className="text-green-700 font-medium text-center mt-2">
                         Chargement en cours...
                     </Text>
