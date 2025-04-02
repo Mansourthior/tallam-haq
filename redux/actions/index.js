@@ -9,15 +9,13 @@ import {
   FETCH_PRAYERS_FAILURE,
   FETCH_PRAYERS_REQUEST,
   FETCH_PRAYERS_SUCCESS,
-  FETCH_NEXT_PRAYER_FAILURE,
-  FETCH_NEXT_PRAYER_REQUEST,
-  FETCH_NEXT_PRAYER_SUCCESS,
   FETCH_DATE_FAILURE,
   FETCH_DATE_REQUEST,
   FETCH_DATE_SUCCESS,
 } from "./types";
 import souratesJson from '../../assets/sourates.json';
 import ayasJson from '../../assets/quran.json';
+import traductionsJson from '../../assets/traductions.json';
 
 
 const API_BASE_URL = "https://api.alquran.cloud/v1";
@@ -49,10 +47,11 @@ export const fetchVerses = (sourateNumber) => async (dispatch) => {
   dispatch({ type: FETCH_VERSES_REQUEST });
   try {
     const response = await axios.get(`${API_BASE_URL}/surah/${sourateNumber}`);
-    dispatch({ type: FETCH_VERSES_SUCCESS, payload: response.data.data.ayahs, name: response.data.data.name });
+    const ayahs = handleTraductions(response.data.data.ayahs, sourateNumber);
+    dispatch({ type: FETCH_VERSES_SUCCESS, payload: ayahs, name: response.data.data.name });
   } catch (error) {
     try {
-      const ayahs = ayasJson[sourateNumber - 1]?.ayahs;
+      const ayahs = handleTraductions(ayasJson[sourateNumber - 1]?.ayahs, sourateNumber);
       if (ayahs) {
         dispatch({ type: FETCH_VERSES_SUCCESS, payload: ayahs });
       } else {
@@ -102,3 +101,13 @@ export const fetchPrayers = (date, longitude, latitude) => async (dispatch) => {
     dispatch({ type: FETCH_PRAYERS_FAILURE, error: error.data });
   }
 };
+
+
+const handleTraductions = (ayahs, sourate) => {
+  const traductions = traductionsJson[sourate];
+  ayahs.map(aya => {
+    const traduction = traductions.find(t => t.aya == aya.numberInSurah);
+    aya.fr = traduction?.fr;
+  })
+  return ayahs;
+}

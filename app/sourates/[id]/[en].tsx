@@ -23,7 +23,7 @@ export default function SourateScreen() {
     const onShare = async (s: string, v: string, message: string) => {
         try {
             const result = await Share.share({
-                message: 's.' + s + ' : v.' + v + ' - ' + message
+                message: 'S.' + s + ' : V.' + v + ' - ' + message
                 // + "\n Découvrez cette superbe application ! 📱✨\nTéléchargez-la ici : https://example.com",
             });
 
@@ -52,30 +52,31 @@ export default function SourateScreen() {
 
     // @ts-ignore
     const renderVerse = ({ item, index }) => (
-        <View className="bg-white dark:bg-black p-4 mx-4 mb-3 rounded-lg active:opacity-90">
+        <View className="bg-white dark:bg-black p-4 mx-4 mb-2 rounded-lg active:opacity-90">
             {/* En-tête verset */}
             <View className="flex-row justify-between items-center mb-3">
                 <View className="bg-green-900 dark:bg-emerald-50 px-3 py-1 rounded-full">
                     <Text className="text-white dark:text-gray-900 text-sm font-semibold">{item.numberInSurah}</Text>
                 </View>
                 <View className="flex-row gap-3">
-                    <Pressable onPress={() => onShare(id.toString(), item.numberInSurah, item.text)}>
+                    <Pressable onPress={() => onShare(id.toString(), item.numberInSurah, item.text + '\n' + item.fr)}>
                         <Ionicons name="share-social" size={24} color="#b7d5ac" />
                     </Pressable>
-                    {/* <Pressable>
-                        <Ionicons name="bookmark-outline" size={24} color="#FFCA28" />
-                    </Pressable> */}
                 </View>
             </View>
 
             {/* Contenu verset */}
-            <View className="mb-4">
+            <View>
                 <Text className="text-3xl font-[ScheherazadeNew] text-right leading-loose text-green-900 dark:text-green-100">
                     {![1, 9].includes(Number(id)) && index === 0
                         ? item.text.substring(39)
                         : item.text}
                 </Text>
             </View>
+            {/* Traduction verset */}
+            <Text className="ml-2 text-lg font-[Poppins] text-gray-900 dark:text-gray-300">
+                {item.fr}
+            </Text>
 
         </View>
     );
