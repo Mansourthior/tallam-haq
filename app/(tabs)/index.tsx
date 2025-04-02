@@ -13,11 +13,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPrayers, fetchHijriDate } from "@/redux/actions";
 import dayjs from "dayjs";
 import { getToday, getTomorrow } from "../../utils/date-utils";
-import { openLink } from '../../utils/link-utils';
 import * as Animatable from "react-native-animatable";
-import { Feather } from "@expo/vector-icons";
 import hadithsJson from '../../assets/hadiths.json';
 import { schedulePrayerNotifications } from '../../utils/notifications';
+import Youtube from "@/components/Youtube";
+import Telegram from "@/components/Telegram";
+import Hadith from "@/components/Hadith";
 
 export default function HomeScreen() {
 
@@ -244,7 +245,7 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpeg') : require('../../assets/images/bg.jpg')} resizeMode="cover">
+      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpeg') : require('../../assets/images/bg-white.jpg')} resizeMode="cover">
         <ScrollView
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
@@ -260,7 +261,7 @@ export default function HomeScreen() {
             {/* TODO: gérer erreur connectivité */}
             <View className="mb-4 flex flex-row justify-between">
               {locationIsActived || !error ? <View>
-                <Text allowFontScaling={false} className="font-[Poppins] text-lime-950 font-bold">{nextPrayer || 'Chargement...'}</Text>
+                <Text allowFontScaling={false} className="font-[Poppins] text-lime-950 text-xl font-bold">{nextPrayer || 'Chargement...'}</Text>
                 {timeLeft == "00:00:00" ?
                   <Animatable.Text animation="pulse"
                     iterationCount="infinite" className="text-lime-700 font-[Poppins] text-sm mt-2">C'est l'heure de la prière ...</Animatable.Text>
@@ -292,7 +293,7 @@ export default function HomeScreen() {
                     <Text
                       allowFontScaling={false}
                       className={`font-[Poppins] text-lime-900/25 ${prayer.name == nextPrayer
-                        ? "font-bold text-xl font-[Poppins] text-lime-950/100"
+                        ? "font-bold text-lg font-[Poppins] text-lime-950/100"
                         : ""
                         }`}
                     >
@@ -312,106 +313,10 @@ export default function HomeScreen() {
                 Veuillez activer la localisation dans les paramètres pour visualiser les heures de prière.
               </Text>
             }
-
           </View>
-          <View className="bg-slate-50 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
-            <View>
-              <Text allowFontScaling={false} className="text-stone-800 font-[Poppins] text-lg font-bold mb-4">
-                Hadith du jour
-              </Text>
-              <Text className="font-[Poppins] text-2xl text-right text-lime-700">
-                {hadith?.arabic}
-              </Text>
-              <Text className="text-lg mt-2 font-[Poppins] text-stone-950">
-                {hadith?.french}
-              </Text>
-            </View>
-          </View>
-          <View className="bg-lime-700 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
-            <View className="mb-4">
-              <Text allowFontScaling={false} className="text-white text-lg font-bold font-[Poppins]">
-                Nos chaînes Télégram
-              </Text>
-              <Text allowFontScaling={false} className="text-gray-50 text-sm font-[Poppins]">
-                Cliquez pour ouvrir - Scrollez horizontalement
-              </Text>
-            </View>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-              className="flex-row"
-            >
-              {[
-                { name: "Jawahirul Mahaani", url: "https://t.me/+d1eGCL7PRONlZmI0" },
-                { name: "Rimah", url: "https://t.me/+3Pb8DAVGsyg5YTg0" },
-                { name: "Waqaf Sunnah", url: "https://t.me/+uWaq1qWnWyAwNWI0" },
-                { name: "Târikh Makgni", url: "https://t.me/HISTOIRE_SUNU_MAKGNI" },
-                { name: "Wahabisme", url: "https://t.me/siira_wahhabisme" },
-              ].map((channel, index) => (
-                <Pressable
-                  key={index}
-                  onPress={() => openLink(channel.url)}
-                >
-                  <View className="items-center mx-2">
-                    <View className="flex flex-row gap-2 bg-amber-100 px-2 py-1 rounded-full">
-                      <Feather name="link" size={16} color="#FF6F00" />
-                      <Text allowFontScaling={false} className="text-lime-800 text-sm font-[PoppinsBold] uppercase">
-                        {channel.name}
-                      </Text>
-                    </View>
-                  </View>
-                </Pressable>
-              ))}
-            </ScrollView>
-          </View>
-          <View className="bg-lime-950 rounded-3xl mx-auto p-6 mt-4 mb-4 shadow-lg w-11/12">
-            <View className="mb-4">
-              <Text allowFontScaling={false} className="text-white text-lg font-bold font-[Poppins]">
-                Nos chaînes Youtube
-              </Text>
-              <Text allowFontScaling={false} className="text-gray-50 text-sm font-[Poppins]">
-                Cliquez pour ouvrir - Scrollez horizontalement
-              </Text>
-            </View>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-              className="flex-row"
-            >
-              {[
-                {
-                  name: "ATTIDJANIYA TV",
-                  url: "https://www.youtube.com/@ATTIDJANIYATV",
-                },
-                {
-                  name: "Atilmîzou Tilmiz",
-                  url: "https://www.youtube.com/@Ndaar-Faam",
-                },
-              ].map((channel, index) => (
-                <Pressable
-                  key={index}
-                  onPress={() => openLink(channel.url)}
-                >
-                  <View className="items-center mx-2">
-                    <View className="flex flex-row gap-2 bg-amber-100 px-2 py-1 rounded-full">
-                      <Feather name="link" size={16} color="#FF6F00" />
-                      <Text allowFontScaling={false} className="text-lime-800 font-[PoppinsBold] text-sm uppercase">
-                        {channel.name}
-                      </Text>
-                    </View>
-                  </View>
-                </Pressable>
-              ))}
-            </ScrollView>
-          </View>
+          <Hadith hadith={hadith} />
+          <Telegram />
+          <Youtube />
         </ScrollView>
       </ImageBackground>
     </View>

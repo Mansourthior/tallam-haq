@@ -25,57 +25,18 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "",
-          // tabBarIcon: ({ focused }) => {
-          //   return focused ? (
-          //     <Image
-          //       source={require("@/assets/images/home.png")}
-          //       style={{ width: 50, height: 50 }}
-          //     />
-          //   ) : (
-          //     <Image
-          //       source={require("@/assets/images/home-button.png")}
-          //       style={{ width: 25, height: 25 }}
-          //     />
-          //   );
-          // },
         }}
       />
       <Tabs.Screen
         name="quran"
         options={{
           title: "",
-          // tabBarIcon: ({ focused }) => {
-          //   return focused ? (
-          //     <Image
-          //       source={require("@/assets/images/quran-active.png")}
-          //       style={{ width: 50, height: 50 }}
-          //     />
-          //   ) : (
-          //     <Image
-          //       source={require("@/assets/images/quran.png")}
-          //       style={{ width: 25, height: 25 }}
-          //     />
-          //   );
-          // },
         }}
       />
       <Tabs.Screen
         name="books"
         options={{
           title: "",
-          // tabBarIcon: ({ focused }) => {
-          //   return focused ? (
-          //     <Image
-          //       source={require("@/assets/images/bibliotheque.png")}
-          //       style={{ width: 50, height: 50 }}
-          //     />
-          //   ) : (
-          //     <Image
-          //       source={require("@/assets/images/library.png")}
-          //       style={{ width: 25, height: 25 }}
-          //     />
-          //   );
-          // },
         }}
       />
       <Tabs.Screen

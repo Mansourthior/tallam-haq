@@ -29,22 +29,22 @@ export default function BooksScreen() {
       key={item.id}
       // @ts-ignore
       onPress={() => navigation.navigate('pdf/[route]', { route: item.link.replace("/view", "/preview") })}
-      className="mb-4 bg-green-900 dark:bg-lime-900 rounded-xl shadow-amber-50 active:opacity-90"
+      className="mb-4 bg-white dark:bg-lime-900 rounded-xl shadow-amber-50 active:opacity-90"
     >
       <View className="p-4 flex-row justify-between items-center">
         <View className="flex-row gap-4 items-center flex-1">
 
-          <Feather name="file-text" size={24} color="#fff" />
+          <Feather name="file-text" size={24} color="#388E3C" />
 
           <View className="flex-1">
-            <Text allowFontScaling={false} className="text-lg font-[Poppins] text-white">
+            <Text allowFontScaling={false} className="font-[Poppins] font-bold text-gray-700 dark:text-white">
               {item.title}
             </Text>
           </View>
         </View>
 
         <View className="items-end bg-green-100 px-2 py-1 rounded-full">
-          <Text allowFontScaling={false} className="text-xs text-green-900 font-[Poppins] font-semibold">
+          <Text allowFontScaling={false} className="text-xs text-green-800 dark:text-black font-[Poppins]">
             {item.category}
           </Text>
         </View>
@@ -54,19 +54,21 @@ export default function BooksScreen() {
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpeg') : require('../../assets/images/bg.jpg')} resizeMode="cover" style={{
+      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpeg') : require('../../assets/images/bg-white.jpg')} resizeMode="cover" style={{
         position: "absolute",
         width: "100%",
         height: "100%",
       }}>
         {/* En-tête */}
-        <View className="p-4">
+        <View className="p-4 bg-transparent dark:bg-transparent">
           {/* Barre de recherche */}
-          <View className="flex-row items-center bg-white  rounded-full px-4 py-2">
-            <Feather name="search" size={20} color="#000" />
+          <View className="flex-row items-center rounded-full px-4 py-2">
+            <Feather name="search" size={20} color="#388E3C" />
             <TextInput
-              className="flex-1 ml-2 text-gray-900"
+              className="flex-1 ml-2 text-gray-900 dark:text-white"
               placeholder="Rechercher un PDF..."
+              placeholderTextColor="#388E3C"
+              placeholderClassName="font-[Poppins]"
               value={searchQuery}
               onChangeText={setSearchQuery}
             />

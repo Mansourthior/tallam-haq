@@ -50,10 +50,11 @@ export default function RootLayout() {
               options={{
                 headerShown: true,
                 headerTitle: "",
+                headerTintColor: "#C8E6C9",
                 headerTitleStyle: {
                   fontFamily: "Poppins",
                   fontSize: 24,
-                  color: "#551c01",
+                  color: "#C8E6C9",
                 },
               }}
             />
