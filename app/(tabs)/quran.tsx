@@ -66,11 +66,11 @@ export default function QuranScreen() {
         <View className="p-4 bg-transparent dark:bg-transparent">
           {/* Barre de recherche */}
           <View className="flex-row items-center rounded-full px-4 py-2">
-            <Feather name="search" size={20} color="#388E3C" />
+            <Feather name="search" size={20} color={colorScheme === 'dark' ? '#fff' : '#134200'} />
             <TextInput
               className="flex-1 ml-2 text-gray-900 dark:text-white"
               placeholder="Rechercher une sourate"
-              placeholderTextColor="#388E3C"
+              placeholderTextColor={colorScheme === 'dark' ? '#fff' : '#134200'}
               placeholderClassName="font-[Poppins]"
               value={searchQuery}
               onChangeText={setSearchQuery}

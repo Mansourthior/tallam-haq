@@ -31,7 +31,7 @@ export default function Hadith({ hadith }) {
         <View className="bg-slate-50 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
             <View>
                 <View className="flex-row justify-between items-center mb-4">
-                    <Text allowFontScaling={false} className="text-stone-800 font-[Poppins] text-lg font-bold">
+                    <Text allowFontScaling={false} className="text-stone-800 font-[Poppins] text-xl font-bold">
                         Hadith du jour
                     </Text>
                     <View className="flex-row gap-3">
@@ -41,10 +41,10 @@ export default function Hadith({ hadith }) {
                     </View>
                 </View>
 
-                <Text className="font-[Poppins] text-2xl text-right text-lime-700">
+                <Text allowFontScaling={false} className="font-[Poppins] text-3xl pt-4 text-right text-lime-700">
                     {hadith?.hadith_text_ar}
                 </Text>
-                <Text className="text-lg mt-2 font-[Poppins] text-stone-950">
+                <Text allowFontScaling={false} className="text-lg mt-2 font-[Poppins] text-stone-950">
                     {hadith?.hadith_text + ' '}
                     {hadith?.grade + ' '}
                     {hadith?.takhrij}
