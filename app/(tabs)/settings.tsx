@@ -97,7 +97,7 @@ export default function SettingsScreen() {
           </Modal>
 
           <View className="mt-20 px-6">
-            <Text allowFontScaling={false} className="font-[PoppinsBold] text-white text-center text-base">
+            <Text allowFontScaling={false} className="font-[Poppins] text-white text-center text-base">
               Version 1.0.0
             </Text>
           </View>
