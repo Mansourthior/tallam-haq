@@ -17,7 +17,8 @@ export default function QuranScreen() {
   const loading = useSelector((state) => state.sourates.loading);
   // @ts-ignore
   const error = useSelector((state) => state.sourates.error);
-
+  const bgDark = require('../../assets/images/bg-dark.jpeg');
+  const bgLight = require('../../assets/images/bg-white.jpg');
   const getFrenchName = (name: string): string => {
     return surahTranslations[name] || name;
   };
@@ -57,7 +58,7 @@ export default function QuranScreen() {
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpeg') : require('../../assets/images/bg-white.jpg')} resizeMode="cover" style={{
+      <ImageBackground source={colorScheme === 'dark' ? bgDark : bgLight} resizeMode="cover" style={{
         position: "absolute",
         width: "100%",
         height: "100%",

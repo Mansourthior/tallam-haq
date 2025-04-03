@@ -1,12 +1,11 @@
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, useColorScheme, View } from 'react-native';
 import Pdf from 'react-native-pdf';
 
 export default function PdfViewerScreen() {
-
+    const colorScheme = useColorScheme();
     const { route } = useLocalSearchParams();
-
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -20,8 +19,10 @@ export default function PdfViewerScreen() {
         <SafeAreaView className="flex-1">
             <Pdf
                 source={{ uri: `${route}` }}
-                style={{ flex: 1 }}
+                style={{ flex: 1, backgroundColor: colorScheme === 'dark' ? '#000' : '#fff' }}
+                enablePaging={true}
             />
         </SafeAreaView>
     );
+
 }

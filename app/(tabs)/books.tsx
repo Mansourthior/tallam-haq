@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, FlatList, Image, Pressable, ImageBackground, useColorScheme, ActivityIndicator } from "react-native";
+import { View, Text, TextInput, FlatList, Image, Pressable, ImageBackground, useColorScheme, ActivityIndicator } from "react-native";
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import RNFS from 'react-native-fs';
+import Toast from 'react-native-toast-message';
 
 export default function BooksScreen() {
   const navigation = useNavigation();
@@ -20,7 +21,8 @@ export default function BooksScreen() {
     { id: '9', title: "Cheikh Seydi El Hadj Malick", category: 'Khassida', link: 'https://drive.google.com/uc?export=download&id=10T3xVoAOoM_cHU0boMa-sS2seB4v59c9' },
     { id: '10', title: "Bourde", category: 'Khassida', link: 'https://drive.google.com/uc?export=download&id=14lTD07cJ4p9s96tp1XqIv6S_SUk9-tqK' },
   ]);
-
+  const bgDark = require('../../assets/images/bg-dark.jpeg');
+  const bgLight = require('../../assets/images/bg-white.jpg');
   const filteredPdfList = pdfList.filter(pdf =>
     pdf.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -51,7 +53,15 @@ export default function BooksScreen() {
       return downloadResult.statusCode === 200 ? path : null;
     } catch (error) {
       console.error('Erreur de téléchargement', error);
-      // notif todo
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Téléchargement échoué',
+        text2: 'Vérifiez votre connexion et réessayez.',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 100,
+      });
       setLoading(null);
       return null;
     }
@@ -101,7 +111,7 @@ export default function BooksScreen() {
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpeg') : require('../../assets/images/bg-white.jpg')} resizeMode="cover" style={{
+      <ImageBackground source={colorScheme === 'dark' ? bgDark : bgLight} resizeMode="cover" style={{
         position: "absolute",
         width: "100%",
         height: "100%",

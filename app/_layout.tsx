@@ -14,6 +14,7 @@ import { Provider } from "react-redux";
 import store from "@/redux/store";
 import "../assets/css/global.css";
 import { View } from "react-native";
+import Toast from 'react-native-toast-message';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -75,10 +76,15 @@ export default function RootLayout() {
               options={{
                 headerShown: true,
                 headerTitle: "",
-                headerTintColor: '#0a5c0a'
+                headerTintColor: '#0a5c0a',
+                headerTitleStyle: {
+                  fontFamily: "Poppins",
+                  fontWeight: "bold"
+                },
               }}
             />
           </Stack>
+          <Toast />
         </View>
       </ThemeProvider>
     </Provider>

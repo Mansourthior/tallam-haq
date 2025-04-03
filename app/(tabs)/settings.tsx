@@ -4,9 +4,10 @@ import { View, Text, TouchableOpacity, Pressable, useColorScheme, ScrollView, Sw
 
 export default function SettingsScreen() {
 
-  // @ts-ignore
   const colorScheme = useColorScheme();
   const [showAboutModal, setShowAboutModal] = useState(false);
+  const bgDark = require('../../assets/images/bg-dark.jpeg');
+  const bgLight = require('../../assets/images/bg-white.jpg');
 
   // @ts-ignore
   const SettingsItem = ({ icon, title, rightComponent, isFocus = false }) => (
@@ -27,7 +28,7 @@ export default function SettingsScreen() {
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? require('../../assets/images/bg-dark.jpeg') : require('../../assets/images/bg-white.jpg')} resizeMode="cover" style={{
+      <ImageBackground source={colorScheme === 'dark' ? bgDark : bgLight} resizeMode="cover" style={{
         position: "absolute",
         width: "100%",
         height: "100%",
