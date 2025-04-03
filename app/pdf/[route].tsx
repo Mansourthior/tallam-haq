@@ -1,21 +1,27 @@
-import { useLocalSearchParams } from "expo-router";
-import WebView from "react-native-webview";
+import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useEffect } from "react";
+import { SafeAreaView } from 'react-native';
+import Pdf from 'react-native-pdf';
 
 export default function PdfViewerScreen() {
 
     const { route } = useLocalSearchParams();
 
-    // @ts-ignore
-    const handleRequest = (event) => {
-        if (event.url.includes("export=download"))
-            return false;
+    const navigation = useNavigation();
 
-        return true;
-    };
-
+    useEffect(() => {
+        // @ts-ignore
+        const namePdf = route.trim().split('/').slice(-1)[0];
+        const title = namePdf.split('_').join(' ').slice(0, -4);
+        navigation.setOptions({ headerTitle: title });
+    })
 
     return (
-        // @ts-ignore
-        <WebView source={{ uri: route }} style={{ flex: 1 }} onShouldStartLoadWithRequest={handleRequest} />
+        <SafeAreaView className="flex-1">
+            <Pdf
+                source={{ uri: `${route}` }}
+                style={{ flex: 1 }}
+            />
+        </SafeAreaView>
     );
 }

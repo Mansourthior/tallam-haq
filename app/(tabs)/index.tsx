@@ -1,8 +1,6 @@
 import {
   View,
-  Text,
   ScrollView,
-  Pressable,
   RefreshControl,
   ImageBackground,
   useColorScheme,
@@ -13,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPrayers, fetchHijriDate } from "@/redux/actions";
 import dayjs from "dayjs";
 import { getToday, getTomorrow } from "../../utils/date-utils";
-import * as Animatable from "react-native-animatable";
 import hadithsJson from '../../assets/hadiths.json';
 import { schedulePrayerNotifications } from '../../utils/notifications-prayers';
 import { scheduleHadithNotifications } from '../../utils/notifications-hadith';

@@ -1,22 +1,24 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, FlatList, Image, Pressable, ImageBackground, useColorScheme } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, FlatList, Image, Pressable, ImageBackground, useColorScheme, ActivityIndicator } from "react-native";
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import RNFS from 'react-native-fs';
 
 export default function BooksScreen() {
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(null);
   const [pdfList, setPdfList] = useState([
-    { id: '1', title: 'Al akhdari', category: 'Fiqh', link: 'https://drive.google.com/file/d/1Sd-aHXaF7asNtgN9ysOX75Cq3wtmaBPJ/view?usp=sharing' },
-    { id: '2', title: 'Ashmawy', category: 'Fiqh', link: 'https://drive.google.com/file/d/1fp_0rIVchGmK73QY6jo2t9oJktfKdH_e/view?usp=sharing' },
-    { id: '3', title: 'Risaala', category: 'Fiqh', link: 'https://drive.google.com/file/d/1INVZFoKZC84vhTImTlzCnwlMtle-aN1q/view?usp=sharing' },
-    { id: '4', title: 'Khilass dhahab', category: 'Khassida', link: 'https://drive.google.com/file/d/1g71W8FPsJ5vb17YpdJ-VIFSnCMoWTZCG/view?usp=sharing' },
-    { id: '6', title: 'Adjrumiya', category: 'Nahwu', link: 'https://drive.google.com/file/d/1a5fAozWlaft-VM-jJfi-rZQ_-OOGyTTv/view?usp=sharing' },
-    { id: '7', title: 'Le nectar cacheté', category: 'Histoire', link: 'https://drive.google.com/file/d/1w816X85g2aSK85stjt2tuIBT36gg5Zm0/view?usp=sharing' },
-    { id: '8', title: "Les maladies de l'âme et leurs remèdes", category: 'Soufisme', link: 'https://drive.google.com/file/d/1fT8uU-i_uBvPPWbOSQNX5AoI7cppS8f6/view?usp=sharing' },
-    { id: '9', title: "Cheikh Seydi El Hadj Malick", category: 'Khassida', link: 'https://drive.google.com/file/d/10T3xVoAOoM_cHU0boMa-sS2seB4v59c9/view?usp=sharing' },
-    { id: '10', title: "Bourde", category: 'Khassida', link: 'https://drive.google.com/file/d/14lTD07cJ4p9s96tp1XqIv6S_SUk9-tqK/view?usp=sharing' },
+    { id: '1', title: 'Al akhdari', category: 'Fiqh', link: 'https://drive.google.com/uc?export=download&id=1Sd-aHXaF7asNtgN9ysOX75Cq3wtmaBPJ' },
+    { id: '2', title: 'Ashmawy', category: 'Fiqh', link: 'https://drive.google.com/uc?export=download&id=1fp_0rIVchGmK73QY6jo2t9oJktfKdH_e' },
+    { id: '3', title: 'Risaala', category: 'Fiqh', link: 'https://drive.google.com/uc?export=download&id=1INVZFoKZC84vhTImTlzCnwlMtle-aN1q' },
+    { id: '4', title: 'Khilass dhahab', category: 'Khassida', link: 'https://drive.google.com/uc?export=download&id=1g71W8FPsJ5vb17YpdJ-VIFSnCMoWTZCG' },
+    { id: '6', title: 'Adjrumiya', category: 'Nahwu', link: 'https://drive.google.com/uc?export=download&id=1a5fAozWlaft-VM-jJfi-rZQ_-OOGyTTv' },
+    { id: '7', title: 'Le nectar cacheté', category: 'Histoire', link: 'https://drive.google.com/uc?export=download&id=1w816X85g2aSK85stjt2tuIBT36gg5Zm0' },
+    { id: '8', title: "Les maladies de l'âme et leurs remèdes", category: 'Soufisme', link: 'https://drive.google.com/uc?export=download&id=1fT8uU-i_uBvPPWbOSQNX5AoI7cppS8f6' },
+    { id: '9', title: "Cheikh Seydi El Hadj Malick", category: 'Khassida', link: 'https://drive.google.com/uc?export=download&id=10T3xVoAOoM_cHU0boMa-sS2seB4v59c9' },
+    { id: '10', title: "Bourde", category: 'Khassida', link: 'https://drive.google.com/uc?export=download&id=14lTD07cJ4p9s96tp1XqIv6S_SUk9-tqK' },
   ]);
 
   const filteredPdfList = pdfList.filter(pdf =>
@@ -24,11 +26,52 @@ export default function BooksScreen() {
   );
 
   // @ts-ignore
+  const downloadFile = async (pdfUrl, fileName, id) => {
+    try {
+      setLoading(id);
+      const path = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+
+      // Vérifie si le fichier est déjà téléchargé
+      const fileExists = await RNFS.exists(path);
+      if (fileExists) {
+        setLoading(null);
+        return path;
+      }
+
+      // Téléchargement depuis Google Drive
+      const downloadResult = await RNFS.downloadFile({
+        fromUrl: pdfUrl,
+        toFile: path,
+        progress: (res) => {
+          console.log(`Téléchargement : ${(res.bytesWritten / res.contentLength * 100).toFixed(2)}%`);
+        }
+      }).promise;
+
+      setLoading(null);
+      return downloadResult.statusCode === 200 ? path : null;
+    } catch (error) {
+      console.error('Erreur de téléchargement', error);
+      // notif todo
+      setLoading(null);
+      return null;
+    }
+  };
+
+  // @ts-ignore
+  const openBook = async (url, fileName, id) => {
+    const filePath = await downloadFile(url, fileName.split(' ').join('_') + '.pdf', id);
+    if (filePath) {
+      // @ts-ignore
+      navigation.navigate('pdf/[route]', { route: filePath });
+    }
+  };
+
+  // @ts-ignore
   const renderPdfItem = ({ item }) => (
     <Pressable
       key={item.id}
       // @ts-ignore
-      onPress={() => navigation.navigate('pdf/[route]', { route: item.link.replace("/view", "/preview") })}
+      onPress={() => openBook(item.link, item.title, item.id)}
       className="mb-4 bg-white dark:bg-lime-900 rounded-xl shadow-amber-50 active:opacity-90"
     >
       <View className="p-4 flex-row justify-between items-center">
@@ -43,11 +86,15 @@ export default function BooksScreen() {
           </View>
         </View>
 
-        <View className="items-end bg-green-100 px-2 py-1 rounded-full">
-          <Text allowFontScaling={false} className="text-xs text-green-900 dark:text-black font-[Poppins]">
-            {item.category}
-          </Text>
-        </View>
+        {loading === item.id ? (
+          <ActivityIndicator size="small" color="#388E3C" />
+        ) : (
+          <View className="items-end bg-green-100 px-2 py-1 rounded-full">
+            <Text allowFontScaling={false} className="text-xs text-green-900 dark:text-black font-[Poppins]">
+              {item.category}
+            </Text>
+          </View>
+        )}
       </View>
     </Pressable>
   );
