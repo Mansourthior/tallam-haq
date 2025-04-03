@@ -106,7 +106,7 @@ export default function QuranScreen() {
 
                 {/* Arabic Section */}
                 <View className="items-end">
-                  <Text className="font-[Poppins] text-2xl text-green-900 mb-2 font-sans dark:text-white">
+                  <Text allowFontScaling={false} className="font-[Poppins] text-3xl text-green-900 mb-2 font-sans dark:text-white">
                     {sourate.name}
                   </Text>
                   <View className="flex-row gap-2">
