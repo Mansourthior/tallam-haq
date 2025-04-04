@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "tallam-haq",
+    "name": "Taraqqi",
     "slug": "tallam-haq",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,12 +9,11 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "contain"
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "sn.tallam-haq",
+      "bundleIdentifier": "sn.taraqqi",
       "infoPlist": {
         "UIBackgroundModes": ["fetch", "remote-notification"],
         "NSLocationWhenInUseUsageDescription": "Cette application nécessite votre localisation pour fournir un service optimal.",
@@ -24,14 +23,14 @@
     "android": {
       "resizeMode": "contain",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "FOREGROUND_SERVICE"
       ],
-      "package": "com.hemti.tallamhaq",
+      "package": "com.hemti.taraqqi",
       "useNextNotificationsApi": true
     },
     "web": {

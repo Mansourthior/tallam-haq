@@ -20,7 +20,12 @@ export default function BooksScreen() {
     { id: '8', title: "Les maladies de l'âme et leurs remèdes", category: 'Soufisme', link: 'https://drive.google.com/uc?export=download&id=1fT8uU-i_uBvPPWbOSQNX5AoI7cppS8f6' },
     { id: '9', title: "Cheikh Seydi El Hadj Malick", category: 'Khassida', link: 'https://drive.google.com/uc?export=download&id=10T3xVoAOoM_cHU0boMa-sS2seB4v59c9' },
     { id: '10', title: "Bourde", category: 'Khassida', link: 'https://drive.google.com/uc?export=download&id=14lTD07cJ4p9s96tp1XqIv6S_SUk9-tqK' },
+    { id: '11', title: "Jawaahir Al Maani", category: 'Soufisme', link: 'https://drive.google.com/uc?export=download&id=1-JkBkEk9__GL0vAd6IzDKPb0C406ki2o' },
+    { id: '12', title: "40 Hadiths Nawawi", category: 'Hadith', link: 'https://drive.google.com/uc?export=download&id=1GMAWl8mrCUiwlo9ea6M-HjvmjX9fy4rB' },
+    { id: '13', title: "Fakihatou Toulab", category: 'Soufisme', link: 'https://drive.google.com/uc?export=download&id=1BJfEyyizHkIf1PRHXkqtUYK2WqKvkgJU' },
+    { id: '14', title: "Al hikam", category: 'Soufisme', link: 'https://drive.google.com/uc?export=download&id=1dct0fbsVVTWp_jlX-iViENjo0hwP2dCY' },
   ]);
+
   const bgDark = require('../../assets/images/bg-dark.jpeg');
   const bgLight = require('../../assets/images/bg-white.jpg');
   const filteredPdfList = pdfList.filter(pdf =>
