@@ -13,7 +13,7 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
 import "../assets/css/global.css";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import Toast from 'react-native-toast-message';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -30,6 +30,15 @@ export default function RootLayout() {
     Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
     PoppinsBold: require("../assets/fonts/Poppins-Bold.ttf"),
   });
+
+  const LogoTitle = () => {
+    return (
+      <Image
+        style={{ width: 25, height: 25, borderRadius: 20 }}
+        source={require('../assets/images/icon.png')}
+      />
+    );
+  }
 
   const onLayoutRootView = useCallback(async () => {
     if (loaded) {
@@ -50,7 +59,7 @@ export default function RootLayout() {
               name="(tabs)"
               options={{
                 headerShown: true,
-                headerTitle: "",
+                headerTitle: () => <LogoTitle />,
                 headerTintColor: "#C8E6C9",
                 headerTitleStyle: {
                   fontFamily: "Poppins",
@@ -65,6 +74,7 @@ export default function RootLayout() {
                 headerShown: true,
                 headerTitle: "",
                 headerTintColor: '#0a5c0a',
+                headerBackTitleVisible: false,
                 headerTitleStyle: {
                   fontFamily: "Poppins",
                   fontWeight: "bold"
@@ -76,10 +86,10 @@ export default function RootLayout() {
               options={{
                 headerShown: true,
                 headerTitle: "",
+                headerBackTitleVisible: false,
                 headerTintColor: '#0a5c0a',
                 headerTitleStyle: {
                   fontFamily: "Poppins",
-                  fontWeight: "bold"
                 },
               }}
             />

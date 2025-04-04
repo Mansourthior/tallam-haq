@@ -25,7 +25,6 @@ export default function BooksScreen() {
     { id: '13', title: "Fakihatou Toulab", category: 'Soufisme', link: 'https://drive.google.com/uc?export=download&id=1BJfEyyizHkIf1PRHXkqtUYK2WqKvkgJU' },
     { id: '14', title: "Al hikam", category: 'Soufisme', link: 'https://drive.google.com/uc?export=download&id=1dct0fbsVVTWp_jlX-iViENjo0hwP2dCY' },
   ]);
-
   const bgDark = require('../../assets/images/bg-dark.jpeg');
   const bgLight = require('../../assets/images/bg-white.jpg');
   const filteredPdfList = pdfList.filter(pdf =>
@@ -142,8 +141,8 @@ export default function BooksScreen() {
           data={filteredPdfList}
           renderItem={renderPdfItem}
           keyExtractor={item => item.id}
-          contentContainerStyle={{ paddingHorizontal: 8, paddingTop: 8 }}
-          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 8 }}
+          indicatorStyle={"white"}
         />
       </ImageBackground>
     </View>

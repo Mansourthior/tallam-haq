@@ -74,7 +74,7 @@ export default function SourateScreen() {
                 </Text>
             </View>
             {/* Traduction verset */}
-            <Text className="ml-2 text-lg font-[Poppins] text-gray-900 dark:text-gray-300">
+            <Text className="ml-2 text-lg font-[Poppins] text-gray-600 dark:text-gray-300">
                 {item.fr}
             </Text>
 

@@ -252,7 +252,7 @@ export default function HomeScreen() {
     <View className="flex-1">
       <ImageBackground source={colorScheme === 'dark' ? bgDark : bgLight} resizeMode="cover">
         <ScrollView
-          showsHorizontalScrollIndicator={false}
+          indicatorStyle={"white"}
           contentContainerStyle={{
             alignItems: "center",
             justifyContent: "space-between",

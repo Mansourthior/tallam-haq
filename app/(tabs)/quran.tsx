@@ -78,7 +78,7 @@ export default function QuranScreen() {
             />
           </View>
         </View>
-        <ScrollView className="px-4 py-4">
+        <ScrollView className="px-4 py-4" indicatorStyle={"white"}>
           {filteredSourates.map((sourate: any) => (
             <Pressable
               key={sourate.number}
