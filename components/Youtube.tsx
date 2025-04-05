@@ -1,6 +1,7 @@
 import { openLink } from "@/utils/link-utils";
 import { Feather } from "@expo/vector-icons";
 import { Pressable, ScrollView, Text, View } from "react-native";
+import youtubeJson from '../assets/youtube.json';
 
 export default function Youtube() {
     return (
@@ -22,16 +23,7 @@ export default function Youtube() {
                 }}
                 className="flex-row"
             >
-                {[
-                    {
-                        name: "ATTIDJANIYA TV",
-                        url: "https://www.youtube.com/@ATTIDJANIYATV",
-                    },
-                    {
-                        name: "Atilmîzou Tilmiz",
-                        url: "https://www.youtube.com/@Ndaar-Faam",
-                    },
-                ].map((channel, index) => (
+                {youtubeJson.map((channel, index) => (
                     <Pressable
                         key={index}
                         onPress={() => openLink(channel.url)}

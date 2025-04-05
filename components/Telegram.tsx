@@ -1,6 +1,7 @@
 import { openLink } from "@/utils/link-utils";
 import { Feather } from "@expo/vector-icons";
 import { Pressable, ScrollView, Text, View } from "react-native";
+import telegramJson from '../assets/telegram.json';
 
 export default function Telegram() {
     return (
@@ -22,13 +23,7 @@ export default function Telegram() {
                 }}
                 className="flex-row"
             >
-                {[
-                    { name: "Jawahirul Mahaani", url: "https://t.me/+d1eGCL7PRONlZmI0" },
-                    { name: "Rimah", url: "https://t.me/+3Pb8DAVGsyg5YTg0" },
-                    { name: "Waqaf Sunnah", url: "https://t.me/+uWaq1qWnWyAwNWI0" },
-                    { name: "Târikh Makgni", url: "https://t.me/HISTOIRE_SUNU_MAKGNI" },
-                    { name: "Wahabisme", url: "https://t.me/siira_wahhabisme" },
-                ].map((channel, index) => (
+                {telegramJson.map((channel, index) => (
                     <Pressable
                         key={index}
                         onPress={() => openLink(channel.url)}

@@ -46,6 +46,7 @@ export default function PdfViewerScreen() {
                 page={initialPage}
                 style={{ flex: 1, backgroundColor: colorScheme === 'dark' ? '#000' : '#fff' }}
                 enablePaging={true}
+                horizontal={true}
                 onPageChanged={(page, numberOfPages) => {
                     setCurrentPage(page);
                     setTotalPages(numberOfPages);
@@ -53,9 +54,11 @@ export default function PdfViewerScreen() {
                 }}
             />
 
-            <Text className="text-center text-sm my-2 font-[Poppins] text-black dark:text-white">
-                {currentPage} / {totalPages}
-            </Text>
+            <View className="absolute bottom-4 w-full items-center">
+                <Text className="text-center font-[Poppins] text-black dark:text-white bg-white/70 dark:bg-black/70 px-4 py-1 rounded-full">
+                    {currentPage} / {totalPages}
+                </Text>
+            </View>
         </SafeAreaView>
     );
 
