@@ -55,7 +55,7 @@ export default function SourateScreen() {
         const loadAllFavorites = async () => {
             const favs = await getAllFavorites();
             // @ts-ignore
-            const nums = favs[id].map(f => f.verse);
+            const nums = favs[id]?.map(f => f.verse);
             setIsFav(nums);
         };
 
@@ -63,7 +63,7 @@ export default function SourateScreen() {
     }, []);
 
     const isVerseFav = (num: number) => {
-        return isFav.includes(num);
+        return isFav?.includes(num);
     }
 
     // @ts-ignore
