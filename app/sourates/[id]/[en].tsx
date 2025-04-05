@@ -3,14 +3,13 @@ import { fetchVerses } from "@/redux/actions";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
-import { View, Text, Pressable, ScrollView, ActivityIndicator, SafeAreaView, FlatList, Share } from "react-native";
+import { View, Text, Pressable, ActivityIndicator, SafeAreaView, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllFavorites, isFavorite, toggleFavorite } from "@/utils/favorites";
+import Verset from "@/components/Verset";
 
 export default function SourateScreen() {
     const navigation = useNavigation();
     const { id, en } = useLocalSearchParams();
-    const [isFav, setIsFav] = useState<Number[]>([]);
     const dispatch = useDispatch();
     // @ts-ignore
     const verses = useSelector((state) => state.verses.verses);
@@ -21,27 +20,6 @@ export default function SourateScreen() {
     // @ts-ignore
     const error = useSelector((state) => state.verses.error);
 
-    const onShare = async (s: string, v: string, message: string) => {
-        try {
-            const result = await Share.share({
-                message: 'S.' + s + ' : V.' + v + ' - ' + message
-                // + "\n Découvrez cette superbe application ! 📱✨\nTéléchargez-la ici : https://example.com",
-            });
-
-            if (result.action === Share.sharedAction) {
-                if (result.activityType) {
-                    console.log("Partagé via", result.activityType);
-                } else {
-                    console.log("Partage réussi !");
-                }
-            } else if (result.action === Share.dismissedAction) {
-                console.log("Partage annulé");
-            }
-        } catch (error) {
-            console.error("Erreur lors du partage :", error);
-        }
-    };
-
     useEffect(() => {
         // @ts-ignore
         dispatch(fetchVerses(id));
@@ -51,70 +29,6 @@ export default function SourateScreen() {
         navigation.setOptions({ headerTitle: en });
     });
 
-    useEffect(() => {
-        const loadAllFavorites = async () => {
-            const favs = await getAllFavorites();
-            // @ts-ignore
-            const nums = favs[id]?.map(f => f.verse);
-            setIsFav(nums);
-        };
-
-        loadAllFavorites();
-    }, []);
-
-    const isVerseFav = (num: number) => {
-        return isFav?.includes(num);
-    }
-
-    // @ts-ignore
-    const handleToggle = async (item) => {
-        toggleFavorite(id.toString(), item.numberInSurah, item.text, item.fr);
-        // push si n'est pas la sinon remove
-        if (isFav.includes(item.numberInSurah)) {
-            setIsFav(isFav.filter(e => e != item.numberInSurah));
-        } else {
-            setIsFav([...isFav, item.numberInSurah]);
-        }
-        isVerseFav(item.numberInSurah);
-    };
-
-    // @ts-ignore
-    const renderVerse = ({ item, index }) => (
-        <View className="bg-white dark:bg-black p-4 mx-4 mb-2 rounded-lg active:opacity-90">
-            {/* En-tête verset */}
-            <View className="flex-row justify-between items-center mb-3">
-                <View className="bg-green-900 dark:bg-emerald-50 px-3 py-1 rounded-full">
-                    <Text className="text-white dark:text-gray-900 text-sm font-semibold">{item.numberInSurah}</Text>
-                </View>
-                <View className="flex-row gap-3">
-                    <Pressable onPress={() => handleToggle(item)}>
-                        <Ionicons
-                            name={isVerseFav(item.numberInSurah) ? "bookmark" : "bookmark-outline"}
-                            size={24}
-                            color={isVerseFav(item.numberInSurah) ? "#388E3C" : "#b7d5ac"}
-                        />
-                    </Pressable>
-                    <Pressable onPress={() => onShare(id.toString(), item.numberInSurah, item.text + '\n' + item.fr)}>
-                        <Ionicons name="share-social" size={24} color="#b7d5ac" />
-                    </Pressable>
-                </View>
-            </View>
-
-            {/* Contenu verset */}
-            <View>
-                <Text className="text-3xl font-[ScheherazadeNew] text-right leading-loose text-green-900 dark:text-green-100">
-                    {![1, 9].includes(Number(id)) && index === 0
-                        ? item.text.substring(39)
-                        : item.text}
-                </Text>
-            </View>
-            {/* Traduction verset */}
-            <Text className="ml-2 text-lg font-[Poppins] text-gray-600 dark:text-gray-300">
-                {item.fr}
-            </Text>
-
-        </View>
-    );
 
     if (loading) {
         return (
@@ -132,15 +46,28 @@ export default function SourateScreen() {
     return (
         <SafeAreaView className="flex-1 bg-gray-50 dark:bg-black">
             {/* Liste des versets */}
+            <Pressable
+                // @ts-ignore
+                onPress={() => navigation.navigate("favoris/[sourate]", { sourate: id })}
+                className="flex-row bg-green-800 py-2 px-4 rounded-full m-2 self-end"
+            >
+                <Ionicons
+                    name={"bookmark"}
+                    size={16}
+                    color={"#b7d5ac"}
+                />
+                <Text className="text-white font-[Poppins] text-sm ml-1">Mes favoris</Text>
+            </Pressable>
             <FlatList
                 data={verses}
-                renderItem={renderVerse}
+                renderItem={({ item, index }) => <Verset sourateId={id} item={item} index={index} />}
                 keyExtractor={item => item.numberInSurah}
                 contentContainerClassName="py-4"
+                indicatorStyle={"white"}
                 ListHeaderComponent={
                     Number(id) == 1 ? <View></View> :
-                        <View className="mx-3 mb-4 bg-green-100 p-3 rounded-full">
-                            <Text className="text-3xl font-[Poppins] text-center text-green-900">
+                        <View className="mx-6 mb-2 bg-green-100 p-2 rounded-full">
+                            <Text allowFontScaling={false} className="text-2xl font-[Poppins] text-center text-green-900">
                                 بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
                             </Text>
                         </View>

@@ -1,9 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "expo-router";
 import { useState } from "react";
 import { View, Text, TouchableOpacity, Pressable, useColorScheme, ScrollView, Switch, Linking, Modal, ImageBackground } from "react-native";
 
 export default function SettingsScreen() {
-
+  const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const [showAboutModal, setShowAboutModal] = useState(false);
   const bgDark = require('../../assets/images/bg-dark.jpeg');
@@ -40,6 +41,16 @@ export default function SettingsScreen() {
               title="Faire un don pour l'application"
               rightComponent={null}
               isFocus={true}
+            />
+          </Pressable>
+
+          <Pressable onPress={() =>
+            // @ts-ignore
+            navigation.navigate("favoris/[sourate]", { sourate: "all" })}>
+            <SettingsItem
+              icon="bookmark"
+              title="Voir mes versets favoris"
+              rightComponent={null}
             />
           </Pressable>
 

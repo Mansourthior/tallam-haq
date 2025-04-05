@@ -93,6 +93,18 @@ export default function RootLayout() {
                 },
               }}
             />
+            <Stack.Screen
+              name="favoris/[sourate]"
+              options={{
+                headerShown: true,
+                headerTitle: "Mes favoris",
+                headerBackTitleVisible: false,
+                headerTintColor: '#0a5c0a',
+                headerTitleStyle: {
+                  fontFamily: "Poppins",
+                },
+              }}
+            />
           </Stack>
           <Toast />
         </View>

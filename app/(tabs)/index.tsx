@@ -4,6 +4,8 @@ import {
   RefreshControl,
   ImageBackground,
   useColorScheme,
+  Pressable,
+  Text,
 } from "react-native";
 import { useCallback, useEffect, useState } from "react";
 import * as Location from "expo-location";
@@ -18,6 +20,7 @@ import Youtube from "@/components/Youtube";
 import Telegram from "@/components/Telegram";
 import Hadith from "@/components/Hadith";
 import Prayers from "@/components/Prayers";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function HomeScreen() {
 
