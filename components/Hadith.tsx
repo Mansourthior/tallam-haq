@@ -45,10 +45,20 @@ export default function Hadith({ hadith }) {
                     {hadith?.hadith_text_ar}
                 </Text>
                 <Text allowFontScaling={false} className="text-lg mt-2 font-[Poppins] text-stone-950">
-                    {hadith?.hadith_text + ' '}
-                    {hadith?.grade + ' '}
-                    {hadith?.takhrij}
+                    {hadith?.hadith_text}
                 </Text>
+                <View className="flex items-end mt-2 gap-2">
+                    <View className="bg-lime-700 px-2 py-1 rounded-lg">
+                        <Text allowFontScaling={false} className="text-white text-sm font-[PoppinsBold]">
+                            {hadith?.grade}
+                        </Text>
+                    </View>
+                    <View className="bg-lime-700 px-2 py-1 rounded-lg">
+                        <Text allowFontScaling={false} className="text-white text-sm font-[PoppinsBold]">
+                            {hadith?.takhrij}
+                        </Text>
+                    </View>
+                </View>
             </View>
         </View>
     );
