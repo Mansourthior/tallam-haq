@@ -2,14 +2,15 @@ import Header from "@/components/Header";
 import { fetchVerses } from "@/redux/actions";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, Pressable, ScrollView, ActivityIndicator, SafeAreaView, FlatList, Share } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { getAllFavorites, isFavorite, toggleFavorite } from "@/utils/favorites";
 
 export default function SourateScreen() {
     const navigation = useNavigation();
     const { id, en } = useLocalSearchParams();
-
+    const [isFav, setIsFav] = useState<Number[]>([]);
     const dispatch = useDispatch();
     // @ts-ignore
     const verses = useSelector((state) => state.verses.verses);
@@ -48,7 +49,34 @@ export default function SourateScreen() {
 
     useEffect(() => {
         navigation.setOptions({ headerTitle: en });
-    })
+    });
+
+    useEffect(() => {
+        const loadAllFavorites = async () => {
+            const favs = await getAllFavorites();
+            // @ts-ignore
+            const nums = favs[id].map(f => f.verse);
+            setIsFav(nums);
+        };
+
+        loadAllFavorites();
+    }, []);
+
+    const isVerseFav = (num: number) => {
+        return isFav.includes(num);
+    }
+
+    // @ts-ignore
+    const handleToggle = async (item) => {
+        toggleFavorite(id.toString(), item.numberInSurah, item.text, item.fr);
+        // push si n'est pas la sinon remove
+        if (isFav.includes(item.numberInSurah)) {
+            setIsFav(isFav.filter(e => e != item.numberInSurah));
+        } else {
+            setIsFav([...isFav, item.numberInSurah]);
+        }
+        isVerseFav(item.numberInSurah);
+    };
 
     // @ts-ignore
     const renderVerse = ({ item, index }) => (
@@ -59,6 +87,13 @@ export default function SourateScreen() {
                     <Text className="text-white dark:text-gray-900 text-sm font-semibold">{item.numberInSurah}</Text>
                 </View>
                 <View className="flex-row gap-3">
+                    <Pressable onPress={() => handleToggle(item)}>
+                        <Ionicons
+                            name={isVerseFav(item.numberInSurah) ? "bookmark" : "bookmark-outline"}
+                            size={24}
+                            color={isVerseFav(item.numberInSurah) ? "#388E3C" : "#b7d5ac"}
+                        />
+                    </Pressable>
                     <Pressable onPress={() => onShare(id.toString(), item.numberInSurah, item.text + '\n' + item.fr)}>
                         <Ionicons name="share-social" size={24} color="#b7d5ac" />
                     </Pressable>
