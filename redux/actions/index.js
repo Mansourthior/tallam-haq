@@ -16,8 +16,7 @@ import {
 import souratesJson from '../../assets/sourates.json';
 import ayasJson from '../../assets/quran.json';
 import traductionsJson from '../../assets/traductions.json';
-
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const API_BASE_URL = "https://api.alquran.cloud/v1";
 const API_PRAYERS_URL = "https://api.aladhan.com/v1";
 
@@ -84,24 +83,23 @@ export const fetchHijriDate = (date) => async(dispatch) => {
   }
 }
 
-export const fetchPrayers = (date, longitude, latitude) => async (dispatch) => {
-  dispatch({ type: FETCH_PRAYERS_REQUEST });
-  try {
-    const response = await axios.get(
-      `${API_PRAYERS_URL}/timings/${date}?latitude=${latitude}&longitude=${longitude}`
-    );
+// export const fetchPrayers = (date, longitude, latitude) => async (dispatch) => {
+//   dispatch({ type: FETCH_PRAYERS_REQUEST });
+//   try {
+//     const response = await axios.get(
+//       `${API_PRAYERS_URL}/timings/${date}?latitude=${latitude}&longitude=${longitude}`
+//     );
     
-    dispatch({
-      type: FETCH_PRAYERS_SUCCESS,
-      payload: response.data?.data?.timings,
-      cle: response.data?.data?.date.gregorian.date,
-    });
-  } catch (error) {
-    console.error("Error fetching prayers from api ...", error);
-    dispatch({ type: FETCH_PRAYERS_FAILURE, error: error.data });
-  }
-};
-
+//     dispatch({
+//       type: FETCH_PRAYERS_SUCCESS,
+//       payload: response.data?.data?.timings,
+//       cle: response.data?.data?.date.gregorian.date,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching prayers from api ...", error);
+//     dispatch({ type: FETCH_PRAYERS_FAILURE, error: error.data });
+//   }
+// };
 
 const handleTraductions = (ayahs, sourate) => {
   const traductions = traductionsJson[sourate];
@@ -111,3 +109,79 @@ const handleTraductions = (ayahs, sourate) => {
   })
   return ayahs;
 }
+
+const fetchPrayerTimesForYear = async (year, longitude, latitude) => {
+  try {
+    const response = await fetch(`${API_PRAYERS_URL}/calendar/${year}?latitude=${latitude}&longitude=${longitude}`); // Remplace avec ton API
+    const results = await response.json();
+    await AsyncStorage.setItem("prayerTimes", JSON.stringify(results.data));
+    await AsyncStorage.setItem("lastUpdate", new Date().toISOString()); // Stocke la date du dernier rafraîchissement
+    return results.data;
+  } catch (error) {
+    console.error("Erreur de récupération des horaires de prière :", error);
+    return null;
+  }
+};
+
+const shouldRefreshData = async () => {
+  const lastUpdate = await AsyncStorage.getItem("lastUpdate");
+  
+  if (!lastUpdate) return true; // Si aucune mise à jour enregistrée, on récupère les données
+
+  const lastUpdateDate = new Date(lastUpdate);
+  const today = new Date();
+  const daysSinceLastUpdate = (today - lastUpdateDate) / (1000 * 60 * 60 * 24);
+
+  return daysSinceLastUpdate >= 30; // Rafraîchit tous les 30 jours
+}
+
+const loadPrayerTimes = async (year, longitude, latitude) => {
+  const needsRefresh = await shouldRefreshData();
+
+  if (needsRefresh) {
+    return await fetchPrayerTimesForYear(year, longitude, latitude); // Met à jour si nécessaire
+  }
+
+  const cachedData = await AsyncStorage.getItem("prayerTimes");
+  return cachedData ? JSON.parse(cachedData) : await fetchPrayerTimesForYear();
+};
+
+
+export const fetchPrayers = (date, longitude, latitude) => async (dispatch) => {
+  dispatch({ type: FETCH_PRAYERS_REQUEST });
+  try {
+    const year = date.split('-')[2];
+    // Charge les données stockées localement (si elles existent)
+    const allTimes = await loadPrayerTimes(year, longitude, latitude); // Assure-toi que cette fonction charge toutes les données de l'année.
+    if (!allTimes) {
+      dispatch({ type: FETCH_PRAYERS_FAILURE, error: "Erreur récupération heures prières ..." }); // Si aucune donnée n'est disponible
+      return;
+    }
+
+    // Chercher dans toutes les clés de mois (par exemple "1", "2", etc.)
+    let prayerDay = null;
+    for (const monthKey in allTimes) {
+      const monthData = allTimes[monthKey];  // Data pour chaque mois (1, 2, 3, ...)
+
+      prayerDay = monthData.find(item => item.date.gregorian.date === date);
+      if (prayerDay) break;  // Si trouvé, sortir de la boucle
+    }
+
+    if (prayerDay) {
+      const cleanedTimings = {};
+      Object.entries(prayerDay.timings).forEach(([key, value]) => {
+        cleanedTimings[key] = value.replace(" (CEST)", "");
+      });
+      dispatch({
+        type: FETCH_PRAYERS_SUCCESS,
+        payload: cleanedTimings,
+        cle: prayerDay.date.gregorian.date,
+      });
+    } else {
+      dispatch({ type: FETCH_PRAYERS_FAILURE, error: "Erreur récupération heures prières ..." });
+    }
+  } catch (error) {
+    console.error("Erreur lors de la récupération des horaires de prière pour le jour", error);
+    dispatch({ type: FETCH_PRAYERS_FAILURE, error: error });
+  }
+};

@@ -112,23 +112,22 @@ export default function HomeScreen() {
 
   const setUpPrayersAndNotifications = () => {
     if (!fetchedPrayers) return;
-
-    const formattedPrayers = {
-      today: fetchedPrayersCle,
-      hours: [
-        { name: "Fajr", time: fetchedPrayers.Fajr },
-        { name: "Dhuhr", time: fetchedPrayers.Dhuhr },
-        { name: "Asr", time: fetchedPrayers.Asr },
-        { name: "Maghrib", time: fetchedPrayers.Maghrib },
-        { name: "Isha", time: fetchedPrayers.Isha },
-      ],
-    };
-    // @ts-ignore
-    setPrayers(formattedPrayers);
-    if (formattedPrayers) {
+    if (fetchedPrayersCle) {
+      const formattedPrayers = {
+        today: fetchedPrayersCle,
+        hours: [
+          { name: "Fajr", time: fetchedPrayers.Fajr },
+          { name: "Dhuhr", time: fetchedPrayers.Dhuhr },
+          { name: "Asr", time: fetchedPrayers.Asr },
+          { name: "Maghrib", time: fetchedPrayers.Maghrib },
+          { name: "Isha", time: fetchedPrayers.Isha },
+        ],
+      };
+      // @ts-ignore
+      setPrayers(formattedPrayers);
       schedulePrayerNotifications(formattedPrayers.hours);
+      updateNextPrayer(formattedPrayers);
     }
-    updateNextPrayer(formattedPrayers);
   }
 
   // 4. Fonction pour mettre à jour la prochaine prière
@@ -202,7 +201,6 @@ export default function HomeScreen() {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = dayjs();
-
       if (nextPrayerTime !== "" && nextPrayer != null) {
         const [hours, minutes] = nextPrayerTime.split(":").map(Number); // prochaine heure prière
         let targetTime = dayjs().hour(hours).minute(minutes).second(0);;

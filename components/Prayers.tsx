@@ -8,13 +8,14 @@ export default function Prayers({ locationIsActived, error, nextPrayer, timeLeft
         <View className="bg-lime-50 rounded-3xl shadow-lg p-6 w-11/12 mx-auto mt-4">
             {/* TODO: gérer erreur connectivité */}
             <View className="mb-4 flex flex-row justify-between">
-                {locationIsActived || !error ? <View>
-                    <Text allowFontScaling={false} className="font-[Poppins] text-lime-950 text-lg font-bold">{nextPrayer || 'Chargement...'}</Text>
-                    {timeLeft == "00:00:00" ?
-                        <Animatable.Text animation="pulse"
-                            iterationCount="infinite" className="text-lime-700 font-[Poppins] text-sm mt-2">C'est l'heure de la prière ...</Animatable.Text>
-                        : <Text allowFontScaling={false} className="font-[Poppins] text-lime-700 text-sm">{timeLeft ? `Dans ${timeLeft}` : 'Chargement...'}</Text>}
-                </View> : <View></View>}
+                {!locationIsActived || error ? <View></View> :
+                    <View>
+                        <Text allowFontScaling={false} className="font-[Poppins] text-lime-950 text-lg font-bold">{nextPrayer || 'Chargement...'}</Text>
+                        {timeLeft == "00:00:00" ?
+                            <Animatable.Text animation="pulse"
+                                iterationCount="infinite" className="text-lime-700 font-[Poppins] text-sm mt-2">C'est l'heure de la prière ...</Animatable.Text>
+                            : <Text allowFontScaling={false} className="font-[Poppins] text-lime-700 text-sm">{timeLeft ? `Dans ${timeLeft}` : 'Chargement...'}</Text>}
+                    </View>}
                 <View>
                     <Text allowFontScaling={false} className="font-[Poppins] pt-1 text-lime-950 text-2xl font-bold text-right">
                         اَلسَّلَامُ عَلَيْكُمْ
@@ -52,7 +53,7 @@ export default function Prayers({ locationIsActived, error, nextPrayer, timeLeft
                                 className={`text-lime-700 text-sm mt-1 font-[Poppins] ${prayer.name == nextPrayer ? "font-bold" : ""
                                     }`}
                             >
-                                {prayer.time}
+                                {prayer.time ?? '...'}
                             </Text>
                         </View>
                     ))}
