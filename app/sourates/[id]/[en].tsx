@@ -1,8 +1,7 @@
-import Header from "@/components/Header";
 import { fetchVerses } from "@/redux/actions";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { View, Text, Pressable, ActivityIndicator, SafeAreaView, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Verset from "@/components/Verset";

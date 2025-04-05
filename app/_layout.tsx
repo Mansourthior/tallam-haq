@@ -6,7 +6,7 @@ import {
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -22,9 +22,6 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-    Amiri: require("../assets/fonts/Amiri-Regular.ttf"),
-    Arabic: require("../assets/fonts/arabic-font.ttf"),
     ScheherazadeNew: require("../assets/fonts/ScheherazadeNew-Regular.ttf"),
     Manrope: require("../assets/fonts/Manrope-VariableFont_wght.ttf"),
     Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
@@ -34,7 +31,7 @@ export default function RootLayout() {
   const LogoTitle = () => {
     return (
       <Image
-        style={{ width: 25, height: 25, borderRadius: 20 }}
+        style={{ width: 30, height: 30, borderRadius: 20 }}
         source={require('../assets/images/icon.png')}
       />
     );

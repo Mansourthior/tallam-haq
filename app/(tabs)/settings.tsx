@@ -92,8 +92,6 @@ export default function SettingsScreen() {
                   elle permet à chacun de se reconnecter facilement avec sa foi et d’avoir à portée de main des outils
                   pratiques pour enrichir son savoir et sa spiritualité.
                   {"\n\n"}
-                  Version: 1.0.0
-                  {"\n\n"}
                   Développé par et pour les serviteurs d'Allah.
                 </Text>
 
