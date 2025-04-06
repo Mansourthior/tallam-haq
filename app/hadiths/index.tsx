@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Modal, FlatList, Text, TouchableOpacity, View, SafeAreaView, ScrollView, useColorScheme, TextInput } from 'react-native';
+import { Modal, FlatList, Text, TouchableOpacity, View, SafeAreaView, ScrollView, useColorScheme, TextInput, Pressable } from 'react-native';
 import hadithsJson from '../../assets/hadiths.json';
-import { Feather } from '@expo/vector-icons';
+import { Feather, Ionicons } from '@expo/vector-icons';
 import { HighlightedText } from '@/components/HighlightedText';
+import { onShare } from '@/utils/share-hadith';
 
 export default function HadithScreen() {
     const colorScheme = useColorScheme();
@@ -92,11 +93,23 @@ export default function HadithScreen() {
                 onRequestClose={closeModal}
             >
                 <SafeAreaView className="flex-1 bg-white dark:bg-black">
+                    <Pressable
+                        // @ts-ignore
+                        onPress={() => onShare(selectedHadith)}
+                        className="flex-row bg-green-800 py-2 px-4 rounded-full m-2 self-end"
+                    >
+                        <Ionicons
+                            name={"share-social"}
+                            size={18}
+                            color={"#b7d5ac"}
+                        />
+                        <Text className="text-white font-[Poppins] text-sm ml-1">Partager</Text>
+                    </Pressable>
                     <ScrollView className="p-4">
-                        <Text className="text-xl font-bold mb-2 text-green-900 dark:text-white">Hadith (FR)</Text>
+                        <Text className="text-xl font-bold mb-2 text-green-900 dark:text-white">FR</Text>
                         <Text className="text-base mb-4 text-gray-900 dark:text-gray-200">{selectedHadith?.hadith_text}</Text>
 
-                        <Text className="text-xl font-bold mb-2 text-green-900 dark:text-white">Hadith (AR)</Text>
+                        <Text className="text-xl font-bold mb-2 text-green-900 dark:text-white">AR</Text>
                         <Text className="text-lg mb-4 text-right text-gray-900 dark:text-gray-200">{selectedHadith?.hadith_text_ar}</Text>
 
                         <Text className="text-base mb-2 text-gray-600 dark:text-gray-400">Niveau : {selectedHadith?.grade}</Text>

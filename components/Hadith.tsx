@@ -1,33 +1,12 @@
+import { onShare } from "@/utils/share-hadith";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
-import { Pressable, Share, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 // @ts-ignore
 export default function Hadith({ hadith }) {
 
     const navigation = useNavigation();
-
-    const onShare = async (hadith: any) => {
-        try {
-            const result = await Share.share({
-                message: hadith.hadith_text_ar + '\n\n\n' +
-                    hadith.hadith_text + ' ' + hadith.grade + ' ' + hadith.takhrij
-                // + "\n Découvrez cette superbe application ! 📱✨\nTéléchargez-la ici : https://example.com",
-            });
-
-            if (result.action === Share.sharedAction) {
-                if (result.activityType) {
-                    console.log("Partagé via", result.activityType);
-                } else {
-                    console.log("Partage réussi !");
-                }
-            } else if (result.action === Share.dismissedAction) {
-                console.log("Partage annulé");
-            }
-        } catch (error) {
-            console.error("Erreur lors du partage :", error);
-        }
-    };
 
     return (
         <View className="bg-slate-50 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
