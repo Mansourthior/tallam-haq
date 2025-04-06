@@ -106,6 +106,9 @@ export default function Verset({ sourateId, item, index, favorite = false }) {
                         : item.text}
                 </Text>
             </View>
+            <Text className="mb-2 ml-2 text-lg font-[Poppins] text-gray-800 dark:text-gray-500">
+                {item.transliteration}
+            </Text>
             {/* Traduction verset */}
             <Text className="ml-2 text-lg font-[Poppins] text-gray-600 dark:text-gray-300">
                 {item.fr}

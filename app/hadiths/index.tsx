@@ -106,10 +106,10 @@ export default function HadithScreen() {
                         <Text className="text-white font-[Poppins] text-sm ml-1">Partager</Text>
                     </Pressable>
                     <ScrollView className="p-4">
-                        <Text className="text-xl font-bold mb-2 text-green-900 dark:text-white">FR</Text>
+                        <Text className="text-xl font-bold mb-2 text-green-900 dark:text-white">Français</Text>
                         <Text className="text-base mb-4 text-gray-900 dark:text-gray-200">{selectedHadith?.hadith_text}</Text>
 
-                        <Text className="text-xl font-bold mb-2 text-green-900 dark:text-white">AR</Text>
+                        <Text className="text-xl font-bold mb-2 text-green-900 dark:text-white">Arabe</Text>
                         <Text className="text-lg mb-4 text-right text-gray-900 dark:text-gray-200">{selectedHadith?.hadith_text_ar}</Text>
 
                         <Text className="text-base mb-2 text-gray-600 dark:text-gray-400">Niveau : {selectedHadith?.grade}</Text>

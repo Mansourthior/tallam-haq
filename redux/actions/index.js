@@ -16,6 +16,7 @@ import {
 import souratesJson from '../../assets/sourates.json';
 import ayasJson from '../../assets/quran.json';
 import traductionsJson from '../../assets/traductions.json';
+import phonetiqueJson from '../../assets/phonetique.json';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const API_BASE_URL = "https://api.alquran.cloud/v1";
 const API_PRAYERS_URL = "https://api.aladhan.com/v1";
@@ -46,11 +47,13 @@ export const fetchVerses = (sourateNumber) => async (dispatch) => {
   dispatch({ type: FETCH_VERSES_REQUEST });
   try {
     const response = await axios.get(`${API_BASE_URL}/surah/${sourateNumber}`);
-    const ayahs = handleTraductions(response.data.data.ayahs, sourateNumber);
+    let ayahs = handleTraductions(response.data.data.ayahs, sourateNumber);
+    ayahs = handlePhonetique(response.data.data.ayahs, sourateNumber);
     dispatch({ type: FETCH_VERSES_SUCCESS, payload: ayahs, name: response.data.data.name });
   } catch (error) {
     try {
-      const ayahs = handleTraductions(ayasJson[sourateNumber - 1]?.ayahs, sourateNumber);
+      let ayahs = handleTraductions(ayasJson[sourateNumber - 1]?.ayahs, sourateNumber);
+      ayahs = handlePhonetique(response.data.data.ayahs, sourateNumber);
       if (ayahs) {
         dispatch({ type: FETCH_VERSES_SUCCESS, payload: ayahs });
       } else {
@@ -83,29 +86,20 @@ export const fetchHijriDate = (date) => async(dispatch) => {
   }
 }
 
-// export const fetchPrayers = (date, longitude, latitude) => async (dispatch) => {
-//   dispatch({ type: FETCH_PRAYERS_REQUEST });
-//   try {
-//     const response = await axios.get(
-//       `${API_PRAYERS_URL}/timings/${date}?latitude=${latitude}&longitude=${longitude}`
-//     );
-    
-//     dispatch({
-//       type: FETCH_PRAYERS_SUCCESS,
-//       payload: response.data?.data?.timings,
-//       cle: response.data?.data?.date.gregorian.date,
-//     });
-//   } catch (error) {
-//     console.error("Error fetching prayers from api ...", error);
-//     dispatch({ type: FETCH_PRAYERS_FAILURE, error: error.data });
-//   }
-// };
-
 const handleTraductions = (ayahs, sourate) => {
   const traductions = traductionsJson[sourate];
   ayahs.map(aya => {
     const traduction = traductions.find(t => t.aya == aya.numberInSurah);
     aya.fr = traduction?.fr;
+  })
+  return ayahs;
+}
+
+const handlePhonetique = (ayahs, sourate) => {
+  const phonetique = phonetiqueJson[sourate];
+  ayahs.map(aya => {
+    const p = phonetique.find(t => t.id == aya.numberInSurah);
+    aya.transliteration = p?.transliteration;
   })
   return ayahs;
 }
