@@ -7,6 +7,7 @@ export type FavoriteVerse = {
   verse: number;
   text: string;
   fr: string;
+  transliteration: string;
 };
 
 export const loadFavorites = async (): Promise<Record<string, FavoriteVerse[]>> => {
@@ -18,7 +19,8 @@ export const toggleFavorite = async (
   sourate: string,
   verse: number,
   text: string,
-  fr: string
+  fr: string,
+  transliteration: string
 ) => {
   const favorites = await loadFavorites();
   const current = favorites[sourate] || [];
@@ -28,7 +30,7 @@ export const toggleFavorite = async (
   if (exists) {
     favorites[sourate] = current.filter((v) => v.verse !== verse);
   } else {
-    favorites[sourate] = [...current, { sourate, verse, text, fr }];
+    favorites[sourate] = [...current, { sourate, verse, text, fr, transliteration}];
   }
 
   await AsyncStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));

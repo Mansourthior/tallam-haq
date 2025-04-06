@@ -30,7 +30,7 @@ export default function FavoriteScreen() {
     return (
         <SafeAreaView className="flex-1 bg-gray-50 dark:bg-black">
             {/* Liste des versets */}
-            {favoris?.length !== 0 ?
+            {favoris && favoris?.length !== 0 ?
                 <FlatList
                     data={favoris}
                     renderItem={({ item, index }) => <Verset sourateId={item.sourate} item={item} index={index} favorite={true} />}

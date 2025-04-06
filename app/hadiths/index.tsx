@@ -52,11 +52,11 @@ export default function HadithScreen() {
                         onPress={() => openModal(item)}
                         className="bg-green-100 dark:bg-gray-800 p-4 mb-4 rounded-xl"
                     >
-                        <Text className="text-base font-[Poppins-SemiBold] text-gray-900 dark:text-white mb-2" numberOfLines={2}>
+                        <Text allowFontScaling={false} className="text-base font-[Poppins-SemiBold] text-gray-900 dark:text-white mb-2" numberOfLines={2}>
                             <HighlightedText text={item.title} search={search} />
                         </Text>
 
-                        <Text className="text-sm text-gray-700 dark:text-gray-300 mb-2" numberOfLines={3}>
+                        <Text allowFontScaling={false} className="font-[Poppins] text-sm text-gray-700 dark:text-gray-300 mb-2" numberOfLines={3}>
                             <HighlightedText text={item.hadith_text} search={search} />
                         </Text>
 
@@ -65,9 +65,9 @@ export default function HadithScreen() {
                             {item.categories?.map((category, index) => (
                                 <View
                                     key={index}
-                                    className="bg-green-200 dark:bg-green-900 px-2 py-1 rounded-full"
+                                    className="font-[Poppins] bg-green-200 dark:bg-green-900 px-2 py-1 rounded-full"
                                 >
-                                    <Text className="text-xs text-green-800 dark:text-green-200">
+                                    <Text allowFontScaling={false} className="font-[Poppins] text-xs text-green-800 dark:text-green-200">
                                         {category}
                                     </Text>
                                 </View>
@@ -76,10 +76,10 @@ export default function HadithScreen() {
 
                         {/* Référence + Authenticité */}
                         <View className="flex-row justify-between mt-2 flex-wrap">
-                            <Text className="text-xs text-gray-600 dark:text-gray-400 italic">
+                            <Text allowFontScaling={false} className="font-[Poppins] text-xs text-gray-600 dark:text-gray-400 italic">
                                 {item.takhrij}
                             </Text>
-                            <Text className="text-xs text-green-700 dark:text-green-300">
+                            <Text allowFontScaling={false} className="font-[Poppins] text-xs text-green-700 dark:text-green-300">
                                 {item.grade}
                             </Text>
                         </View>
@@ -105,19 +105,19 @@ export default function HadithScreen() {
                         />
                         <Text className="text-white font-[Poppins] text-sm ml-1">Partager</Text>
                     </Pressable>
-                    <ScrollView className="p-4">
-                        <Text className="text-xl font-bold mb-2 text-green-900 dark:text-white">Français</Text>
-                        <Text className="text-base mb-4 text-gray-900 dark:text-gray-200">{selectedHadith?.hadith_text}</Text>
+                    <ScrollView indicatorStyle='white' className="p-4">
+                        <Text allowFontScaling={false} className="font-[Poppins] text-2xl font-bold mb-2 text-green-900 dark:text-white">Français</Text>
+                        <Text allowFontScaling={false} className="font-[Poppins] text-base mb-4 text-gray-900 dark:text-gray-200">{selectedHadith?.hadith_text}</Text>
 
-                        <Text className="text-xl font-bold mb-2 text-green-900 dark:text-white">Arabe</Text>
-                        <Text className="text-lg mb-4 text-right text-gray-900 dark:text-gray-200">{selectedHadith?.hadith_text_ar}</Text>
+                        <Text allowFontScaling={false} className="font-[Poppins] text-xl font-bold mb-2 text-green-900 dark:text-white">Arabe</Text>
+                        <Text allowFontScaling={false} className="font-[Poppins] text-2xl mb-4 text-right text-gray-900 dark:text-gray-200">{selectedHadith?.hadith_text_ar}</Text>
 
-                        <Text className="text-base mb-2 text-gray-600 dark:text-gray-400">Niveau : {selectedHadith?.grade}</Text>
-                        <Text className="text-base text-gray-600 dark:text-gray-400">Source : {selectedHadith?.takhrij}</Text>
+                        <Text allowFontScaling={false} className="font-[Poppins] text-base mb-2 text-gray-600 dark:text-gray-400">Niveau : {selectedHadith?.grade}</Text>
+                        <Text allowFontScaling={false} className="font-[Poppins] text-base mb-6 text-gray-600 dark:text-gray-400">Source : {selectedHadith?.takhrij}</Text>
                     </ScrollView>
 
                     <TouchableOpacity onPress={closeModal} className="bg-green-700 p-4 m-4 rounded-xl">
-                        <Text className="text-white text-center font-bold">Fermer</Text>
+                        <Text className="font-[Poppins] text-white text-center font-bold">Fermer</Text>
                     </TouchableOpacity>
                 </SafeAreaView>
             </Modal>

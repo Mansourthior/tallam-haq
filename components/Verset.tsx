@@ -58,9 +58,9 @@ export default function Verset({ sourateId, item, index, favorite = false }) {
 
     const handleToggle = async () => {
         if (favorite) {
-            await toggleFavorite(sourateId, item.verse, item.text, item.fr);
+            await toggleFavorite(sourateId, item.verse, item.text, item.fr, item.transliteration);
         } else {
-            await toggleFavorite(sourateId, item.numberInSurah, item.text, item.fr);
+            await toggleFavorite(sourateId, item.numberInSurah, item.text, item.fr, item.transliteration);
         }
 
         setIsFav(prev => !prev);
@@ -101,9 +101,9 @@ export default function Verset({ sourateId, item, index, favorite = false }) {
             {/* Contenu verset */}
             <View>
                 <Text className="text-3xl font-[ScheherazadeNew] text-right leading-loose text-green-900 dark:text-green-100">
-                    {![1, 9].includes(Number(sourateId)) && index === 0
-                        ? item.text.substring(39)
-                        : item.text}
+                    {!favorite ?
+                        (![1, 9].includes(Number(sourateId)) && item.numberInSurah == 1 ? item.text.substring(39) : item.text)
+                        : (![1, 9].includes(Number(sourateId)) && item.verse == 1 ? item.text.substring(39) : item.text)}
                 </Text>
             </View>
             <Text className="mb-2 ml-2 text-lg font-[Poppins] text-gray-800 dark:text-gray-500">
