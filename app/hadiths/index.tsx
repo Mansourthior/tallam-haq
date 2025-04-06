@@ -106,11 +106,11 @@ export default function HadithScreen() {
                         <Text className="text-white font-[Poppins] text-sm ml-1">Partager</Text>
                     </Pressable>
                     <ScrollView indicatorStyle='white' className="p-4">
-                        <Text allowFontScaling={false} className="font-[Poppins] text-2xl font-bold mb-2 text-green-900 dark:text-white">Français</Text>
-                        <Text allowFontScaling={false} className="font-[Poppins] text-base mb-4 text-gray-900 dark:text-gray-200">{selectedHadith?.hadith_text}</Text>
-
                         <Text allowFontScaling={false} className="font-[Poppins] text-xl font-bold mb-2 text-green-900 dark:text-white">Arabe</Text>
                         <Text allowFontScaling={false} className="font-[Poppins] text-2xl mb-4 text-right text-gray-900 dark:text-gray-200">{selectedHadith?.hadith_text_ar}</Text>
+
+                        <Text allowFontScaling={false} className="font-[Poppins] text-xl font-bold mb-2 text-green-900 dark:text-white">Français</Text>
+                        <Text allowFontScaling={false} className="font-[Poppins] text-lg mb-4 text-gray-900 dark:text-gray-200">{selectedHadith?.hadith_text}</Text>
 
                         <Text allowFontScaling={false} className="font-[Poppins] text-base mb-2 text-gray-600 dark:text-gray-400">Niveau : {selectedHadith?.grade}</Text>
                         <Text allowFontScaling={false} className="font-[Poppins] text-base mb-6 text-gray-600 dark:text-gray-400">Source : {selectedHadith?.takhrij}</Text>
