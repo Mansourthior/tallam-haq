@@ -17,7 +17,6 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@react-native-async-storage/async-storage": "^2.1.2",
-    "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/geolocation": "^3.4.0",
     "@react-navigation/native": "^6.0.2",
     "@reduxjs/toolkit": "^2.2.7",
@@ -44,7 +43,6 @@
     "react-native": "0.74.5",
     "react-native-animatable": "^1.4.0",
     "react-native-blob-util": "^0.21.2",
-    "react-native-document-viewer": "^1.0.6",
     "react-native-fs": "^2.20.0",
     "react-native-geolocation-service": "^5.3.1",
     "react-native-gesture-handler": "~2.16.1",

@@ -1,9 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "expo-router";
 import { Pressable, Share, Text, View } from "react-native";
 
 // @ts-ignore
 export default function Hadith({ hadith }) {
 
+    const navigation = useNavigation();
 
     const onShare = async (hadith: any) => {
         try {
@@ -34,7 +36,19 @@ export default function Hadith({ hadith }) {
                     <Text allowFontScaling={false} className="text-stone-800 font-[Poppins] text-xl font-bold">
                         Hadith du jour
                     </Text>
-                    <View className="flex-row gap-3">
+                    <Pressable
+                        // @ts-ignore
+                        onPress={() => navigation.navigate("hadiths/index")}
+                        className="flex-row bg-green-800 py-2 px-4 rounded-full m-2 self-end"
+                    >
+                        <Ionicons
+                            name={"enter"}
+                            size={14}
+                            color={"#b7d5ac"}
+                        />
+                        <Text className="text-white font-[Poppins] text-xs ml-1">Voir hadiths</Text>
+                    </Pressable>
+                    <View className="flex-row gap-2">
                         <Pressable onPress={() => onShare(hadith)}>
                             <Ionicons name="share-social" size={24} color="#b7d5ac" />
                         </Pressable>

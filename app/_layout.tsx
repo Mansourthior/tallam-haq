@@ -57,11 +57,25 @@ export default function RootLayout() {
               options={{
                 headerShown: true,
                 headerTitle: () => <LogoTitle />,
-                headerTintColor: "#C8E6C9",
+                headerTintColor: "#0a5c0a",
                 headerTitleStyle: {
                   fontFamily: "Poppins",
                   fontSize: 24,
-                  color: "#C8E6C9",
+                  color: "#0a5c0a",
+                },
+              }}
+            />
+            <Stack.Screen
+              name="hadiths/index"
+              options={{
+                headerShown: true,
+                headerTitle: () => <LogoTitle />,
+                headerBackTitleVisible: false,
+                headerTintColor: "#0a5c0a",
+                headerTitleStyle: {
+                  fontFamily: "Poppins",
+                  fontSize: 24,
+                  color: "#0a5c0a",
                 },
               }}
             />
