@@ -18,6 +18,7 @@ import Youtube from "@/components/Youtube";
 import Telegram from "@/components/Telegram";
 import Hadith from "@/components/Hadith";
 import Prayers from "@/components/Prayers";
+import { assets } from '../../assets/js/assets';
 
 export default function HomeScreen() {
 
@@ -43,8 +44,6 @@ export default function HomeScreen() {
   const [timeLeft, setTimeLeft] = useState("");
   const [hadith, setHadith] = useState<{ hadith_text_ar: string; hadith_text: string; grade: string; takhrij: string; } | null>(null);
   const [refreshing, setRefreshing] = useState(false);
-  const bgDark = require('../../assets/images/bg-dark.jpeg');
-  const bgLight = require('../../assets/images/bg-white.jpg');
 
   // refresh page
   const onRefresh = useCallback(() => {
@@ -246,7 +245,7 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? bgDark : bgLight} resizeMode="cover">
+      <ImageBackground source={colorScheme === 'dark' ? assets.bgDark : assets.bgLight} resizeMode="cover">
         <ScrollView
           indicatorStyle={"white"}
           contentContainerStyle={{

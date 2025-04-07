@@ -1,14 +1,50 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
-import { useState } from "react";
-import { View, Text, TouchableOpacity, Pressable, useColorScheme, ScrollView, Switch, Linking, Modal, ImageBackground } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, Pressable, useColorScheme, ScrollView, Linking, Modal, ImageBackground, Switch, Animated } from "react-native";
+import { useColorScheme as useColorSchemeExpo } from "nativewind";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { assets } from '../../assets/js/assets';
 
 export default function SettingsScreen() {
   const navigation = useNavigation();
-  const colorScheme = useColorScheme();
+  const systemColorScheme = useColorScheme();
+  const { colorScheme, setColorScheme } = useColorSchemeExpo();
   const [showAboutModal, setShowAboutModal] = useState(false);
-  const bgDark = require('../../assets/images/bg-dark.jpeg');
-  const bgLight = require('../../assets/images/bg-white.jpg');
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Fonction pour basculer entre les thèmes avec indicateur d'activité
+  const toggleTheme = () => {
+    if (isTransitioning) return; // Éviter les clics multiples pendant la transition
+
+    setIsTransitioning(true);
+
+    // Effectuer le changement de thème après un court délai
+    setTimeout(() => {
+      const newTheme = colorScheme === 'dark' ? 'light' : 'dark';
+      setColorScheme(newTheme);
+      AsyncStorage.setItem('userTheme', newTheme);
+
+      // Donner un peu de temps pour que le changement prenne effet visuellement
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 300);
+    }, 100);
+  };
+
+  // Détermine le thème actuel à utiliser (colorScheme de nativewind ou fallback sur le système)
+  const currentTheme = colorScheme || systemColorScheme;
+
+  // Dans votre composant
+  useEffect(() => {
+    // Charger le thème sauvegardé au démarrage
+    AsyncStorage.getItem('userTheme').then(savedTheme => {
+      if (savedTheme) {
+        // @ts-ignore
+        setColorScheme(savedTheme);
+      }
+    });
+  }, []);
 
   // @ts-ignore
   const SettingsItem = ({ icon, title, rightComponent, isFocus = false }) => (
@@ -29,7 +65,7 @@ export default function SettingsScreen() {
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? bgDark : bgLight} resizeMode="cover" style={{
+      <ImageBackground source={colorScheme === 'dark' ? assets.bgDark : assets.bgLight} resizeMode="cover" style={{
         position: "absolute",
         width: "100%",
         height: "100%",
@@ -43,6 +79,20 @@ export default function SettingsScreen() {
               isFocus={true}
             />
           </Pressable>
+
+          <SettingsItem
+            icon="contrast"
+            title={`Mode ${currentTheme === 'dark' ? 'sombre' : 'clair'}`}
+            rightComponent={
+              <Switch
+                value={currentTheme === 'dark'}
+                onValueChange={toggleTheme}
+                trackColor={{ false: '#ccc', true: '#4caf50' }}
+                thumbColor={currentTheme === 'dark' ? '#fff' : '#4caf50'}
+                disabled={isTransitioning}
+              />
+            }
+          />
 
           <Pressable onPress={() =>
             // @ts-ignore
@@ -72,20 +122,13 @@ export default function SettingsScreen() {
               <View className="bg-white dark:bg-gray-800 m-4 p-6 rounded-2xl w-[90%]">
                 {/* En-tête modale */}
                 <View className="flex-row justify-between items-center mb-4">
-                  <Text className="text-xl font-bold text-gray-800 dark:text-gray-100">
+                  <Text className="font-[Poppins] text-xl font-bold text-gray-800 dark:text-gray-100">
                     À propos
                   </Text>
-                  <Pressable onPress={() => setShowAboutModal(false)}>
-                    <Ionicons
-                      name="close"
-                      size={24}
-                      className="text-gray-500 dark:text-gray-300"
-                    />
-                  </Pressable>
                 </View>
 
                 {/* Contenu de la modale */}
-                <Text className="text-gray-600 dark:text-gray-300 text-base leading-6">
+                <Text className="font-[Poppins] text-gray-600 dark:text-gray-300 text-base leading-6">
                   Cette application mobile a été conçue dans le but d’aider et d’accompagner la communauté au quotidien.
                   Elle propose des fonctionnalités essentielles comme l’accès au Coran, une bibliothèque de PDF,
                   ainsi que les horaires de prière. Grâce à une interface simple, intuitive et sans publicités,

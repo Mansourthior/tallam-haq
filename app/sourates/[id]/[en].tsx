@@ -24,6 +24,8 @@ export default function SourateScreen() {
         dispatch(fetchVerses(id));
     }, [dispatch]);
 
+
+
     useEffect(() => {
         navigation.setOptions({ headerTitle: en });
     });
@@ -59,7 +61,7 @@ export default function SourateScreen() {
             </Pressable>
             <FlatList
                 data={verses}
-                renderItem={({ item, index }) => <Verset sourateId={id} item={item} index={index} />}
+                renderItem={({ item, index }) => <Verset sourateId={id} item={item} />}
                 keyExtractor={item => item.numberInSurah}
                 contentContainerClassName="py-4"
                 indicatorStyle={"white"}

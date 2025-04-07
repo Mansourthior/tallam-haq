@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Verset from "@/components/Verset";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function FavoriteScreen() {
 
@@ -33,12 +34,13 @@ export default function FavoriteScreen() {
             {favoris && favoris?.length !== 0 ?
                 <FlatList
                     data={favoris}
-                    renderItem={({ item, index }) => <Verset sourateId={item.sourate} item={item} index={index} favorite={true} />}
+                    renderItem={({ item, index }) => <Verset sourateId={item.sourate} item={item} favorite={true} />}
                     keyExtractor={(item, index) => index.toString()}
                     indicatorStyle={"white"}
                 /> :
                 <View className="flex-1 justify-center items-center">
-                    <Text className="text-lg font-[Poppins] text-center text-green-900 dark:text-white">
+                    <Ionicons name={"bookmarks"} size={80} color={"#b7d5ac"} />
+                    <Text className="mt-4 text-lg font-[Poppins] text-center text-green-900 dark:text-white">
                         La liste de favoris est vide
                     </Text>
                 </View>

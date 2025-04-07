@@ -3,11 +3,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { Pressable, Share, Text, View } from "react-native";
 import souratesJson from '../assets/sourates.json';
-import { useNavigation } from "expo-router";
-// @ts-ignore
-export default function Verset({ sourateId, item, index, favorite = false }) {
 
-    const navigation = useNavigation();
+// @ts-ignore
+export default function Verset({ sourateId, item, favorite = false }) {
+
     const [isFav, setIsFav] = useState(false);
     const [sourateName, setSourateName] = useState("");
 
@@ -50,12 +49,6 @@ export default function Verset({ sourateId, item, index, favorite = false }) {
         return souratesJson[id - 1].englishName;
     }
 
-    const goToSourate = () => {
-        // @ts-ignore
-        navigation.navigate('sourates/[id]/[en]', { id: Number(sourateId), en: sourateName })
-    }
-
-
     const handleToggle = async () => {
         if (favorite) {
             await toggleFavorite(sourateId, item.verse, item.text, item.fr, item.transliteration);
@@ -77,14 +70,6 @@ export default function Verset({ sourateId, item, index, favorite = false }) {
                     }
                 </View>
                 <View className="flex-row gap-3">
-                    {favorite ?
-                        <Pressable onPress={goToSourate}>
-                            <Ionicons
-                                name={"enter"}
-                                size={24}
-                                color={"#b7d5ac"}
-                            />
-                        </Pressable> : <View></View>}
                     <Pressable onPress={() => handleToggle()}>
                         <Ionicons
                             name={isFav ? "bookmark" : "bookmark-outline"}

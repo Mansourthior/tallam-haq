@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
-import { Modal, FlatList, Text, TouchableOpacity, View, SafeAreaView, ScrollView, useColorScheme, TextInput, Pressable } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Modal, FlatList, Text, TouchableOpacity, View, SafeAreaView, ScrollView, useColorScheme, TextInput, Pressable, ActivityIndicator } from 'react-native';
 import hadithsJson from '../../assets/hadiths.json';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { HighlightedText } from '@/components/HighlightedText';
 import { onShare } from '@/utils/share-hadith';
+
+const ITEMS_PER_PAGE = 5;
 
 export default function HadithScreen() {
     const colorScheme = useColorScheme();
     const [selectedHadith, setSelectedHadith] = useState<any>(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [search, setSearch] = useState("");
+    const [page, setPage] = useState(1);
+    const [loadingMore, setLoadingMore] = useState(false);
+    const [showScrollToTop, setShowScrollToTop] = useState(false);
+    const flatListRef = useRef<FlatList>(null);
 
     const openModal = (hadith: any) => {
         setSelectedHadith(hadith);
@@ -23,9 +29,30 @@ export default function HadithScreen() {
 
     const filteredHadiths = hadithsJson.filter(hadith =>
         hadith.title.toLowerCase().includes(search.toLowerCase()) ||
+        hadith.takhrij.toLowerCase().includes(search.toLowerCase()) ||
         hadith.categories.some(cat => cat.toLowerCase().includes(search.toLowerCase()))
     );
 
+    const displayedHadiths = filteredHadiths.slice(0, page * ITEMS_PER_PAGE);
+
+    const loadMore = () => {
+        if (page * ITEMS_PER_PAGE >= filteredHadiths.length) return;
+        setLoadingMore(true);
+        setTimeout(() => {
+            setPage((prev) => prev + 1);
+            setLoadingMore(false);
+        }, 500); // simulate delay
+    };
+
+
+    const scrollToTop = () => {
+        flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
+    };
+
+    const handleScroll = (event: any) => {
+        const offsetY = event.nativeEvent.contentOffset.y;
+        setShowScrollToTop(offsetY > 200); // Afficher le bouton après 200px de défilement
+    };
 
     return (
         <SafeAreaView className="flex-1 bg-white dark:bg-black">
@@ -44,9 +71,17 @@ export default function HadithScreen() {
                 </View>
             </View>
             <FlatList
-                data={filteredHadiths}
+                ref={flatListRef}
+                data={displayedHadiths}
                 keyExtractor={(_, index) => index.toString()}
                 contentContainerStyle={{ padding: 16 }}
+                onEndReached={loadMore}
+                onEndReachedThreshold={0.4}
+                onScroll={handleScroll}
+                scrollEventThrottle={16}
+                ListFooterComponent={
+                    loadingMore ? <ActivityIndicator size="small" className="mt-4" /> : null
+                }
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         onPress={() => openModal(item)}
@@ -68,7 +103,7 @@ export default function HadithScreen() {
                                     className="font-[Poppins] bg-green-200 dark:bg-green-900 px-2 py-1 rounded-full"
                                 >
                                     <Text allowFontScaling={false} className="font-[Poppins] text-xs text-green-800 dark:text-green-200">
-                                        {category}
+                                        <HighlightedText text={category} search={search} />
                                     </Text>
                                 </View>
                             ))}
@@ -77,7 +112,7 @@ export default function HadithScreen() {
                         {/* Référence + Authenticité */}
                         <View className="flex-row justify-between mt-2 flex-wrap">
                             <Text allowFontScaling={false} className="font-[Poppins] text-xs text-gray-600 dark:text-gray-400 italic">
-                                {item.takhrij}
+                                <HighlightedText text={item.takhrij} search={search} />
                             </Text>
                             <Text allowFontScaling={false} className="font-[Poppins] text-xs text-green-700 dark:text-green-300">
                                 {item.grade}
@@ -86,6 +121,22 @@ export default function HadithScreen() {
                     </TouchableOpacity>
                 )}
             />
+
+            {showScrollToTop && (
+                <TouchableOpacity
+                    onPress={scrollToTop}
+                    className="absolute bottom-6 right-6 bg-green-800 w-12 h-12 rounded-full justify-center items-center shadow-lg"
+                    style={{
+                        elevation: 5, // Pour Android
+                        shadowColor: "#000", // Pour iOS
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3.84,
+                    }}
+                >
+                    <Ionicons name="arrow-up" size={24} color="#fff" />
+                </TouchableOpacity>
+            )}
 
             <Modal
                 visible={modalVisible}

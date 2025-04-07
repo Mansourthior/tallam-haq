@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import RNFS from 'react-native-fs';
 import Toast from 'react-native-toast-message';
 import booksJson from '../../assets/books.json';
+import { assets } from '../../assets/js/assets';
 
 export default function BooksScreen() {
   const navigation = useNavigation();
@@ -13,8 +14,6 @@ export default function BooksScreen() {
   const [loading, setLoading] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const bgDark = require('../../assets/images/bg-dark.jpeg');
-  const bgLight = require('../../assets/images/bg-white.jpg');
 
   // @ts-ignore
   const downloadFile = async (pdfUrl, fileName, id) => {
@@ -156,7 +155,7 @@ export default function BooksScreen() {
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? bgDark : bgLight} resizeMode="cover" style={{
+      <ImageBackground source={colorScheme === 'dark' ? assets.bgDark : assets.bgLight} resizeMode="cover" style={{
         position: "absolute",
         width: "100%",
         height: "100%",
@@ -167,7 +166,7 @@ export default function BooksScreen() {
           data={filteredCategories}
           renderItem={({ item }) => renderCategoryItem(item)}
           keyExtractor={item => item}
-          contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 8 }}
+          contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 12, marginTop: 8 }}
           indicatorStyle={"white"}
         />
 

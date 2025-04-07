@@ -1,14 +1,17 @@
 import { fetchSourates } from "@/redux/actions";
-import { useEffect, useState } from "react";
-import { View, Text, ScrollView, Pressable, ActivityIndicator, ImageBackground, useColorScheme, TextInput } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { View, Text, ScrollView, Pressable, ActivityIndicator, ImageBackground, useColorScheme, TextInput, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { surahTranslations } from "../../utils/sourate-utils";
 import { useNavigation } from "expo-router";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
+import { assets } from '../../assets/js/assets';
 
 export default function QuranScreen() {
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const scrollViewRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch();
   // @ts-ignore
@@ -17,8 +20,7 @@ export default function QuranScreen() {
   const loading = useSelector((state) => state.sourates.loading);
   // @ts-ignore
   const error = useSelector((state) => state.sourates.error);
-  const bgDark = require('../../assets/images/bg-dark.jpeg');
-  const bgLight = require('../../assets/images/bg-white.jpg');
+
   const getFrenchName = (name: string): string => {
     return surahTranslations[name] || name;
   };
@@ -36,6 +38,24 @@ export default function QuranScreen() {
     dispatch(fetchSourates());
   }, [dispatch]);
 
+
+  const filteredSourates = sourates.filter((s: any) =>
+    s.englishName.toLowerCase().includes(searchQuery.toLowerCase())
+    || getFrenchName(s.englishName).toLowerCase().includes(searchQuery.toLowerCase())
+    || s.name.includes(searchQuery.toLowerCase())
+  );
+
+
+  const handleScroll = (event: any) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    setShowScrollToTop(offsetY > 200); // Afficher le bouton après 200px de défilement
+  };
+
+  const scrollToTop = () => {
+    // @ts-ignore
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+  };
+
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center bg-white dark:bg-black">
@@ -49,16 +69,10 @@ export default function QuranScreen() {
     );
   }
 
-  const filteredSourates = sourates.filter((s: any) =>
-    s.englishName.toLowerCase().includes(searchQuery.toLowerCase())
-    || getFrenchName(s.englishName).toLowerCase().includes(searchQuery.toLowerCase())
-    || s.name.includes(searchQuery.toLowerCase())
-  );
-
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? bgDark : bgLight} resizeMode="cover" style={{
+      <ImageBackground source={colorScheme === 'dark' ? assets.bgDark : assets.bgLight} resizeMode="cover" style={{
         position: "absolute",
         width: "100%",
         height: "100%",
@@ -78,7 +92,9 @@ export default function QuranScreen() {
             />
           </View>
         </View>
-        <ScrollView className="px-4 py-4" indicatorStyle={"white"}>
+        <ScrollView ref={scrollViewRef}
+          onScroll={handleScroll}
+          scrollEventThrottle={16} className="px-4 py-4" indicatorStyle={"white"}>
           {filteredSourates.map((sourate: any) => (
             <Pressable
               key={sourate.number}
@@ -127,6 +143,22 @@ export default function QuranScreen() {
             </Pressable>
           ))}
         </ScrollView>
+
+        {showScrollToTop && (
+          <TouchableOpacity
+            onPress={scrollToTop}
+            className="absolute bottom-6 right-6 bg-green-800 w-12 h-12 rounded-full justify-center items-center shadow-lg"
+            style={{
+              elevation: 5, // Pour Android
+              shadowColor: "#000", // Pour iOS
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+            }}
+          >
+            <Ionicons name="arrow-up" size={24} color="#ffffff" />
+          </TouchableOpacity>
+        )}
       </ImageBackground>
     </View>
   );
