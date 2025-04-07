@@ -115,7 +115,7 @@ export default function BooksScreen() {
           <Ionicons
             name={"enter"}
             size={18}
-            color={"#388E3C"}
+            color={"#b7d5ac"}
           />
         </View>
       </View>
