@@ -178,7 +178,7 @@ export default function BooksScreen() {
         >
           <SafeAreaView className="flex-1 p-4 bg-gray-50 dark:bg-black">
             <View className="items-center justify-center p-4">
-              <Text allowFontScaling={false} className="text-lg text-green-900 dark:text-black font-[PoppinsBold]">
+              <Text allowFontScaling={false} className="text-lg text-green-900 dark:text-white font-[PoppinsBold]">
                 {selectedCategory}
               </Text>
             </View>

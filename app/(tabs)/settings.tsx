@@ -13,7 +13,7 @@ export default function SettingsScreen() {
   // @ts-ignore
   const SettingsItem = ({ icon, title, rightComponent, isFocus = false }) => (
     <View className={
-      isFocus ? "flex-row items-center justify-between py-4 px-6 bg-green-900 mb-4 rounded-lg" : "flex-row items-center justify-between py-4 px-6 bg-white mb-4 dark:bg-lime-700 rounded-lg"}>
+      isFocus ? "flex-row items-center justify-between py-4 px-6 bg-green-900 mb-4 rounded-lg" : "flex-row items-center justify-between py-4 px-6 bg-white mb-4 dark:bg-lime-900 rounded-lg"}>
       <View className="flex-row items-center">
         <Ionicons
           name={icon}
