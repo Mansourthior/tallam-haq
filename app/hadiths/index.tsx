@@ -103,7 +103,7 @@ export default function HadithScreen() {
                             size={18}
                             color={"#b7d5ac"}
                         />
-                        <Text className="text-white font-[Poppins] text-sm ml-1">Partager</Text>
+                        <Text className="text-white font-[PoppinsBold] text-sm ml-1">Partager</Text>
                     </Pressable>
                     <ScrollView indicatorStyle='white' className="p-4">
                         <Text allowFontScaling={false} className="font-[Poppins] text-xl font-bold mb-2 text-green-900 dark:text-white">Arabe</Text>
@@ -116,7 +116,7 @@ export default function HadithScreen() {
                         <Text allowFontScaling={false} className="font-[Poppins] text-base mb-6 text-gray-600 dark:text-gray-400">Source : {selectedHadith?.takhrij}</Text>
                     </ScrollView>
 
-                    <TouchableOpacity onPress={closeModal} className="bg-green-700 p-4 m-4 rounded-xl">
+                    <TouchableOpacity onPress={closeModal} className="bg-green-900 p-4 m-4 rounded-xl">
                         <Text className="font-[Poppins] text-white text-center font-bold">Fermer</Text>
                     </TouchableOpacity>
                 </SafeAreaView>

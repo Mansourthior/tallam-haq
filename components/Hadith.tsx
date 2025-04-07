@@ -25,7 +25,7 @@ export default function Hadith({ hadith }) {
                             size={14}
                             color={"#b7d5ac"}
                         />
-                        <Text className="text-white font-[Poppins] text-xs ml-1">Voir hadiths</Text>
+                        <Text className="text-white font-[PoppinsBold] text-xs ml-1">Voir hadiths</Text>
                     </Pressable>
                     <View className="flex-row gap-2">
                         <Pressable onPress={() => onShare(hadith)}>
