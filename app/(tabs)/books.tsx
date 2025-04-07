@@ -82,6 +82,7 @@ export default function BooksScreen() {
   const openBook = async (url, fileName, id) => {
     const filePath = await downloadFile(url, fileName.split(' ').join('_') + '.pdf', id);
     if (filePath) {
+      setModalVisible(false);
       // @ts-ignore
       navigation.navigate('pdf/[route]', { route: filePath });
     }
