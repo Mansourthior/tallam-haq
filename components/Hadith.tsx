@@ -9,7 +9,7 @@ export default function Hadith({ hadith }) {
     const navigation = useNavigation();
 
     return (
-        <View className="bg-slate-50 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
+        <View className="bg-slate-50 dark:bg-lime-200 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
             <View>
                 <View className="flex-row justify-between items-center mb-4">
                     <Text allowFontScaling={false} className="text-stone-800 font-[Poppins] text-xl font-bold">
