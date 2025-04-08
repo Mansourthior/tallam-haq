@@ -94,7 +94,7 @@ export default function QuranScreen() {
         </View>
         <ScrollView ref={scrollViewRef}
           onScroll={handleScroll}
-          scrollEventThrottle={16} className="px-4 py-4" indicatorStyle={"white"}>
+          scrollEventThrottle={16} className="px-4 py-4 mb-1" indicatorStyle={"white"}>
           {filteredSourates.map((sourate: any) => (
             <Pressable
               key={sourate.number}

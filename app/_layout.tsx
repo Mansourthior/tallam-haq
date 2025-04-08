@@ -11,10 +11,11 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
 import "../assets/css/global.css";
-import { ActivityIndicator, Image, Text, View } from "react-native";
+import { ActivityIndicator, Image, Pressable, Text, View } from "react-native";
 import Toast from 'react-native-toast-message';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import OnboardingSlider from "@/components/OnBoardingSlider";
+import { Ionicons } from "@expo/vector-icons";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -142,7 +143,7 @@ export default function RootLayout() {
             />
             <Stack.Screen
               name="sourates/[id]/[en]"
-              options={{
+              options={({ navigation }) => ({
                 headerShown: true,
                 headerTitle: "",
                 headerTintColor: '#0a5c0a',
@@ -151,7 +152,13 @@ export default function RootLayout() {
                   fontFamily: "Poppins",
                   fontWeight: "bold"
                 },
-              }}
+                headerLeft: () => (
+                  <Pressable
+                    onPress={() => navigation.navigate("(tabs)")}>
+                    <Ionicons name="arrow-back" size={24} color="#0a5c0a" />
+                  </Pressable>
+                ),
+              })}
             />
             <Stack.Screen
               name="pdf/[route]"

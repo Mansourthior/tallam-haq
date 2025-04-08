@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
-import { View, Text, Pressable, useColorScheme, ScrollView, Linking, Modal, ImageBackground, Switch, Animated } from "react-native";
+import { View, Text, Pressable, useColorScheme, ScrollView, Linking, Modal, ImageBackground, Switch, Animated, SafeAreaView, TouchableOpacity } from "react-native";
 import { useColorScheme as useColorSchemeExpo } from "nativewind";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { assets } from '../../assets/js/assets';
@@ -11,6 +11,7 @@ export default function SettingsScreen() {
   const systemColorScheme = useColorScheme();
   const { colorScheme, setColorScheme } = useColorSchemeExpo();
   const [showAboutModal, setShowAboutModal] = useState(false);
+  const [showCGUModal, setShowCGUModal] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Fonction pour basculer entre les thèmes avec indicateur d'activité
@@ -112,6 +113,14 @@ export default function SettingsScreen() {
             />
           </Pressable>
 
+          <Pressable onPress={() => setShowCGUModal(true)}>
+            <SettingsItem
+              icon="document-text-outline"
+              title="Conditions Générales d'Utilisation"
+              rightComponent={null}
+            />
+          </Pressable>
+
           <Modal
             visible={showAboutModal}
             animationType="fade"
@@ -147,6 +156,25 @@ export default function SettingsScreen() {
                 </Pressable>
               </View>
             </View>
+          </Modal>
+
+
+          <Modal
+            visible={showCGUModal}
+            animationType="slide"
+            onRequestClose={() => setShowCGUModal(false)}
+          >
+            <SafeAreaView className="flex-1 bg-white dark:bg-black">
+              <View className="items-center justify-center p-4">
+                <Text allowFontScaling={false} className="text-lg text-green-900 dark:text-white font-[PoppinsBold]">
+                  Conditions Générales d'Utilisation
+                </Text>
+              </View>
+
+              <TouchableOpacity onPress={() => setShowCGUModal(false)} className="bg-green-900 p-4 m-4 rounded-xl">
+                <Text className="font-[Poppins] text-white text-center font-bold">Fermer</Text>
+              </TouchableOpacity>
+            </SafeAreaView>
           </Modal>
 
           <View className="mt-20 px-6">

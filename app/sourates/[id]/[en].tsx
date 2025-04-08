@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { View, Text, Pressable, ActivityIndicator, SafeAreaView, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Verset from "@/components/Verset";
+import souratesJson from '../../../assets/sourates.json';
+import Toast from "react-native-toast-message";
 
 export default function SourateScreen() {
     const navigation = useNavigation();
@@ -24,11 +26,13 @@ export default function SourateScreen() {
         dispatch(fetchVerses(id));
     }, [dispatch]);
 
-
-
     useEffect(() => {
         navigation.setOptions({ headerTitle: en });
     });
+
+    const getSourate = (id: number) => {
+        return souratesJson[id - 1]?.englishName;
+    }
 
 
     if (loading) {
@@ -61,6 +65,28 @@ export default function SourateScreen() {
                             </Text>
                         </View>
                 }
+                ListFooterComponent={() => {
+                    const nextId = Number(id) + 1;
+                    const nextName = getSourate(nextId);
+
+                    if (nextId > 114) return null;
+
+                    return (
+                        <Pressable
+                            onPress={() => {
+                                setTimeout(() => {
+                                    // @ts-ignore
+                                    navigation.push("sourates/[id]/[en]", { id: String(nextId), en: nextName });
+                                }, 200);
+                            }}
+                            className="my-4 mx-24 py-2 px-6 bg-green-900 rounded-full"
+                        >
+                            <Text className="text-white text-center text-base font-[PoppinsBold]">
+                                Suivante →
+                            </Text>
+                        </Pressable>
+                    );
+                }}
             />
             <Pressable
                 // @ts-ignore
