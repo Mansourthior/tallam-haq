@@ -97,16 +97,18 @@ export default function HadithScreen() {
 
                         {/* Badges des catégories */}
                         <View className="flex-row flex-wrap gap-2 mb-2">
-                            {item.categories?.map((category, index) => (
-                                <View
-                                    key={index}
-                                    className="font-[Poppins] bg-green-200 dark:bg-green-900 px-2 py-1 rounded-full"
-                                >
-                                    <Text allowFontScaling={false} className="font-[Poppins] text-xs text-green-800 dark:text-green-200">
-                                        <HighlightedText text={category} search={search} />
-                                    </Text>
-                                </View>
-                            ))}
+                            {
+                                // @ts-ignore
+                                item.categories?.map((category, index) => (
+                                    <View
+                                        key={index}
+                                        className="font-[Poppins] bg-green-200 dark:bg-green-900 px-2 py-1 rounded-full"
+                                    >
+                                        <Text allowFontScaling={false} className="font-[Poppins] text-xs text-green-800 dark:text-green-200">
+                                            <HighlightedText text={category} search={search} />
+                                        </Text>
+                                    </View>
+                                ))}
                         </View>
 
                         {/* Référence + Authenticité */}

@@ -47,18 +47,6 @@ export default function SourateScreen() {
     return (
         <SafeAreaView className="flex-1 bg-gray-50 dark:bg-black">
             {/* Liste des versets */}
-            <Pressable
-                // @ts-ignore
-                onPress={() => navigation.navigate("favoris/[sourate]", { sourate: id })}
-                className="flex-row bg-green-800 py-2 px-4 rounded-full m-2 self-end"
-            >
-                <Ionicons
-                    name={"bookmark"}
-                    size={16}
-                    color={"#b7d5ac"}
-                />
-                <Text className="text-white font-[Poppins] text-sm ml-1">Mes favoris</Text>
-            </Pressable>
             <FlatList
                 data={verses}
                 renderItem={({ item, index }) => <Verset sourateId={id} item={item} />}
@@ -74,6 +62,21 @@ export default function SourateScreen() {
                         </View>
                 }
             />
+            <Pressable
+                // @ts-ignore
+                onPress={() => navigation.navigate("favoris/[sourate]", { sourate: id })}
+                className="absolute bottom-6 right-6 bg-green-800 w-14 h-14 rounded-full justify-center items-center shadow-lg"
+                style={{
+                    elevation: 5,
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+                }}
+            >
+                <Ionicons name="bookmark" size={24} color="#b7d5ac" />
+            </Pressable>
+
         </SafeAreaView>
     );
 }
