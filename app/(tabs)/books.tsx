@@ -1,19 +1,49 @@
-import { useState } from "react";
-import { View, Text, TextInput, FlatList, Pressable, ImageBackground, useColorScheme, ActivityIndicator, Modal, TouchableOpacity, SafeAreaView } from "react-native";
-import { Feather, Ionicons } from '@expo/vector-icons';
+// BookScreen.jsx
+import { useEffect, useState } from "react";
+import { View, ImageBackground, useColorScheme, Modal, SafeAreaView, Pressable, Text } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import RNFS from 'react-native-fs';
 import Toast from 'react-native-toast-message';
 import booksJson from '../../assets/books.json';
 import { assets } from '../../assets/js/assets';
+import { loadFavorites, toggleFavorite } from "@/utils/favorites-books";
+import CategoryList from '../../components/CategoryList';
+import BookModal from '../../components/BookModal';
+import { Ionicons } from "@expo/vector-icons";
+import FavoritesBooksModal from "@/components/FavoritesBooksModal";
 
 export default function BooksScreen() {
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState<any>(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [favoritesModalVisible, setFavoritesModalVisible] = useState(false);
+  const [favorites, setFavorites] = useState([]);
+
+  // Grouper les PDFs par catégorie
+  const categorizedBooks = booksJson.reduce((acc, book) => {
+    const category = book.category || 'Autres';
+    // @ts-ignore
+    if (!acc[category]) {
+      // @ts-ignore
+      acc[category] = [];
+    }
+    // @ts-ignore
+    acc[category].push(book);
+    return acc;
+  }, {});
+
+  // Liste plate de tous les livres pour l'utiliser dans la modale des favoris
+  const allBooks = Object.values(categorizedBooks).flat();
+
+  const filteredCategories = Object.keys(categorizedBooks);
+
+  // @ts-ignore
+  const filteredPdfList = categorizedBooks[selectedCategory]?.filter(pdf =>
+    pdf.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   // @ts-ignore
   const downloadFile = async (pdfUrl, fileName, id) => {
@@ -55,27 +85,22 @@ export default function BooksScreen() {
     }
   };
 
-  // Grouper les PDFs par catégorie
-  const categorizedBooks = booksJson.reduce((acc, book) => {
-    const category = book.category || 'Autres'; // Si pas de catégorie, on les met dans "Autres"
-    // @ts-ignore
-    if (!acc[category]) {
-      // @ts-ignore
-      acc[category] = [];
-    }
-    // @ts-ignore
-    acc[category].push(book);
-    return acc;
-  }, {});
+  // Charger les favoris au démarrage
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      const favs = await loadFavorites();
+      setFavorites(favs);
+    };
 
-  const filteredCategories = Object.keys(categorizedBooks);
+    fetchFavorites();
+  }, []);
 
+  // Fonction pour ajouter/supprimer des favoris
   // @ts-ignore
-  const filteredPdfList = categorizedBooks[selectedCategory]?.filter(pdf =>
-    pdf.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-
+  const toggleFav = async (id) => {
+    const newFavorites = await toggleFavorite(favorites, id);
+    setFavorites(newFavorites);
+  };
 
   // @ts-ignore
   const openBook = async (url, fileName, id) => {
@@ -88,127 +113,82 @@ export default function BooksScreen() {
   };
 
   // @ts-ignore
-  const renderCategoryItem = (category) => (
-    <Pressable
-      key={category}
-      onPress={() => {
-        setSelectedCategory(category);
-        // @ts-ignore
-        setModalVisible(true);
-        setSearchQuery("");
-      }}
-      className="mb-4 bg-white dark:bg-lime-900 rounded-xl shadow-amber-50 active:opacity-90"
-    >
-      <View className="p-4 flex-row justify-between items-center">
-        <View className="flex-row gap-4 items-center flex-1">
+  const handleCategoryPress = (category) => {
+    setSelectedCategory(category);
+    setModalVisible(true);
+    setSearchQuery("");
+  };
 
-          <Feather name="folder" size={24} color="#b7d5ac" />
-
-          <View className="flex-1">
-            <Text allowFontScaling={false} className="font-[Poppins] text-green-800 dark:text-white">
-              {category}
-            </Text>
-          </View>
-        </View>
-        <View className="items-end">
-          <Ionicons
-            name={"enter"}
-            size={18}
-            color={"#b7d5ac"}
-          />
-        </View>
-      </View>
-    </Pressable>
-  );
-
-  // @ts-ignore
-  const renderPdfItem = ({ item }) => (
-    <Pressable
-      key={item.id}
-      // @ts-ignore
-      onPress={() => openBook(item.link, item.title, item.id)}
-      className="mb-4 bg-white dark:bg-lime-900 rounded-xl shadow-amber-50 active:opacity-90"
-    >
-      <View className="p-4 flex-row justify-between items-center">
-        <View className="flex-row gap-4 items-center flex-1">
-
-          <Feather name="file-text" size={24} color="#b7d5ac" />
-
-          <View className="flex-1">
-            <Text allowFontScaling={false} className="font-[Poppins] text-green-800 dark:text-white">
-              {item.title}
-            </Text>
-          </View>
-        </View>
-
-        {loading === item.id ? (
-          <ActivityIndicator size="small" color="#388E3C" />
-        ) : (
-          // <View className="items-end bg-green-100 px-2 py-1 rounded-full">
-          // favoris
-          // </View>
-          <View></View>
-        )}
-      </View>
-    </Pressable>
-  );
+  const openFavoritesModal = () => {
+    setFavoritesModalVisible(true);
+  };
 
   return (
     <View className="flex-1">
-      <ImageBackground source={colorScheme === 'dark' ? assets.bgDark : assets.bgLight} resizeMode="cover" style={{
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-      }}>
-
-        {/* Liste des PDFs */}
-        <FlatList
-          data={filteredCategories}
-          renderItem={({ item }) => renderCategoryItem(item)}
-          keyExtractor={item => item}
-          contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 12, marginTop: 8 }}
-          indicatorStyle={"white"}
+      <ImageBackground
+        source={colorScheme === 'dark' ? assets.bgDark : assets.bgLight}
+        resizeMode="cover"
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <CategoryList
+          categories={filteredCategories}
+          onCategoryPress={handleCategoryPress}
         />
 
-        {/* Modale pour afficher les livres d'une catégorie */}
+        <Pressable
+          // @ts-ignore
+          onPress={openFavoritesModal}
+          className="absolute bottom-6 right-6 bg-green-800 w-14 h-14 rounded-full justify-center items-center shadow-lg"
+          style={{
+            elevation: 5,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+          }}
+        >
+          <Ionicons name="bookmark" size={24} color="#b7d5ac" />
+        </Pressable>
+
         <Modal
           visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)} // Fermer la modale
+          onRequestClose={() => setModalVisible(false)}
           animationType="slide"
         >
           <SafeAreaView className="flex-1 p-4 bg-gray-50 dark:bg-black">
-            <View className="items-center justify-center p-4">
-              <Text allowFontScaling={false} className="text-lg text-green-900 dark:text-white font-[PoppinsBold]">
-                {selectedCategory}
-              </Text>
-            </View>
-
-            <View className="p-4 bg-transparent dark:bg-transparent">
-              <View className="flex-row items-center rounded-full px-4 py-2">
-                <Feather name="search" size={20} color={colorScheme === 'dark' ? '#fff' : '#134200'} />
-                <TextInput
-                  className="flex-1 ml-2 text-gray-900 dark:text-white"
-                  placeholder="Rechercher un PDF"
-                  placeholderTextColor={colorScheme === 'dark' ? '#fff' : '#134200'}
-                  placeholderClassName="font-[Poppins]"
-                  value={searchQuery}
-                  onChangeText={setSearchQuery}
-                />
-              </View>
-            </View>
-
-            <FlatList
-              // @ts-ignore
-              data={filteredPdfList}
-              renderItem={renderPdfItem}
-              keyExtractor={item => item.id}
-              contentContainerStyle={{ paddingTop: 10, paddingHorizontal: 16 }}
+            <BookModal
+              categoryName={selectedCategory}
+              books={filteredPdfList}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              loading={loading}
+              favorites={favorites}
+              colorScheme={colorScheme}
+              onClose={() => setModalVisible(false)}
+              onBookOpen={openBook}
+              onToggleFavorite={toggleFav}
             />
-
-            <TouchableOpacity onPress={() => setModalVisible(false)} className="bg-green-900 p-4 m-4 rounded-xl">
-              <Text className="font-[Poppins] text-white text-center font-bold">Fermer</Text>
-            </TouchableOpacity>
           </SafeAreaView>
+        </Modal>
+
+        {/* Modale pour les favoris */}
+        <Modal
+          visible={favoritesModalVisible}
+          onRequestClose={() => setFavoritesModalVisible(false)}
+          animationType="slide"
+        >
+          <FavoritesBooksModal
+            favorites={favorites}
+            books={allBooks}
+            loading={loading}
+            onClose={() => setFavoritesModalVisible(false)}
+            onBookOpen={openBook}
+            onToggleFavorite={toggleFav}
+          />
         </Modal>
       </ImageBackground>
     </View>

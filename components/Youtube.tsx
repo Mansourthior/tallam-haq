@@ -10,9 +10,6 @@ export default function Youtube() {
                 <Text allowFontScaling={false} className="text-white text-xl font-bold font-[Poppins]">
                     Nos chaînes Youtube
                 </Text>
-                <Text allowFontScaling={false} className="text-gray-50 text-sm font-[Poppins]">
-                    Cliquez pour ouvrir - Scrollez horizontalement
-                </Text>
             </View>
             <ScrollView
                 horizontal
