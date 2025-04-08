@@ -1,23 +1,27 @@
-import { Share } from "react-native";
+import { captureRef } from 'react-native-view-shot';
+import Share from 'react-native-share';
 
-export const onShare = async (hadith: any) => {
-    try {
-        const result = await Share.share({
-            message: hadith.hadith_text_ar + '\n\n\n' +
-                hadith.hadith_text + ' ' + hadith.grade + ' ' + hadith.takhrij
-            // + "\n Découvrez cette superbe application ! 📱✨\nTéléchargez-la ici : https://example.com",
-        });
+let viewRef: any = null;
 
-        if (result.action === Share.sharedAction) {
-            if (result.activityType) {
-                console.log("Partagé via", result.activityType);
-            } else {
-                console.log("Partage réussi !");
-            }
-        } else if (result.action === Share.dismissedAction) {
-            console.log("Partage annulé");
-        }
-    } catch (error) {
-        console.error("Erreur lors du partage :", error);
-    }
+export const setShareViewRef = (ref: any) => {
+  viewRef = ref;
+};
+
+export const onShare = async () => {
+  if (!viewRef) return;
+
+  try {
+    const uri = await captureRef(viewRef, {
+      format: 'png',
+      quality: 1,
+    });
+
+    await Share.open({
+      url: uri,
+      type: 'image/png',
+      failOnCancel: false,
+    });
+  } catch (error) {
+    console.error('Erreur lors du partage :', error);
+  }
 };
