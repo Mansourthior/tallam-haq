@@ -185,6 +185,9 @@ export default function BooksScreen() {
           <FavoritesBooksModal
             favorites={favorites}
             books={allBooks}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            colorScheme={colorScheme}
             loading={loading}
             onClose={() => setFavoritesModalVisible(false)}
             onBookOpen={openBook}
