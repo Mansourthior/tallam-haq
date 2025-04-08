@@ -107,6 +107,7 @@ export default function BooksScreen() {
     const filePath = await downloadFile(url, fileName.split(' ').join('_') + '.pdf', id);
     if (filePath) {
       setModalVisible(false);
+      setFavoritesModalVisible(false);
       // @ts-ignore
       navigation.navigate('pdf/[route]', { route: filePath });
     }
