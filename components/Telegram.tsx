@@ -19,7 +19,7 @@ export default function Telegram() {
 
 
     return (
-        <View className="bg-lime-700 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
+        <View className="bg-lime-900 dark:bg-lime-950 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
             <View className="mb-4">
                 <Text allowFontScaling={false} className="text-white text-xl font-bold font-[Poppins]">
                     Nos chaînes Télégram
@@ -43,9 +43,9 @@ export default function Telegram() {
                         onPress={() => openLink(channel.url)}
                     >
                         <View className="items-center mx-2">
-                            <View className="flex flex-row gap-2 bg-amber-100 px-2 py-1 rounded-full">
-                                <Feather name="link" size={16} color="#FF6F00" />
-                                <Text allowFontScaling={false} className="font-[Poppins] text-lime-800 text-sm font-bold uppercase">
+                            <View className="flex flex-row gap-2 bg-lime-50 px-2 py-1 rounded-full">
+                                <Feather name="link" size={16} color="#0a5c0a" />
+                                <Text allowFontScaling={false} className="font-[Poppins] text-green-900 text-sm font-bold uppercase">
                                     {channel.name}
                                 </Text>
                             </View>
@@ -59,9 +59,9 @@ export default function Telegram() {
                     onPress={() => setModalVisible(true)}
                     className="mt-4 self-center"
                 >
-                    <View className="flex flex-row items-center bg-lime-900 px-3 py-1 rounded-full">
-                        <Feather name="plus" size={16} color="#fff" />
-                        <Text className="text-white text-sm font-bold ml-1">
+                    <View className="flex flex-row items-center bg-emerald-950 px-3 py-1 rounded-full">
+                        <Feather name="plus" size={18} color="#fff" />
+                        <Text className="font-[Poppins] text-white text-sm font-bold ml-1">
                             Voir plus
                         </Text>
                     </View>
@@ -90,7 +90,7 @@ export default function Telegram() {
                                     openLink(item.url);
                                     setModalVisible(false);
                                 }}
-                                className="mb-4 bg-white dark:bg-lime-900 rounded-xl shadow-amber-50 active:opacity-90"
+                                className="mb-4 bg-white dark:bg-lime-950  rounded-xl active:opacity-90"
                             >
                                 <View className="p-4 flex-row justify-between items-center">
                                     <View className="flex-row gap-4 items-center flex-1">
@@ -117,7 +117,7 @@ export default function Telegram() {
                         contentContainerStyle={{ paddingTop: 10, paddingHorizontal: 16 }}
                     />
 
-                    <Pressable onPress={() => setModalVisible(false)} className="bg-green-900 p-4 m-4 rounded-xl">
+                    <Pressable onPress={() => setModalVisible(false)} className="bg-emerald-950 p-4 m-4 rounded-xl">
                         <Text className="font-[Poppins] text-white text-center font-bold">Fermer</Text>
                     </Pressable>
                 </SafeAreaView>

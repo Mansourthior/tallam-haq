@@ -34,7 +34,7 @@ export default function RootLayout() {
   const LogoTitle = () => {
     return (
       <Image
-        style={{ width: 40, height: 40, borderRadius: 20 }}
+        style={{ width: 35, height: 35, borderRadius: 20 }}
         source={require('../assets/images/icon.png')}
       />
     );

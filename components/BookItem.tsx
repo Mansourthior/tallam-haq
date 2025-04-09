@@ -9,7 +9,7 @@ const BookItem = ({ book, loading, isFavorite, onPress, onToggleFavorite }) => {
         <Pressable
             key={book.id}
             onPress={onPress}
-            className="mb-4 bg-white dark:bg-lime-900 rounded-xl shadow-amber-50 active:opacity-90"
+            className="mb-4 bg-white dark:bg-lime-950 rounded-xl shadow-amber-50 active:opacity-90"
         >
             <View className="p-4 flex-row justify-between items-center">
                 <View className="flex-row gap-4 items-center flex-1">

@@ -26,9 +26,9 @@ export default function Youtube() {
                         onPress={() => openLink(channel.url)}
                     >
                         <View className="items-center mx-2">
-                            <View className="flex flex-row gap-2 bg-amber-100 px-2 py-1 rounded-full">
-                                <Feather name="link" size={16} color="#FF6F00" />
-                                <Text allowFontScaling={false} className="text-lime-800 font-[PoppinsBold] text-sm uppercase">
+                            <View className="flex flex-row gap-2 bg-lime-50 px-2 py-1 rounded-full">
+                                <Feather name="link" size={16} color="#0a5c0a" />
+                                <Text allowFontScaling={false} className="text-green-900 font-[PoppinsBold] text-sm uppercase">
                                     {channel.name}
                                 </Text>
                             </View>

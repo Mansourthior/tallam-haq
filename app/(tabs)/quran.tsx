@@ -59,9 +59,9 @@ export default function QuranScreen() {
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center bg-white dark:bg-black">
-        <View className="bg-white dark:bg-black px-8 py-6 rounded-2xl items-center space-y-4">
+        <View className="bg-white dark:bg-gray-800 px-8 py-6 rounded-2xl items-center space-y-4">
           <ActivityIndicator size="large" color="#388E3C" />
-          <Text className="text-gray-700 font-medium text-center mt-2">
+          <Text className="text-gray-700 dark:text-white font-medium text-center mt-2">
             Chargement en cours...
           </Text>
         </View>
@@ -99,13 +99,13 @@ export default function QuranScreen() {
             <Pressable
               key={sourate.number}
               onPress={() => openSourate(sourate.englishName, sourate.number)}
-              className="mb-4 bg-white dark:bg-lime-900 rounded-xl shadow-sm shadow-amber-50 dark:shadow-amber-900 active:opacity-90"
+              className="mb-4 bg-white dark:bg-lime-950 rounded-xl shadow-sm active:opacity-90"
             >
               <View className="p-4 flex-row justify-between items-center">
                 <View className="flex-row items-center flex-1">
                   {/* Number Circle */}
-                  <View className="w-12 h-12 rounded-full bg-green-700 dark:bg-neutral-50 items-center justify-center mr-4">
-                    <Text allowFontScaling={false} className="text-white dark:text-lime-700 text-lg font-bold">
+                  <View className="w-12 h-12 rounded-full bg-green-800 dark:bg-green-50 items-center justify-center mr-4">
+                    <Text allowFontScaling={false} className="text-lime-100 dark:text-lime-700 text-lg font-bold">
                       {sourate.number}
                     </Text>
                   </View>
@@ -127,12 +127,12 @@ export default function QuranScreen() {
                     {sourate.name}
                   </Text>
                   <View className="flex-row gap-2">
-                    <View className="bg-green-100 px-2 py-1 rounded-full">
+                    <View className="bg-green-100 dark:bg-green-50 px-2 py-1 rounded-full">
                       <Text allowFontScaling={false} className="font-[Poppins] text-xs text-green-800">
                         {sourate.numberOfAyahs} versets
                       </Text>
                     </View>
-                    <View className="bg-green-100 px-2 py-1 rounded-full">
+                    <View className="bg-green-100 dark:bg-green-50 px-2 py-1 rounded-full">
                       <Text allowFontScaling={false} className="font-[Poppins] text-xs text-green-800">
                         {sourate.revelationType === 'Meccan' ? 'Mecquoise' : 'Médinoise'}
                       </Text>
@@ -147,7 +147,7 @@ export default function QuranScreen() {
         {showScrollToTop && (
           <TouchableOpacity
             onPress={scrollToTop}
-            className="absolute bottom-6 right-6 bg-green-800 w-12 h-12 rounded-full justify-center items-center shadow-lg"
+            className="absolute bottom-6 right-6 bg-emerald-950 dark:bg-white w-12 h-12 rounded-full justify-center items-center shadow-lg"
             style={{
               elevation: 5, // Pour Android
               shadowColor: "#000", // Pour iOS
@@ -156,7 +156,7 @@ export default function QuranScreen() {
               shadowRadius: 3.84,
             }}
           >
-            <Ionicons name="arrow-up" size={24} color="#ffffff" />
+            <Ionicons name="arrow-up" size={24} color={colorScheme == 'dark' ? '#0a5c0a' : '#fff'} />
           </TouchableOpacity>
         )}
       </ImageBackground>

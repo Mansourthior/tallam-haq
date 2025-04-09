@@ -43,14 +43,14 @@ export default function OnboardingSlider({ onComplete }) {
             id: '5',
             title: 'Heures de prières',
             description: 'Consultez les horaires précis des prières quotidiennes selon votre localisation.',
-            image: assets.icon, // Remplacez par une image d'horaires de prière
+            image: assets.salatSlider, // Remplacez par une image d'horaires de prière
             icon: 'clock'
         },
         {
             id: '6',
             title: 'Prêt à commencer',
             description: "Qu'Allah facilite votre pratique et enrichisse vos connaissances à travers cette application.",
-            image: assets.icon, // Remplacez par une image de mosquée ou autre image inspirante
+            image: assets.handSlider, // Remplacez par une image de mosquée ou autre image inspirante
             icon: 'heart'
         }
     ];

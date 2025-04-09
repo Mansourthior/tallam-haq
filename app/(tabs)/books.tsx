@@ -143,7 +143,7 @@ export default function BooksScreen() {
         <Pressable
           // @ts-ignore
           onPress={openFavoritesModal}
-          className="absolute bottom-6 right-6 bg-green-800 w-14 h-14 rounded-full justify-center items-center shadow-lg"
+          className="absolute bottom-6 right-6 bg-emerald-950 dark:bg-white w-14 h-14 rounded-full justify-center items-center shadow-lg"
           style={{
             elevation: 5,
             shadowColor: "#000",
@@ -152,7 +152,7 @@ export default function BooksScreen() {
             shadowRadius: 3.84,
           }}
         >
-          <Ionicons name="bookmark" size={24} color="#b7d5ac" />
+          <Ionicons name="bookmark" size={24} color={colorScheme === 'dark' ? "#0a5c0a" : "#b7d5ac"} />
         </Pressable>
 
         <Modal

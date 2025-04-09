@@ -5,22 +5,22 @@ import * as Animatable from "react-native-animatable";
 export default function Prayers({ locationIsActived, error, nextPrayer, timeLeft, date, prayers }) {
 
     return (
-        <View className="bg-lime-50 rounded-3xl shadow-lg p-6 w-11/12 mx-auto mt-4">
+        <View className="bg-white dark:bg-green-950 rounded-3xl shadow-lg p-6 w-11/12 mx-auto mt-4">
             {/* TODO: gérer erreur connectivité */}
             <View className="mb-4 flex flex-row justify-between">
                 {!locationIsActived || error ? <View></View> :
                     <View>
-                        <Text allowFontScaling={false} className="font-[Poppins] text-lime-950 text-lg font-bold">{nextPrayer || 'Chargement...'}</Text>
+                        <Text allowFontScaling={false} className="font-[Poppins] text-lime-950 dark:text-white text-lg font-bold">{nextPrayer || 'Chargement...'}</Text>
                         {timeLeft == "00:00:00" ?
                             <Animatable.Text animation="pulse"
-                                iterationCount="infinite" className="text-lime-700 font-[Poppins] text-sm mt-2">C'est l'heure de la prière ...</Animatable.Text>
-                            : <Text allowFontScaling={false} className="font-[Poppins] text-lime-700 text-sm">{timeLeft ? `Dans ${timeLeft}` : 'Chargement...'}</Text>}
+                                iterationCount="infinite" className="text-lime-700 dark:text-white font-[Poppins] text-sm mt-2">C'est l'heure de la prière ...</Animatable.Text>
+                            : <Text allowFontScaling={false} className="font-[Poppins] text-lime-700 dark:text-white text-sm">{timeLeft ? `Dans ${timeLeft}` : 'Chargement...'}</Text>}
                     </View>}
                 <View>
-                    <Text allowFontScaling={false} className="font-[Poppins] pt-1 text-lime-950 text-2xl font-bold text-right">
+                    <Text allowFontScaling={false} className="font-[Poppins] pt-1 text-lime-950 dark:text-white text-2xl font-bold text-right">
                         اَلسَّلَامُ عَلَيْكُمْ
                     </Text>
-                    <Text allowFontScaling={false} className="font-[Poppins] text-lime-700 text-sm text-right">
+                    <Text allowFontScaling={false} className="font-[Poppins] text-lime-700 dark:text-white text-sm text-right">
                         {date?.hijri?.day} {date?.hijri?.month?.en} {date?.hijri.year}
                     </Text>
                 </View>
@@ -41,8 +41,8 @@ export default function Prayers({ locationIsActived, error, nextPrayer, timeLeft
                         <View key={index} className="items-center mx-3">
                             <Text
                                 allowFontScaling={false}
-                                className={`font-[Poppins] text-lime-900/25 ${prayer.name == nextPrayer
-                                    ? "font-bold text-xl font-[Poppins] text-lime-950/100"
+                                className={`font-[Poppins] text-lime-900/25 dark:text-white ${prayer.name == nextPrayer
+                                    ? "font-bold text-xl font-[Poppins] text-lime-950/100 dark:text-white"
                                     : ""
                                     }`}
                             >
@@ -50,7 +50,7 @@ export default function Prayers({ locationIsActived, error, nextPrayer, timeLeft
                             </Text>
                             <Text
                                 allowFontScaling={false}
-                                className={`text-lime-700 text-sm mt-1 font-[Poppins] ${prayer.name == nextPrayer ? "font-bold" : ""
+                                className={`text-lime-700 dark:text-lime-300 text-sm mt-1 font-[Poppins] ${prayer.name == nextPrayer ? "font-bold" : ""
                                     }`}
                             >
                                 {prayer.time ?? '...'}
@@ -58,7 +58,7 @@ export default function Prayers({ locationIsActived, error, nextPrayer, timeLeft
                         </View>
                     ))}
                 </ScrollView>) :
-                <Text className="text-lime-950 text-md text-center font-[Poppins]">
+                <Text className="text-lime-950 dark:text-white text-md text-center font-[Poppins]">
                     Veuillez activer la localisation dans les paramètres pour visualiser les heures de prière.
                 </Text>
             }

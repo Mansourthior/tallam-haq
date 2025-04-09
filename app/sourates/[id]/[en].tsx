@@ -2,7 +2,7 @@ import { fetchVerses } from "@/redux/actions";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect } from "react";
-import { View, Text, Pressable, ActivityIndicator, SafeAreaView, FlatList } from "react-native";
+import { View, Text, Pressable, ActivityIndicator, SafeAreaView, FlatList, useColorScheme } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Verset from "@/components/Verset";
 import souratesJson from '../../../assets/sourates.json';
@@ -11,6 +11,7 @@ import Toast from "react-native-toast-message";
 export default function SourateScreen() {
     const navigation = useNavigation();
     const { id, en } = useLocalSearchParams();
+    const colorScheme = useColorScheme();
     const dispatch = useDispatch();
     // @ts-ignore
     const verses = useSelector((state) => state.verses.verses);
@@ -91,7 +92,7 @@ export default function SourateScreen() {
             <Pressable
                 // @ts-ignore
                 onPress={() => navigation.navigate("favoris/[sourate]", { sourate: id })}
-                className="absolute bottom-6 right-6 bg-green-800 w-14 h-14 rounded-full justify-center items-center shadow-lg"
+                className="absolute bottom-6 right-6 bg-emerald-950 dark:bg-white w-14 h-14 rounded-full justify-center items-center shadow-lg"
                 style={{
                     elevation: 5,
                     shadowColor: "#000",
@@ -100,7 +101,7 @@ export default function SourateScreen() {
                     shadowRadius: 3.84,
                 }}
             >
-                <Ionicons name="bookmark" size={24} color="#b7d5ac" />
+                <Ionicons name="bookmark" size={24} color={colorScheme === 'dark' ? "#0a5c0a" : "#b7d5ac"} />
             </Pressable>
 
         </SafeAreaView>

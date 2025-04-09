@@ -50,7 +50,8 @@ export default function SettingsScreen() {
   // @ts-ignore
   const SettingsItem = ({ icon, title, rightComponent, isFocus = false }) => (
     <View className={
-      isFocus ? "flex-row items-center justify-between py-4 px-6 bg-green-900 mb-4 rounded-lg" : "flex-row items-center justify-between py-4 px-6 bg-white mb-4 dark:bg-lime-900 rounded-lg"}>
+      isFocus ? "flex-row items-center justify-between py-4 px-6 bg-green-950 mb-4 rounded-lg"
+        : "flex-row items-center justify-between py-4 px-6 bg-white mb-4 dark:bg-lime-950 rounded-lg"}>
       <View className="flex-row items-center">
         <Ionicons
           name={icon}
@@ -88,8 +89,8 @@ export default function SettingsScreen() {
               <Switch
                 value={currentTheme === 'dark'}
                 onValueChange={toggleTheme}
-                trackColor={{ false: '#ccc', true: '#4caf50' }}
-                thumbColor={currentTheme === 'dark' ? '#fff' : '#4caf50'}
+                trackColor={{ false: '#ccc', true: '#0a5c0a' }}
+                thumbColor={currentTheme === 'dark' ? '#fff' : '#0a5c0a'}
                 disabled={isTransitioning}
               />
             }
@@ -128,7 +129,7 @@ export default function SettingsScreen() {
             onRequestClose={() => setShowAboutModal(false)}
           >
             <View className="flex-1 justify-center items-center bg-black/50">
-              <View className="bg-white dark:bg-gray-800 m-4 p-6 rounded-2xl w-[90%]">
+              <View className="bg-white dark:bg-black m-4 p-6 rounded-2xl w-[90%]">
                 {/* En-tête modale */}
                 <View className="flex-row justify-between items-center mb-4">
                   <Text className="font-[Poppins] text-xl font-bold text-gray-800 dark:text-gray-100">
@@ -150,7 +151,7 @@ export default function SettingsScreen() {
                 {/* Bouton de fermeture */}
                 <Pressable
                   onPress={() => setShowAboutModal(false)}
-                  className="mt-6 bg-emerald-800 py-3 px-6 rounded-lg self-center"
+                  className="mt-6 bg-green-950 py-3 px-6 rounded-lg self-center"
                 >
                   <Text className="text-white font-bold">Fermer</Text>
                 </Pressable>
@@ -171,14 +172,14 @@ export default function SettingsScreen() {
                 </Text>
               </View>
 
-              <TouchableOpacity onPress={() => setShowCGUModal(false)} className="bg-green-900 p-4 m-4 rounded-xl">
+              <TouchableOpacity onPress={() => setShowCGUModal(false)} className="bg-emerald-950 p-4 m-4 rounded-xl">
                 <Text className="font-[Poppins] text-white text-center font-bold">Fermer</Text>
               </TouchableOpacity>
             </SafeAreaView>
           </Modal>
 
-          <View className="mt-20 px-6">
-            <Text allowFontScaling={false} className="font-[Poppins] text-white text-center text-base">
+          <View className="py-10 px-6">
+            <Text allowFontScaling={false} className="font-[PoppinsBold] text-white text-center text-base">
               Version 1.0.0
             </Text>
           </View>

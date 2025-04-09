@@ -61,7 +61,7 @@ const FavoritesBooksModal = ({ favorites, books, searchQuery, setSearchQuery, lo
                 </View>
             )}
 
-            <TouchableOpacity onPress={onClose} className="bg-green-900 p-4 m-4 rounded-xl">
+            <TouchableOpacity onPress={onClose} className="bg-emerald-950 p-4 m-4 rounded-xl">
                 <Text className="font-[Poppins] text-white text-center font-bold">Fermer</Text>
             </TouchableOpacity>
         </SafeAreaView>

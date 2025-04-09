@@ -8,6 +8,8 @@ const icon = require('../images/icon.png');
 const coranSlider = require('../images/coran-slider.png');
 const biblioSlider = require('../images/biblio-slider.png');
 const hadithSlider = require('../images/hadith-slider.png');
+const salatSlider = require('../images/salat-slider.png');
+const handSlider = require('../images/hand-slider.png');
 
 // Précharger explicitement
 Image.prefetch(Image.resolveAssetSource(bgDark).uri);
@@ -16,6 +18,8 @@ Image.prefetch(Image.resolveAssetSource(icon).uri);
 Image.prefetch(Image.resolveAssetSource(coranSlider).uri);
 Image.prefetch(Image.resolveAssetSource(biblioSlider).uri);
 Image.prefetch(Image.resolveAssetSource(hadithSlider).uri);
+Image.prefetch(Image.resolveAssetSource(salatSlider).uri);
+Image.prefetch(Image.resolveAssetSource(handSlider).uri);
 
 export const assets = {
   bgDark,
@@ -23,5 +27,7 @@ export const assets = {
   icon,
   coranSlider,
   biblioSlider,
-  hadithSlider
+  hadithSlider,
+  salatSlider,
+  handSlider
 };
