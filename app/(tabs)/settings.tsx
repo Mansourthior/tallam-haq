@@ -258,10 +258,45 @@ export default function SettingsScreen() {
         >
           <SafeAreaView className="flex-1 bg-white dark:bg-black">
             <View className="items-center justify-center p-4">
-              <Text className="text-lg text-green-900 dark:text-white font-[PoppinsBold]">
+              <Text className="text-lg text-green-900 dark:text-white font-[PoppinsBold] text-center">
                 Conditions Générales d'Utilisation
               </Text>
             </View>
+
+            <ScrollView className="px-6 mb-4 mt-2">
+              <Text className="text-lg text-gray-800 dark:text-gray-200 font-[Poppins] mb-6">
+                Dernière mise à jour : avril 2025
+              </Text>
+
+              <Text className="text-lg text-gray-800 dark:text-gray-200 font-[Poppins] mb-6">
+                1. Taraqqi est une application gratuite, sans inscription, destinée à l’apprentissage spirituel et religieux.
+              </Text>
+
+              <Text className="text-lg text-gray-800 dark:text-gray-200 font-[Poppins] mb-6">
+                2. L’application ne collecte, ne stocke et ne partage aucune donnée personnelle. Votre utilisation est totalement anonyme.
+              </Text>
+
+              <Text className="text-lg text-gray-800 dark:text-gray-200 font-[Poppins] mb-6">
+                3. Tous les contenus présents (Coran, hadiths, horaires, etc.) sont fournis à titre informatif. Aucune garantie n’est donnée quant à l’exactitude ou l’exhaustivité des informations.
+              </Text>
+
+              <Text className="text-lg text-gray-800 dark:text-gray-200 font-[Poppins] mb-6">
+                4. Les textes, images et éléments graphiques sont protégés par des droits d’auteur et ne doivent pas être copiés ou réutilisés sans autorisation.
+              </Text>
+
+              <Text className="text-lg text-gray-800 dark:text-gray-200 font-[Poppins] mb-6">
+                5. Taraqqi ne contient aucune publicité, ne vend rien et ne collecte aucun revenu.
+              </Text>
+
+              <Text className="text-lg text-gray-800 dark:text-gray-200 font-[Poppins] mb-6">
+                6. En utilisant l’application, vous acceptez ces conditions. Elles peuvent être mises à jour sans préavis.
+              </Text>
+
+              <Text className="text-lg text-gray-800 dark:text-gray-200 font-[Poppins] mb-10">
+                Contact : taraqqi.app@gmail.com
+              </Text>
+            </ScrollView>
+
             <TouchableOpacity
               onPress={() => setShowCGUModal(false)}
               className="bg-emerald-950 p-4 m-4 rounded-xl"
@@ -270,6 +305,7 @@ export default function SettingsScreen() {
             </TouchableOpacity>
           </SafeAreaView>
         </Modal>
+
 
         <View className="py-10 px-6">
           <Text className="font-[PoppinsBold] text-white text-center text-base">

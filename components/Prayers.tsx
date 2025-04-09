@@ -1,8 +1,27 @@
+import { Ionicons } from "@expo/vector-icons";
 import { ScrollView, Text, View } from "react-native";
 import * as Animatable from "react-native-animatable";
 
 // @ts-ignore
 export default function Prayers({ locationIsActived, error, nextPrayer, timeLeft, date, prayers }) {
+
+    const getPrayerIcon = (name: string) => {
+        switch (name) {
+            case "Fajr":
+                return "moon-outline";
+            case "Dhuhr":
+                return "sunny-outline";
+            case "Asr":
+                return "time-outline";
+            case "Maghrib":
+                return "partly-sunny-sharp";
+            case "Isha":
+                return "moon";
+            default:
+                return "time-outline";
+        }
+    };
+
 
     return (
         <View className="bg-white rounded-3xl shadow-lg p-6 w-11/12 mx-auto mt-4">
@@ -38,7 +57,13 @@ export default function Prayers({ locationIsActived, error, nextPrayer, timeLeft
                     }}
                     className="flex-row">
                     {prayers?.hours?.map((prayer: any, index: number) => (
-                        <View key={index} className="items-center mx-3">
+                        <View key={index} className="items-center mx-4">
+                            <Ionicons
+                                name={getPrayerIcon(prayer.name)}
+                                size={24}
+                                color={prayer.name == nextPrayer ? "#0a5c0a" : "#b7d5ac"}
+                                style={{ marginBottom: 4 }}
+                            />
                             <Text
                                 allowFontScaling={false}
                                 className={`font-[Poppins] text-lime-900/25 ${prayer.name == nextPrayer
