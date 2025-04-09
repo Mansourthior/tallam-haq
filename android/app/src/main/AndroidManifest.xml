@@ -28,7 +28,7 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="myapp"/>
-        <data android:scheme="com.hemti.tallamhaq"/>
+        <data android:scheme="com.hemti.taraqqi"/>
         <data android:scheme="exp+tallam-haq"/>
       </intent-filter>
     </activity>

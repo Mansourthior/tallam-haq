@@ -1,4 +1,4 @@
-package com.hemti.tallamhaq
+package com.hemti.taraqqi
 
 import android.app.Application
 import android.content.res.Configuration

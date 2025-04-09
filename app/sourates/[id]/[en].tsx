@@ -1,12 +1,13 @@
 import { fetchVerses } from "@/redux/actions";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { View, Text, Pressable, ActivityIndicator, SafeAreaView, FlatList, useColorScheme } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Verset from "@/components/Verset";
 import souratesJson from '../../../assets/sourates.json';
 import Toast from "react-native-toast-message";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function SourateScreen() {
     const navigation = useNavigation();
@@ -26,6 +27,18 @@ export default function SourateScreen() {
         // @ts-ignore
         dispatch(fetchVerses(id));
     }, [dispatch]);
+
+    useFocusEffect(
+        useCallback(() => {
+            // Rechargez les données ici
+            // @ts-ignore
+            dispatch(fetchVerses(id));
+
+            return () => {
+                // Optionnel: cleanup si nécessaire
+            };
+        }, [id, dispatch])
+    );
 
     useEffect(() => {
         navigation.setOptions({ headerTitle: en });

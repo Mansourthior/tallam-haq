@@ -136,7 +136,7 @@ export default function HadithScreen() {
                     {showScrollToTop && (
                         <TouchableOpacity
                             onPress={scrollToTop}
-                            className="absolute bottom-6 right-6 bg-green-800 dark:bg-white w-12 h-12 rounded-full justify-center items-center shadow-lg"
+                            className="absolute bottom-6 right-6 bg-green-950 dark:bg-white w-12 h-12 rounded-full justify-center items-center shadow-lg"
                             style={{
                                 elevation: 5, // Pour Android
                                 shadowColor: "#000", // Pour iOS
@@ -157,32 +157,32 @@ export default function HadithScreen() {
                         <SafeAreaView className="flex-1 bg-white dark:bg-black">
                             <View className="flex-row self-end">
                                 <Pressable
-                                    className="flex-row bg-emerald-950 py-2 px-4 rounded-full m-2"
+                                    className="flex-row bg-green-900 dark:bg-emerald-100 py-2 px-4 rounded-full m-2"
                                     onPress={() =>
                                         copyToClipboard(`${selectedHadith?.hadith_text_ar}\n\n${selectedHadith?.hadith_text}\n${selectedHadith?.grade}\n${selectedHadith?.takhrij}
                                 \n\n=== Taraqqi ===`)}>
-                                    <Ionicons name="copy" size={18} color={'#fff'} />
-                                    <Text className="text-white font-[PoppinsBold] text-sm ml-1">Copier</Text>
+                                    <Ionicons name="copy" size={18} color={colorScheme == 'dark' ? '#0a5c0a' : '#fff'} />
+                                    <Text className="text-white dark:text-green-950 font-[PoppinsBold] text-sm ml-1">Copier</Text>
                                 </Pressable>
                                 <Pressable
                                     // @ts-ignore
                                     onPress={() => onShare(selectedHadith)}
-                                    className="flex-row bg-emerald-950 py-2 px-4 rounded-full m-2"
+                                    className="flex-row bg-green-900 dark:bg-emerald-100 py-2 px-4 rounded-full m-2"
                                 >
                                     <Ionicons
                                         name={"share-social"}
                                         size={18}
-                                        color={'#fff'}
+                                        color={colorScheme == 'dark' ? '#0a5c0a' : '#fff'}
                                     />
-                                    <Text className="text-white font-[PoppinsBold] text-sm ml-1">Partager</Text>
+                                    <Text className="text-white dark:text-green-950 font-[PoppinsBold] text-sm ml-1">Partager</Text>
                                 </Pressable>
                             </View>
 
                             <ScrollView indicatorStyle='white' className="p-4">
-                                <Text allowFontScaling={false} className="font-[Poppins] text-xl font-bold mb-2 text-green-900 dark:text-white">Arabe</Text>
+                                <Text allowFontScaling={false} className="font-[Poppins] text-xl font-bold mb-2 text-green-900">Arabe</Text>
                                 <Text allowFontScaling={false} className="font-[Poppins] text-2xl mb-4 text-right text-gray-900 dark:text-gray-200">{selectedHadith?.hadith_text_ar}</Text>
 
-                                <Text allowFontScaling={false} className="font-[Poppins] text-xl font-bold mb-2 text-green-900 dark:text-white">Français</Text>
+                                <Text allowFontScaling={false} className="font-[Poppins] text-xl font-bold mb-2 text-green-900">Français</Text>
                                 <Text allowFontScaling={false} className="font-[Poppins] text-lg mb-4 text-gray-900 dark:text-gray-200">{selectedHadith?.hadith_text}</Text>
 
                                 <Text allowFontScaling={false} className="font-[Poppins] text-base mb-2 text-gray-600 dark:text-gray-400">Niveau : {selectedHadith?.grade}</Text>

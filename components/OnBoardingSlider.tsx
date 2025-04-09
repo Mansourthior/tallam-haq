@@ -112,7 +112,7 @@ export default function OnboardingSlider({ onComplete }) {
             <View className="flex-row justify-end p-4">
                 {currentIndex < onboardingData.length - 1 && (
                     <Pressable onPress={skipOnboarding}>
-                        <Text className="font-[Poppins] text-green-800 font-bold text-base p-2">Passer</Text>
+                        <Text className="font-[Poppins] text-green-950 font-bold text-base p-2">Passer</Text>
                     </Pressable>
                 )}
             </View>
@@ -137,7 +137,7 @@ export default function OnboardingSlider({ onComplete }) {
                 {onboardingData.map((_, index) => (
                     <View
                         key={index}
-                        className={`h-2 mx-1 rounded-full ${index === currentIndex ? 'w-6 bg-green-800' : 'w-2 bg-lime-200'
+                        className={`h-2 mx-1 rounded-full ${index === currentIndex ? 'w-6 bg-green-950' : 'w-2 bg-lime-200'
                             }`}
                     />
                 ))}
@@ -149,7 +149,7 @@ export default function OnboardingSlider({ onComplete }) {
                     <Pressable onPress={goToPrevSlide} className="p-2">
                         <View className="flex-row items-center">
                             <Feather name="chevron-left" size={24} color="#4d7c0f" />
-                            <Text className="font-[Poppins] text-green-800 ml-1 font-bold">Précédent</Text>
+                            <Text className="font-[Poppins] text-green-950 ml-1 font-bold">Précédent</Text>
                         </View>
                     </Pressable>
                 ) : (
@@ -158,7 +158,7 @@ export default function OnboardingSlider({ onComplete }) {
 
                 <Pressable
                     onPress={goToNextSlide}
-                    className="bg-green-800 px-6 py-3 rounded-full flex-row items-center"
+                    className="bg-green-950 px-6 py-3 rounded-full flex-row items-center"
                 >
                     <Text className="font-[Poppins] text-white mr-2 font-bold">
                         {currentIndex === onboardingData.length - 1 ? "Commencer" : "Suivant"}

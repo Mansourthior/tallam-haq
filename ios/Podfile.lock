@@ -225,6 +225,8 @@ PODS:
     - Yoga
   - ExpoAsset (10.0.10):
     - ExpoModulesCore
+  - ExpoClipboard (6.0.3):
+    - ExpoModulesCore
   - ExpoDevice (6.0.2):
     - ExpoModulesCore
   - ExpoFileSystem (17.0.1):
@@ -1249,6 +1251,8 @@ PODS:
     - React-Core
   - react-native-safe-area-context (4.10.5):
     - React-Core
+  - react-native-view-shot (3.8.0):
+    - React-Core
   - react-native-webview (13.13.5):
     - DoubleConversion
     - glog
@@ -1499,7 +1503,7 @@ PODS:
     - React-logger (= 0.74.5)
     - React-perflogger (= 0.74.5)
     - React-utils (= 0.74.5)
-  - RNCAsyncStorage (1.12.1):
+  - RNCAsyncStorage (2.1.2):
     - React-Core
   - RNFS (2.20.0):
     - React-Core
@@ -1567,6 +1571,27 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNShare (12.0.9):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Codegen
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RNSVG (15.11.2):
     - React-Core
   - RNVectorIcons (10.2.0):
@@ -1609,6 +1634,7 @@ DEPENDENCIES:
   - expo-dev-menu (from `../node_modules/expo-dev-menu`)
   - expo-dev-menu-interface (from `../node_modules/expo-dev-menu-interface/ios`)
   - ExpoAsset (from `../node_modules/expo-asset/ios`)
+  - ExpoClipboard (from `../node_modules/expo-clipboard/ios`)
   - ExpoDevice (from `../node_modules/expo-device/ios`)
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoFont (from `../node_modules/expo-font/ios`)
@@ -1654,6 +1680,7 @@ DEPENDENCIES:
   - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-view-shot (from `../node_modules/react-native-view-shot`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
@@ -1678,11 +1705,12 @@ DEPENDENCIES:
   - React-runtimescheduler (from `../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -1722,6 +1750,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-dev-menu-interface/ios"
   ExpoAsset:
     :path: "../node_modules/expo-asset/ios"
+  ExpoClipboard:
+    :path: "../node_modules/expo-clipboard/ios"
   ExpoDevice:
     :path: "../node_modules/expo-device/ios"
   ExpoFileSystem:
@@ -1809,6 +1839,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-pdf"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-view-shot:
+    :path: "../node_modules/react-native-view-shot"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-nativeconfig:
@@ -1858,7 +1890,7 @@ EXTERNAL SOURCES:
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
-    :path: "../node_modules/@react-native-community/async-storage"
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
@@ -1867,6 +1899,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
@@ -1890,6 +1924,7 @@ SPEC CHECKSUMS:
   expo-dev-menu: 8b0ea59392e2dd975390ea6f0472ce350d94866a
   expo-dev-menu-interface: 5c6b79875bf0ab1251ea9962f60968fe39ed2637
   ExpoAsset: 286fee7ba711ce66bf20b315e68106b13b8629fc
+  ExpoClipboard: 243e22ff4161bbffcd3d2db469ae860ddc1156be
   ExpoDevice: 84b3ed79df1234c17edfbf335f6ecf3c636f74de
   ExpoFileSystem: 2988caaf68b7cb706e36d382829d99811d9d76a5
   ExpoFont: 38dddf823e32740c2a9f37c926a33aeca736b5c4
@@ -1933,6 +1968,7 @@ SPEC CHECKSUMS:
   react-native-geolocation-service: 32b2c2a3b91e70ce2a8d0c684801aaeb0a07e0ec
   react-native-pdf: 6a51a22ccefb23eb93298771e4bf090913e86d70
   react-native-safe-area-context: df9763c5de6fa38883028e243a0b60123acb8858
+  react-native-view-shot: d1a701eb0719c6dccbd20b4bb43b1069f304cb70
   react-native-webview: f1c37a2047ac0a9493c6de67c7301a39d5a3a6ad
   React-nativeconfig: ba9a2e54e2f0882cf7882698825052793ed4c851
   React-NativeModulesApple: 84aaad2b0e546d7b839837ca537f6e72804a4cad
@@ -1957,16 +1993,17 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 2cbd0f3625b30bba08e8768776107f6f0203159b
   React-utils: 9fa4e5d0b5e6c6c85c958f19d6ef854337886417
   ReactCommon: 9f285823dbe955099978d9bff65a7653ca029256
-  RNCAsyncStorage: 87d0d3d6193e79bd435e955f8998d2040aa60d67
+  RNCAsyncStorage: b9f5f78da5d16a853fe3dc22e8268d932fc45a83
   RNFS: 89de7d7f4c0f6bafa05343c578f61118c8282ed8
   RNGestureHandler: 326e35460fb6c8c64a435d5d739bea90d7ed4e49
   RNReanimated: def444e044c354f38bb0a5926a8583ba19d944c1
   RNScreens: a2d8a2555b4653d7a19706eb172f855657ac30d7
+  RNShare: 801ea42c16b5b0fe311334998afc0901980ec06a
   RNSVG: 2df577ee9762d1b6deef820173b59b064c2570fe
   RNVectorIcons: 6c795cacc9276decc31d8e1a139b9cc6fc0479ca
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: 950bbfd7e6f04790fdb51149ed51df41f329fcc8
 
-PODFILE CHECKSUM: 2b8bc25a9b70a64bb3eb88f933b4b8c7f1b21ffc
+PODFILE CHECKSUM: 874772ee089d90fcc57328044d98c247d4682975
 
 COCOAPODS: 1.16.2
