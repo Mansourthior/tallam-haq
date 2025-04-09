@@ -59,7 +59,7 @@ export default function QuranScreen() {
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center bg-white dark:bg-black">
-        <View className="bg-white dark:bg-gray-800 px-8 py-6 rounded-2xl items-center space-y-4">
+        <View className="bg-white dark:bg-black px-8 py-6 rounded-2xl items-center space-y-4">
           <ActivityIndicator size="large" color="#388E3C" />
           <Text className="text-gray-700 dark:text-white font-medium text-center mt-2">
             Chargement en cours...

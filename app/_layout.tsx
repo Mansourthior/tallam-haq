@@ -1,7 +1,5 @@
 import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
+  ThemeProvider
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -16,6 +14,8 @@ import Toast from 'react-native-toast-message';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import OnboardingSlider from "@/components/OnBoardingSlider";
 import { Ionicons } from "@expo/vector-icons";
+import MyDarkTheme from "@/components/MyDarkTheme";
+import MyLightTheme from "@/components/MyLightTheme";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -111,7 +111,7 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={colorScheme === "dark" ? MyDarkTheme : MyLightTheme}>
         <View onLayout={onLayoutRootView} className="flex-1">
           <Stack>
             <Stack.Screen
@@ -119,12 +119,6 @@ export default function RootLayout() {
               options={{
                 headerShown: true,
                 headerTitle: () => <LogoTitle />,
-                headerTintColor: "#0a5c0a",
-                headerTitleStyle: {
-                  fontFamily: "Poppins",
-                  fontSize: 24,
-                  color: "#0a5c0a",
-                },
               }}
             />
             <Stack.Screen
@@ -133,12 +127,6 @@ export default function RootLayout() {
                 headerShown: true,
                 headerTitle: () => <LogoTitle />,
                 headerBackTitleVisible: false,
-                headerTintColor: "#0a5c0a",
-                headerTitleStyle: {
-                  fontFamily: "Poppins",
-                  fontSize: 24,
-                  color: "#0a5c0a",
-                },
               }}
             />
             <Stack.Screen
@@ -146,7 +134,7 @@ export default function RootLayout() {
               options={({ navigation }) => ({
                 headerShown: true,
                 headerTitle: "",
-                headerTintColor: '#0a5c0a',
+                headerTintColor: colorScheme === 'dark' ? '#fff' : '#0a5c0a',
                 headerBackTitleVisible: false,
                 headerTitleStyle: {
                   fontFamily: "Poppins",
@@ -155,7 +143,7 @@ export default function RootLayout() {
                 headerLeft: () => (
                   <Pressable
                     onPress={() => navigation.navigate("(tabs)")}>
-                    <Ionicons name="arrow-back" size={24} color="#0a5c0a" />
+                    <Ionicons name="arrow-back" size={24} color={colorScheme == 'dark' ? '#fff' : "#0a5c0a"} />
                   </Pressable>
                 ),
               })}
@@ -166,7 +154,7 @@ export default function RootLayout() {
                 headerShown: true,
                 headerTitle: "",
                 headerBackTitleVisible: false,
-                headerTintColor: '#0a5c0a',
+                headerTintColor: colorScheme === 'dark' ? '#fff' : '#0a5c0a',
                 headerTitleStyle: {
                   fontFamily: "Poppins",
                 },
@@ -178,7 +166,7 @@ export default function RootLayout() {
                 headerShown: true,
                 headerTitle: "Mes favoris",
                 headerBackTitleVisible: false,
-                headerTintColor: '#0a5c0a',
+                headerTintColor: colorScheme === 'dark' ? '#fff' : '#0a5c0a',
                 headerTitleStyle: {
                   fontFamily: "Poppins",
                 },

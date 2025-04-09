@@ -38,10 +38,10 @@ export default function SourateScreen() {
 
     if (loading) {
         return (
-            <View className="flex-1 justify-center items-center bg-white dark:bg-green-900">
-                <View className="bg-white/80 px-8 py-6 rounded-2xl items-center space-y-4">
+            <View className="flex-1 justify-center items-center bg-white dark:bg-black">
+                <View className="bg-white dark:bg-black px-8 py-6 rounded-2xl items-center space-y-4">
                     <ActivityIndicator size="large" color="#388E3C" />
-                    <Text className="text-green-700 font-medium text-center mt-2">
+                    <Text className="text-gray-700 dark:text-white font-medium text-center mt-2">
                         Chargement en cours...
                     </Text>
                 </View>
@@ -50,7 +50,7 @@ export default function SourateScreen() {
     }
 
     return (
-        <SafeAreaView className="flex-1 bg-gray-50 dark:bg-black">
+        <SafeAreaView className="flex-1 bg-gray-50 dark:bg-lime-950">
             {/* Liste des versets */}
             <FlatList
                 data={verses}
@@ -61,7 +61,8 @@ export default function SourateScreen() {
                 ListHeaderComponent={
                     Number(id) == 1 ? <View></View> :
                         <View className="mx-6 mb-2 bg-green-100 p-2 rounded-full">
-                            <Text allowFontScaling={false} className="text-2xl font-[Poppins] text-center text-green-900">
+                            <Text allowFontScaling={false}
+                                className="text-2xl font-[Poppins] text-center text-green-950">
                                 بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
                             </Text>
                         </View>
@@ -92,7 +93,7 @@ export default function SourateScreen() {
             <Pressable
                 // @ts-ignore
                 onPress={() => navigation.navigate("favoris/[sourate]", { sourate: id })}
-                className="absolute bottom-6 right-6 bg-emerald-950 dark:bg-white w-14 h-14 rounded-full justify-center items-center shadow-lg"
+                className="absolute bottom-6 right-6 bg-emerald-950 dark:bg-lime-50 w-14 h-14 rounded-full justify-center items-center shadow-lg"
                 style={{
                     elevation: 5,
                     shadowColor: "#000",

@@ -19,7 +19,7 @@ export default function Telegram() {
 
 
     return (
-        <View className="bg-lime-900 dark:bg-lime-950 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
+        <View className="bg-lime-900 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
             <View className="mb-4">
                 <Text allowFontScaling={false} className="text-white text-xl font-bold font-[Poppins]">
                     Nos chaînes Télégram

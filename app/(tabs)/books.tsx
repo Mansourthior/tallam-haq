@@ -143,7 +143,7 @@ export default function BooksScreen() {
         <Pressable
           // @ts-ignore
           onPress={openFavoritesModal}
-          className="absolute bottom-6 right-6 bg-emerald-950 dark:bg-white w-14 h-14 rounded-full justify-center items-center shadow-lg"
+          className="absolute bottom-6 right-6 bg-emerald-950 dark:bg-lime-50 w-14 h-14 rounded-full justify-center items-center shadow-lg"
           style={{
             elevation: 5,
             shadowColor: "#000",

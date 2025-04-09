@@ -14,10 +14,10 @@ export default function Hadith({ hadith }) {
         // @ts-ignore
         <>
             {/* --- Composant principal --- */}
-            <View className="bg-white dark:bg-lime-900 rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
+            <View className="bg-white rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
                 <View>
                     <View className="flex-row justify-between items-center mb-4">
-                        <Text allowFontScaling={false} className="text-stone-800 dark:text-stone-200 font-[Poppins] text-xl font-bold">
+                        <Text allowFontScaling={false} className="text-stone-800 font-[Poppins] text-xl font-bold">
                             Hadith du jour
                         </Text>
                         <Pressable
@@ -42,10 +42,10 @@ export default function Hadith({ hadith }) {
                         </View>
                     </View>
 
-                    <Text allowFontScaling={false} className="font-[Poppins] text-3xl pt-4 text-right text-lime-700 dark:text-stone-200">
+                    <Text allowFontScaling={false} className="font-[Poppins] text-3xl pt-4 text-right text-lime-800">
                         {hadith?.hadith_text_ar}
                     </Text>
-                    <Text allowFontScaling={false} className="text-lg mt-2 font-[Poppins] text-stone-950 dark:text-black">
+                    <Text allowFontScaling={false} className="text-lg mt-2 font-[Poppins] text-stone-950">
                         {hadith?.hadith_text}
                     </Text>
 

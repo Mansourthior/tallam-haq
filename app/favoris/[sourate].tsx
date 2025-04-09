@@ -29,7 +29,7 @@ export default function FavoriteScreen() {
     }, [sourate]);
 
     return (
-        <SafeAreaView className="flex-1 bg-gray-50 dark:bg-black">
+        <SafeAreaView className="flex-1 bg-gray-50 dark:bg-lime-950">
             {/* Liste des versets */}
             {favoris && favoris?.length !== 0 ?
                 <FlatList

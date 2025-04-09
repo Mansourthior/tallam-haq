@@ -60,7 +60,7 @@ export default function Verset({ sourateId, item, favorite = false }) {
     };
 
     return (
-        <View className="bg-white dark:bg-black p-4 mx-4 mb-2 rounded-lg active:opacity-90">
+        <View className="bg-white dark:bg-lime-950 p-4 mx-4 mb-2 rounded-lg active:opacity-90">
             {/* En-tête verset */}
             <View className="flex-row justify-between items-center mb-3">
                 <View className="bg-green-900 dark:bg-emerald-50 px-3 py-1 rounded-full">
@@ -85,13 +85,13 @@ export default function Verset({ sourateId, item, favorite = false }) {
 
             {/* Contenu verset */}
             <View>
-                <Text className="text-3xl font-[ScheherazadeNew] text-right leading-loose text-green-900 dark:text-green-100">
+                <Text className="text-3xl font-[ScheherazadeNew] text-right leading-loose text-green-900 dark:text-white">
                     {!favorite ?
                         (![1, 9].includes(Number(sourateId)) && item.numberInSurah == 1 ? item.text.substring(39) : item.text)
                         : (![1, 9].includes(Number(sourateId)) && item.verse == 1 ? item.text.substring(39) : item.text)}
                 </Text>
             </View>
-            <Text className="mb-2 ml-2 text-lg font-[Poppins] text-gray-800 dark:text-gray-500">
+            <Text className="mb-2 ml-2 text-lg font-[Poppins] text-emerald-800">
                 {item.transliteration}
             </Text>
             {/* Traduction verset */}
