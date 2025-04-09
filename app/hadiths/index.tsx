@@ -213,7 +213,7 @@ export default function HadithScreen() {
                 <Text allowFontScaling={false} className="text-stone-800 text-base mt-2 font-[Poppins] text-left">
                     {selectedHadith?.hadith_text}
                 </Text>
-                <View className="flex-row gap-2 mt-2 rounded-full bg-green-800">
+                <View className="flex-row gap-2 mt-2 rounded-full bg-green-950">
                     <Text className="text-white px-2 py-1 text-xs font-[PoppinsBold]">
                         {selectedHadith?.grade} | {selectedHadith?.takhrij}
                     </Text>

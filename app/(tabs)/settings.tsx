@@ -232,8 +232,13 @@ export default function SettingsScreen() {
                 À propos
               </Text>
               <Text className="font-[Poppins] text-gray-600 dark:text-gray-300 text-base leading-6">
-                Cette application mobile a été conçue dans le but d'aider et d'accompagner la communauté au quotidien.
-                Elle propose des fonctionnalités essentielles comme l'accès au Coran, une bibliothèque de PDF, ainsi que les horaires de prière...
+                Cette application mobile a été conçue dans le but d’aider et d’accompagner la communauté au quotidien.
+                Elle propose des fonctionnalités essentielles comme l’accès au Coran, une bibliothèque de PDF,
+                ainsi que les horaires de prière. Grâce à une interface simple, intuitive et sans publicités,
+                elle permet à chacun de se reconnecter facilement avec sa foi et d’avoir à portée de main des outils
+                pratiques pour enrichir son savoir et sa spiritualité.
+                {"\n\n"}
+                Développé par et pour les serviteurs d'Allah.
               </Text>
               <Pressable
                 onPress={() => setShowAboutModal(false)}

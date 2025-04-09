@@ -80,7 +80,7 @@ export default function Hadith({ hadith }) {
                 <Text allowFontScaling={false} className="text-stone-800 text-base mt-2 font-[Poppins] text-left">
                     {hadith?.hadith_text}
                 </Text>
-                <View className="flex-row gap-2 mt-2 bg-green-800 rounded-full">
+                <View className="flex-row gap-2 mt-2 bg-green-950 rounded-full">
                     <Text className="text-white px-2 py-1 text-xs font-[PoppinsBold]">
                         {hadith?.grade} | {hadith?.takhrij}
                     </Text>
