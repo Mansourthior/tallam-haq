@@ -14,10 +14,10 @@ export default function Hadith({ hadith }) {
         // @ts-ignore
         <>
             {/* --- Composant principal --- */}
-            <View className="bg-white rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
+            <View className="bg-lime-50 dark:bg-[#0B0F0E] rounded-3xl mx-auto p-6 mt-4 shadow-lg w-11/12">
                 <View>
                     <View className="flex-row justify-between items-center mb-4">
-                        <Text allowFontScaling={false} className="text-stone-800 font-[Poppins] text-xl font-bold">
+                        <Text allowFontScaling={false} className="text-stone-800 dark:text-gray-300 font-[Poppins] text-xl font-bold">
                             Hadith du jour
                         </Text>
                         <Pressable
@@ -26,7 +26,7 @@ export default function Hadith({ hadith }) {
                             className="flex-row bg-emerald-950 py-2 px-4 rounded-full m-2 self-end"
                         >
                             <Ionicons name={"enter"} size={14} color={"#b7d5ac"} />
-                            <Text className="text-white font-[PoppinsBold] text-xs ml-1">Voir hadiths</Text>
+                            <Text className="text-white dark:text-lime-100 font-[PoppinsBold] text-xs ml-1">Voir hadiths</Text>
                         </Pressable>
 
                         <View className="flex-row gap-2">
@@ -34,29 +34,29 @@ export default function Hadith({ hadith }) {
                                 onPress={() =>
                                     copyToClipboard(`${hadith?.hadith_text_ar}\n\n${hadith?.hadith_text}\n${hadith?.grade}\n${hadith?.takhrij}
                                 \n\n=== Taraqqi ===`)}>
-                                <Ionicons name="copy" size={24} color={colorScheme == 'dark' ? "#000" : "#b7d5ac"} />
+                                <Ionicons name="copy" size={24} color={colorScheme == 'dark' ? "#e5f19b" : "#b7d5ac"} />
                             </Pressable>
                             <Pressable onPress={() => onShare()}>
-                                <Ionicons name="share-social" size={24} color={colorScheme == 'dark' ? "#000" : "#b7d5ac"} />
+                                <Ionicons name="share-social" size={24} color={colorScheme == 'dark' ? "#e5f19b" : "#b7d5ac"} />
                             </Pressable>
                         </View>
                     </View>
 
-                    <Text allowFontScaling={false} className="font-[Poppins] text-3xl pt-4 text-right text-lime-800">
+                    <Text allowFontScaling={false} className="font-[Poppins] text-3xl pt-4 text-right text-lime-800 dark:text-white">
                         {hadith?.hadith_text_ar}
                     </Text>
-                    <Text allowFontScaling={false} className="text-lg mt-2 font-[Poppins] text-stone-950">
+                    <Text allowFontScaling={false} className="text-lg dark:text-gray-300 mt-2 font-[Poppins] text-stone-950">
                         {hadith?.hadith_text}
                     </Text>
 
                     <View className="flex items-end mt-2 gap-2">
                         <View className="bg-emerald-950 px-2 py-1 rounded-lg">
-                            <Text allowFontScaling={false} className="text-white text-sm font-[PoppinsBold]">
+                            <Text allowFontScaling={false} className="text-white dark:text-lime-100 text-sm font-[PoppinsBold]">
                                 {hadith?.grade}
                             </Text>
                         </View>
                         <View className="bg-emerald-950 px-2 py-1 rounded-lg">
-                            <Text allowFontScaling={false} className="text-white text-sm font-[PoppinsBold]">
+                            <Text allowFontScaling={false} className="text-white dark:text-lime-100 text-sm font-[PoppinsBold]">
                                 {hadith?.takhrij}
                             </Text>
                         </View>

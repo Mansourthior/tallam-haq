@@ -24,19 +24,19 @@ export default function Prayers({ locationIsActived, error, nextPrayer, timeLeft
 
 
     return (
-        <View className="bg-white rounded-3xl shadow-lg p-6 w-11/12 mx-auto mt-4">
+        <View className="bg-white dark:bg-transparent rounded-3xl p-6 w-11/12 mx-auto mt-4">
             {/* TODO: gérer erreur connectivité */}
             <View className="mb-4 flex flex-row justify-between">
                 {!locationIsActived || error ? <View></View> :
                     <View>
-                        <Text allowFontScaling={false} className="font-[Poppins] text-lime-950 text-lg font-bold">{nextPrayer || 'Chargement...'}</Text>
+                        <Text allowFontScaling={false} className="font-[Poppins] text-lime-950 dark:text-gray-300 text-lg font-bold">{nextPrayer || 'Chargement...'}</Text>
                         {timeLeft == "00:00:00" ?
                             <Animatable.Text animation="pulse"
                                 iterationCount="infinite" className="text-lime-700 font-[Poppins] text-sm mt-2">C'est l'heure de la prière ...</Animatable.Text>
                             : <Text allowFontScaling={false} className="font-[Poppins] text-lime-700 text-sm">{timeLeft ? `Dans ${timeLeft}` : 'Chargement...'}</Text>}
                     </View>}
                 <View>
-                    <Text allowFontScaling={false} className="font-[Poppins] pt-1 text-lime-950 text-2xl font-bold text-right">
+                    <Text allowFontScaling={false} className="font-[Poppins] pt-1 text-lime-950 dark:text-gray-300 text-2xl font-bold text-right">
                         اَلسَّلَامُ عَلَيْكُمْ
                     </Text>
                     <Text allowFontScaling={false} className="font-[Poppins] text-lime-700 text-sm text-right">
@@ -45,7 +45,7 @@ export default function Prayers({ locationIsActived, error, nextPrayer, timeLeft
                 </View>
             </View>
             {locationIsActived ?
-                (error ? <Text className="font-[Poppins] text-lime-950 text-md text-center">
+                (error ? <Text className="font-[Poppins] text-lime-950 dark:text-lime-50 text-md text-center">
                     Impossible de récupérer les heures de prières. Vérifiez votre connexion et réessayez en tirant vers le bas
                     pour rafraîchir la page.
                 </Text> : <ScrollView
@@ -61,12 +61,12 @@ export default function Prayers({ locationIsActived, error, nextPrayer, timeLeft
                             <Ionicons
                                 name={getPrayerIcon(prayer.name)}
                                 size={24}
-                                color={prayer.name == nextPrayer ? "#0a5c0a" : "#b7d5ac"}
+                                color={prayer.name == nextPrayer ? "#1e4d2b" : "#b7d5ac"}
                                 style={{ marginBottom: 4 }}
                             />
                             <Text
                                 allowFontScaling={false}
-                                className={`font-[Poppins] text-lime-900/25 ${prayer.name == nextPrayer
+                                className={`font-[Poppins] text-lime-900/25 dark:text-gray-300 ${prayer.name == nextPrayer
                                     ? "font-bold text-xl font-[Poppins] text-lime-950/100"
                                     : ""
                                     }`}
@@ -75,7 +75,7 @@ export default function Prayers({ locationIsActived, error, nextPrayer, timeLeft
                             </Text>
                             <Text
                                 allowFontScaling={false}
-                                className={`text-lime-700 text-sm mt-1 font-[Poppins] ${prayer.name == nextPrayer ? "font-bold" : ""
+                                className={`text-lime-700 dark:text-gray-300 text-sm mt-1 font-[Poppins] ${prayer.name == nextPrayer ? "font-bold" : ""
                                     }`}
                             >
                                 {prayer.time ?? '...'}
@@ -83,7 +83,7 @@ export default function Prayers({ locationIsActived, error, nextPrayer, timeLeft
                         </View>
                     ))}
                 </ScrollView>) :
-                <Text className="text-lime-950 text-md text-center font-[Poppins]">
+                <Text className="text-lime-950 dark:text-lime-50 text-md text-center font-[Poppins]">
                     Veuillez activer la localisation dans les paramètres pour visualiser les heures de prière.
                 </Text>
             }
