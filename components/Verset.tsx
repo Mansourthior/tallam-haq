@@ -129,12 +129,12 @@ export default function Verset({ sourateId, item, favorite = false }) {
                     </Text>
                 </View>
 
-                {/* Translittération avec bordure élégante */}
+                {/* Translittération avec bordure élégante
                 <View className="border-l-4 border-green-200 pl-3 mb-3">
                     <Text allowFontScaling={false} className="text-emerald-800 text-base font-[Poppins]">
                         {item.transliteration}
                     </Text>
-                </View>
+                </View> */}
 
                 {/* Traduction avec bordure élégante */}
                 <View className="border-l-4 border-green-300 pl-3 mb-4">
