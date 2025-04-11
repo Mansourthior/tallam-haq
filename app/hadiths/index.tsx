@@ -157,7 +157,7 @@ export default function HadithScreen() {
                         <SafeAreaView className="flex-1 bg-white dark:bg-black">
                             <View className="flex-row self-end">
                                 <Pressable
-                                    className="flex-row bg-green-900 dark:bg-emerald-100 py-2 px-4 rounded-full m-2"
+                                    className="flex-row bg-green-900 dark:bg-lime-50 py-2 px-4 rounded-full m-2"
                                     onPress={() =>
                                         copyToClipboard(`${selectedHadith?.hadith_text_ar}\n\n${selectedHadith?.hadith_text}\n${selectedHadith?.grade}\n${selectedHadith?.takhrij}
                                 \n\n=== Taraqqi ===`)}>
@@ -167,7 +167,7 @@ export default function HadithScreen() {
                                 <Pressable
                                     // @ts-ignore
                                     onPress={() => onShare(selectedHadith)}
-                                    className="flex-row bg-green-900 dark:bg-emerald-100 py-2 px-4 rounded-full m-2"
+                                    className="flex-row bg-green-900 dark:bg-lime-50 py-2 px-4 rounded-full m-2"
                                 >
                                     <Ionicons
                                         name={"share-social"}
