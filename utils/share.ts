@@ -9,7 +9,7 @@ export const setShareViewRef = (ref: any) => {
 
 export const onShare = async () => {
   if (!viewRef) return;
-
+  
   try {
     const uri = await captureRef(viewRef, {
       format: 'png',

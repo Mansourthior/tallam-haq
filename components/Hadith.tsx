@@ -1,4 +1,4 @@
-import { onShare, setShareViewRef } from "@/utils/share-hadith";
+import { onShare, setShareViewRef } from "@/utils/share";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
 import { Image, Pressable, Text, useColorScheme, View } from "react-native";
@@ -68,23 +68,45 @@ export default function Hadith({ hadith }) {
             <View
                 collapsable={false}
                 ref={setShareViewRef}
-                className="absolute left-[-1000] top-[-1000] w-[320px] bg-white p-5 rounded-2xl items-center"
+                className="absolute left-[-1000] top-[-1000] w-[320px] bg-gradient-to-b from-green-50 to-white p-6 rounded-2xl shadow-lg"
+                style={{ backgroundColor: 'white' }} // Explicit background color for focus state
             >
-                <Image source={assets.icon} className="w-16 h-16 mb-2 rounded-full" resizeMode="contain" />
-                <Text allowFontScaling={false} className="text-green-900 font-[Poppins] text-xl font-bold mb-2">
-                    Taraqqi
-                </Text>
-                <Text allowFontScaling={false} className="text-lime-700 text-2xl text-right font-[Poppins]">
-                    {hadith?.hadith_text_ar}
-                </Text>
-                <Text allowFontScaling={false} className="text-stone-800 text-base mt-2 font-[Poppins] text-left">
-                    {hadith?.hadith_text}
-                </Text>
-                <View className="flex-row gap-2 mt-2 bg-green-950 rounded-full">
-                    <Text className="text-white px-2 py-1 text-xs font-[PoppinsBold]">
-                        {hadith?.grade} | {hadith?.takhrij}
+                {/* Header with logo and app name */}
+                <View className="flex-row items-center mb-4 border-b border-green-200 pb-3">
+                    <Image
+                        source={assets.icon}
+                        className="w-8 h-8 rounded-full"
+                        resizeMode="contain"
+                    />
+                    <Text allowFontScaling={false} className="text-lime-950 font-[Poppins] text-lg font-bold ml-2">
+                        Taraqqi
                     </Text>
                 </View>
+
+                {/* Arabic text with decorative element */}
+                <View className="bg-green-50 rounded-lg p-4 mb-4">
+                    <View className="absolute -top-1 -left-1 w-6 h-6 bg-green-600 rounded-br-lg opacity-50" />
+                    <Text allowFontScaling={false} className="text-lime-700 text-2xl font-[Poppins] text-right">
+                        {hadith?.hadith_text_ar}
+                    </Text>
+                </View>
+
+                {/* Translation with elegant border */}
+                <View className="border-l-4 border-green-300 pl-3 mb-4">
+                    <Text allowFontScaling={false} className="text-stone-800 text-base font-[Poppins] text-left">
+                        {hadith?.hadith_text}
+                    </Text>
+                </View>
+
+                {/* Footer with authentication info */}
+                <View className="flex-row justify-end mt-2">
+                    <View className="rounded-none bg-lime-950 px-3 py-1">
+                        <Text className="text-white text-xs font-[PoppinsBold]">
+                            {hadith?.grade} | {hadith?.takhrij}
+                        </Text>
+                    </View>
+                </View>
+
             </View>
         </>
     );

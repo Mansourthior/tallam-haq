@@ -6,7 +6,6 @@ import { View, Text, Pressable, ActivityIndicator, SafeAreaView, FlatList, useCo
 import { useDispatch, useSelector } from "react-redux";
 import Verset from "@/components/Verset";
 import souratesJson from '../../../assets/sourates.json';
-import Toast from "react-native-toast-message";
 import { useFocusEffect } from "@react-navigation/native";
 
 export default function SourateScreen() {
